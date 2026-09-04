@@ -1,4 +1,13 @@
 package com.piglatin.common.application.ports.input;
 
-public class CompilerUseCase {
+import com.piglatin.common.application.dto.CompileRequestDTO;
+import com.piglatin.common.application.dto.CompileResponseDTO;
+
+/**
+ * This interface receive CompileRequestDTO and return
+ * an CompileResponseDTO
+ */
+public interface CompilerUseCase {
+
+    CompileResponseDTO compile(CompileRequestDTO compileRequestDTO);
 }
