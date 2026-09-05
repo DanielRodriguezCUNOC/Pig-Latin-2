@@ -19,6 +19,9 @@ public interface ErrorReporter {
     //* Get all errors has to the momento
     List<CompilationErrorDTO> getErrors();
 
+    //* Verify has errors
+    boolean hasFatalErrors();
+
     //* Clean the satate of reporter
     void clear();
 }

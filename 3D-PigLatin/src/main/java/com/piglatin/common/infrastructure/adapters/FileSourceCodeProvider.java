@@ -10,4 +10,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FileSourceCodeProvider implements SourceCodeProvider {
+
+    @Override
+    public String readSource(String filePath) {
+        return "";
+    }
+
+    @Override
+    public boolean exists(String filePath) {
+        return false;
+    }
+
+    @Override
+    public String resolvePath(String projectRoot, String importPath) {
+        return "";
+    }
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * This interface transport the entry use case for compilation
+ * This interface transport the entry of some language use case for compilation
  */
 @Getter
 @Setter
