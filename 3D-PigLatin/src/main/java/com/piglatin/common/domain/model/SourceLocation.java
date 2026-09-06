@@ -8,7 +8,8 @@ import lombok.ToString;
 import javax.xml.transform.Source;
 
 /**
- * Shows what happens in te code
+ * Shows the ubication in the code with te attributes line and column
+ * Use SourcePosition for get the line and column
  */
 @Getter
 @EqualsAndHashCode
