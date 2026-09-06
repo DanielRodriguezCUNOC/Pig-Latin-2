@@ -1,5 +1,8 @@
 package com.piglatin.common.application.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,8 @@ import java.util.List;
  * This is a node of the project tree
  * Allows open and save files
  */
+@Getter
+@Setter
 public class ProjectNodeDTO {
 
     private String name;
@@ -27,5 +32,9 @@ public class ProjectNodeDTO {
 
     public ProjectNodeDTO() {
         children = new ArrayList<>();
+    }
+
+    public void addChild(ProjectNodeDTO projectNodeDTO) {
+        children.add(projectNodeDTO);
     }
 }

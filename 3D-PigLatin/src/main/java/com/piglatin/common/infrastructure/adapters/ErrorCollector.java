@@ -2,33 +2,26 @@ package com.piglatin.common.infrastructure.adapters;
 
 import com.piglatin.common.application.dto.CompilationErrorDTO;
 import com.piglatin.common.application.ports.output.ErrorReporter;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Show the errors by console in real time
+ * Accumulate errors of compilation
  */
-@Getter
-@Setter
-public class ConsoleErrorReporter implements ErrorReporter {
+public class ErrorCollector implements ErrorReporter {
 
-    private final List<CompilationErrorDTO> errors = new ArrayList<>();
-
+    private final List<CompilationErrorDTO> errors =  new ArrayList<>();
 
     @Override
     public void report(CompilationErrorDTO error) {
         errors.add(error);
-        String location = error.getFileName() + ":" + error.getLine() + ":" + error.getColumn();
-        System.err.println("ERROR: " + location + " - " + error.getMessage());
     }
 
     @Override
     public void reportAll(List<CompilationErrorDTO> newErrors) {
-        newErrors.forEach(this::report);
+        errors.addAll(newErrors);
     }
 
     @Override
@@ -45,5 +38,4 @@ public class ConsoleErrorReporter implements ErrorReporter {
     public void clear() {
         errors.clear();
     }
-
 }
