@@ -19,7 +19,7 @@ public class NodeArrayDeclaration extends NodeDeclaration {
 
     private String identifier;
     private String elementType;
-    private final List<ASTNode> initialValues;
+    private List<ASTNode> initialValues;
     private int size;
     private ASTNode sizeExpression;
 

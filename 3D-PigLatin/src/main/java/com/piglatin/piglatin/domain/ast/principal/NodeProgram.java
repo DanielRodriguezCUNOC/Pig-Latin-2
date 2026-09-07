@@ -1,6 +1,7 @@
 package com.piglatin.piglatin.domain.ast.principal;
 
 
+import com.piglatin.piglatin.domain.ast.nodes.NodeImport;
 import com.piglatin.piglatin.domain.ast.nodes.declaration.NodeDeclaration;
 import com.piglatin.piglatin.domain.ast.visitor.Visitor;
 import lombok.Getter;
@@ -22,6 +23,8 @@ public class NodeProgram extends ASTNode{
     private List<ASTNode> functionDefinitions;
     //* This represents the section MAIOR>
     private List<ASTNode> mainInstructions;
+    //* This represents the section of imports
+    private List<NodeImport> imports;
 
     public NodeProgram() {
         this(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 0, 0);
