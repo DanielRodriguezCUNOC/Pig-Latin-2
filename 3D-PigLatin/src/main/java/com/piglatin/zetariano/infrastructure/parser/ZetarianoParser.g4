@@ -190,8 +190,34 @@ read_statement
     ;
 
 // Expressions: Ordered low to high precedence
+// Expressions: Ordenadas explícitamente de mayor a menor precedencia
 expression
-    :   logical_or
+    :   LEFT_PAREN expression RIGHT_PAREN                       #ExprParen
+    |   primary                                                 #ExprPrimary
+    |   expression (INCREMENT | DECREMENT)                      #ExprPostfix
+    |   (NOT | PLUS | MINUS | INCREMENT | DECREMENT) expression #ExprUnary
+    |   expression (MULT | SPLIT | MODULO) expression           #ExprMultiplicative
+    |   expression (PLUS | MINUS) expression                    #ExprAdditive
+    |   expression (MAJOR | MINOR | MAJORTO | MINORTO) expression #ExprRelational
+    |   expression (IDENTIC | DIFF) expression                  #ExprEquality
+    |   expression AND expression                               #ExprLogicalAnd
+    |   expression OR expression                                #ExprLogicalOr
+    |   expression QUESTION expression COLON expression         #ExprTernary
+    ;
+
+primary
+    :   INTEGER                                              #PrimaryInteger
+    |   DECIMAL                                              #PrimaryDecimal
+    |   STRING_LITERAL                                       #PrimaryString
+    |   CHAR_LITERAL                                         #PrimaryChar
+    |   TRUE                                                 #PrimaryTrue
+    |   FALSE                                                #PrimaryFalse
+    |   NULL                                                 #PrimaryNull
+    |   array_access                                         #PrimaryArrayAccess
+    |   struct_access                                        #PrimaryStructAccess
+    |   method_call                                          #PrimaryMethodCall
+    |   ID                                                   #PrimaryId
+    |   object_creation                                      #PrimaryObjectCreation
     ;
 
 logical_or
@@ -225,27 +251,6 @@ unary
 
 postfix
     :   primary (INCREMENT | DECREMENT)?                    #PostfixPrimary
-    ;
-
-primary
-    :   INTEGER                                              #PrimaryInteger
-    |   DECIMAL                                              #PrimaryDecimal
-    |   STRING_LITERAL                                       #PrimaryString
-    |   CHAR_LITERAL                                         #PrimaryChar
-    |   TRUE                                                 #PrimaryTrue
-    |   FALSE                                                #PrimaryFalse
-    |   NULL                                                 #PrimaryNull
-    |   ID                                                   #PrimaryId
-    |   array_access                                         #PrimaryArrayAccess
-    |   struct_access                                        #PrimaryStructAccess
-    |   LEFT_PAREN expression RIGHT_PAREN                    #PrimaryExpression
-    |   method_call                                          #PrimaryMethodCall
-    |   object_creation                                      #PrimaryObjectCreation
-    |   ternary_expression                                   #PrimaryTernary
-    ;
-
-ternary_expression
-    :   expression QUESTION expression COLON expression      #TernaryExpression
     ;
 
 method_call
