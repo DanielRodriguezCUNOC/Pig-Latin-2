@@ -172,6 +172,41 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
+    public ASTNode visitInstructionDoWhile (LatinParser.InstructionDoWhileContext ctx) {
+        return visit(ctx.doWhileStatement());
+    }
+
+
+    @Override
+    public ASTNode visitInstructionFor (LatinParser.InstructionForContext ctx) {
+        return visit(ctx.forStatement());
+    }
+
+
+    @Override
+    public ASTNode visitInstructionJump (LatinParser.InstructionJumpContext ctx) {
+        return visit(ctx.jumpStatement());
+    }
+
+
+    @Override
+    public ASTNode visitInstructionDeclaration (LatinParser.InstructionDeclarationContext ctx) {
+        return visit(ctx.declaration());
+    }
+
+
+    @Override
+    public ASTNode visitInstructionArrayDeclaration (LatinParser.InstructionArrayDeclarationContext ctx) {
+        return visit(ctx.arrayDeclaration());
+    }
+
+
+    @Override
+    public ASTNode visitInstructionExpression (LatinParser.InstructionExpressionContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    @Override
     public ASTNode visitAssignment(LatinParser.AssignmentContext ctx) {
         NodeLvalue lvalue = asLvalue(visit(ctx.lvalue()));
         ASTNode expression = visit(ctx.expression());
@@ -191,6 +226,12 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
+    public ASTNode visitReadLvalue (LatinParser.ReadLvalueContext ctx) {
+        NodeLvalue lvalue = asLvalue(visit(ctx.lvalue()));
+        return new NodeRead(lvalue, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+    }
+
+    @Override
     public ASTNode visitPrintStatement(LatinParser.PrintStatementContext ctx) {
         NodePrint print = new NodePrint(
                 ctx.getStart().getLine(),
@@ -205,7 +246,7 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitPrintItemString(LatinParser.PrintItemStringContext ctx) {
+    public ASTNode visitPrintString(LatinParser.PrintStringContext ctx) {
         return new NodeStringLiteral(
                 ctx.STRING().getText(),
                 ctx.getStart().getLine(),
@@ -213,15 +254,7 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitPrintItemID(LatinParser.PrintItemIDContext ctx) {
-        return new NodeIdentifier(
-                ctx.ID().getText(),
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
-    }
-
-    @Override
-    public ASTNode visitPrintItemExpression(LatinParser.PrintItemExpressionContext ctx) {
+    public ASTNode visitPrintExpression(LatinParser.PrintExpressionContext ctx) {
         return visit(ctx.expression());
     }
 
@@ -241,9 +274,8 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
 
         // * else if clauses
         for (LatinParser.ElseIfClauseContext elseIfCtx : ctx.elseIfClause()) {
-            ASTNode elseConditionNode = visit(elseIfCtx.booleanExpression());
-            NodeBooleanExpression elseCondition = wrapBoolean(elseConditionNode, elseIfCtx.getStart().getLine(),
-                    elseIfCtx.getStart().getCharPositionInLine());
+
+            ASTNode elseCondition = visit(ctx.booleanExpression());
             NodeBlock elseIfBlock = asBlock(visit(elseIfCtx.block()));
             nodeIf.addElseIfClause(elseCondition, elseIfBlock);
         }
@@ -289,9 +321,9 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitForStandard(LatinParser.ForStandardContext ctx) {
+    public ASTNode visitForStatement(LatinParser.ForStatementContext ctx) {
         ASTNode init = ctx.forInit() != null ? visit(ctx.forInit()) : null;
-        ASTNode condition = ctx.forCondition() != null ? visit(ctx.forCondition()) : null;
+        ASTNode condition = ctx.booleanExpression() != null ? visit(ctx.booleanExpression()) : null;
         ASTNode update = ctx.forUpdate() != null ? visit(ctx.forUpdate()) : null;
         NodeBlock block = asBlock(visit(ctx.block()));
 
@@ -305,7 +337,7 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitForInitWithDeclaration(LatinParser.ForInitWithDeclarationContext ctx) {
+    public ASTNode visitForInitDeclaration(LatinParser.ForInitDeclarationContext ctx) {
         String id = ctx.ID().getText();
         String type = ctx.type() != null ? extractType(ctx.type()) : null;
         ASTNode initializer = ctx.expression() != null
@@ -324,22 +356,13 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitForInitWithAssign(LatinParser.ForInitWithAssignContext ctx) {
-        NodeLvalue lvalue = asLvalue(visit(ctx.lvalue()));
-        ASTNode expression = visit(ctx.expression());
-        return new NodeAssignment(
-                lvalue,
-                expression,
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+    public ASTNode visitForInitAssignment(LatinParser.ForInitAssignmentContext ctx) {
+        return visit(ctx.assignment());
     }
 
     @Override
-    public ASTNode visitForInitWithID(LatinParser.ForInitWithIDContext ctx) {
-        return new NodeIdentifier(
-                ctx.ID().getText(),
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+    public ASTNode visitForInitEmpty(LatinParser.ForInitEmptyContext ctx) {
+        return null;
     }
 
     @Override
@@ -348,35 +371,22 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitForUpdateLvalue(LatinParser.ForUpdateLvalueContext ctx) {
-        NodeLvalue lvalue = asLvalue(visit(ctx.lvalue()));
-        ASTNode expression = visit(ctx.expression());
-        return new NodeAssignment(
-                lvalue,
-                expression,
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+    public ASTNode visitForUpdateAssignment(LatinParser.ForUpdateAssignmentContext ctx) {
+        return visit(ctx.assignment());
     }
 
+
+
     @Override
-    public ASTNode visitJumpStatementContinue(LatinParser.JumpStatementContinueContext ctx) {
+    public ASTNode visitJumpContinue(LatinParser.JumpContinueContext ctx) {
         return new NodeContinue(
                 ctx.getStart().getLine(),
                 ctx.getStart().getCharPositionInLine());
     }
 
     @Override
-    public ASTNode visitJumpStatementReturn(LatinParser.JumpStatementReturnContext ctx) {
+    public ASTNode visitJumpBreak(LatinParser.JumpBreakContext ctx) {
         return new NodeBreak(
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
-    }
-
-    @Override
-    public ASTNode visitReturnStatement(LatinParser.ReturnStatementContext ctx) {
-        ASTNode expression = ctx.expression() != null ? visit(ctx.expression()) : null;
-        return new NodeReturn(
-                expression,
                 ctx.getStart().getLine(),
                 ctx.getStart().getCharPositionInLine());
     }
@@ -407,7 +417,7 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
                 ctx.getStart().getLine(),
                 ctx.getStart().getCharPositionInLine());
 
-        for (LatinParser.LvalueSufixContext suffixCtx : ctx.lvalueSufix()) {
+        for (LatinParser.LvalueSuffixContext suffixCtx : ctx.lvalueSuffix()) {
             ASTNode suffix = visit(suffixCtx);
             if (suffix != null) {
                 lvalue.addSuffix(suffix);
@@ -420,6 +430,7 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitFieldAccess(LatinParser.FieldAccessContext ctx) {
         return new NodeFieldAccess(
+                null,
                 ctx.ID().getText(),
                 ctx.getStart().getLine(),
                 ctx.getStart().getCharPositionInLine());
@@ -429,6 +440,7 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     public ASTNode visitIndexAccess(LatinParser.IndexAccessContext ctx) {
         ASTNode index = visit(ctx.expression());
         return new NodeIndexAccess(
+                null,
                 index,
                 ctx.getStart().getLine(),
                 ctx.getStart().getCharPositionInLine());
@@ -438,20 +450,29 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     // GENERAL EXPRESSIONS
     // ============================================================
 
+    @Override
+    public ASTNode visitExprBoolean(LatinParser.ExprBooleanContext   ctx) {
+        return visit(ctx.booleanExpression());
+    }
 
     @Override
-    public ASTNode visitExpressionArrayLiteral(LatinParser.ExpressionArrayLiteralContext ctx) {
+    public ASTNode visitExprNumeric(LatinParser.ExprNumericContext   ctx) {
+        return visit(ctx.numericExpression());
+    }
+
+    @Override
+    public ASTNode visitExprString(LatinParser.ExprStringContext   ctx) {
+        return visit(ctx.stringExpression());
+    }
+
+    @Override
+    public ASTNode visitExprArrayLiteral(LatinParser.ExprArrayLiteralContext ctx) {
         return visit(ctx.arrayLiteral());
     }
 
     @Override
-    public ASTNode visitNumericLiteralChar(LatinParser.NumericLiteralCharContext ctx) {
-        String text = ctx.CHAR().getText();
-        char value = text.length() >= 3 ? text.charAt(1) : '\0';
-        return new NodeIntegerLiteral(
-                (int) value,
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+    public ASTNode visitExprNewInstance(LatinParser.ExprNewInstanceContext   ctx) {
+        return visit(ctx.newInstance());
     }
 
     // ============================================================
@@ -490,49 +511,57 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
         return left;
     }
 
+
+    //* ============================================================
+    //* NEW INSTANCE
+    //* ============================================================
+
     @Override
-    public ASTNode visitComparisonExpressionNot(LatinParser.ComparisonExpressionNotContext ctx) {
-        ASTNode operand = visit(ctx.comparisonExpression());
-        return new NodeUnaryOperation(
-                "!",
-                operand,
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+    public ASTNode visitNewInstance (LatinParser.NewInstanceContext  ctx) {
+        String className = ctx.ID().getText();
+        List<ASTNode> arguments = new ArrayList<>();
+
+        if (ctx.argumentList() != null){
+            for (LatinParser.ExpressionContext argCtx : ctx.argumentList().expression()) {
+                arguments.add(visit(argCtx));
+            }
+        }
+
+        return new NodeNewInstance( className, arguments, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
     }
 
     @Override
-    public ASTNode visitComparisonExpressionComparisonOperand(
-            LatinParser.ComparisonExpressionComparisonOperandContext ctx) {
-        if (ctx.comparisonOperand().size() == 1) {
-            return visit(ctx.comparisonOperand(0));
-        }
+    public ASTNode visitCompNot (LatinParser.CompNotContext ctx) {
+        ASTNode operand = visit (ctx.comparisonExpression());
+        return new NodeUnaryOperation("!", operand, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+    }
+
+    @Override
+    public ASTNode visitCompCompare (LatinParser.CompCompareContext ctx) {
+        if (ctx.comparisonOperand().size() == 1) return visit(ctx.comparisonOperand(0));
+
         ASTNode left = visit(ctx.comparisonOperand(0));
         ASTNode right = visit(ctx.comparisonOperand(1));
-        String operator = extractRelationalOperator(ctx.relationalLiteral());
-        return new NodeBinaryOperation(
-                left,
-                operator,
-                right,
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+        String operator = extractRelationalOperator(ctx.relationalOp());
+
+        return new NodeBinaryOperation(left, operator, right, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
     }
 
     @Override
-    public ASTNode visitComparisonExpressionBooleanExpresion(
-            LatinParser.ComparisonExpressionBooleanExpresionContext ctx) {
+    public ASTNode visitCompParen (LatinParser.CompParenContext ctx) {
         return visit(ctx.booleanExpression());
     }
 
     @Override
-    public ASTNode visitComparisonOperand(LatinParser.ComparisonOperandContext ctx) {
-        if (ctx.numericExpression() != null)
-            return visit(ctx.numericExpression());
-        if (ctx.booleanLiteral() != null)
-            return visit(ctx.booleanLiteral());
-        if (ctx.stringExpression() != null)
-            return visit(ctx.stringExpression());
-        return null;
+    public ASTNode visitCompBoolean (LatinParser.CompBooleanContext ctx) {
+        return visit(ctx.booleanLiteral());
     }
+
+    @Override
+    public ASTNode visitCompString (LatinParser.CompStringContext ctx) {
+        return visit(ctx.stringExpression());
+    }
+
 
     // ============================================================
     // NUMERIC EXPRESSIONS
@@ -542,11 +571,10 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitAdditiveExpression(LatinParser.AdditiveExpressionContext ctx) {
         List<LatinParser.MultiplicativeExpressionContext> operands = ctx.multiplicativeExpression();
-        List<LatinParser.PlusMinusExpressionContext> operators = ctx.plusMinusExpression();
 
         ASTNode left = visit(operands.get(0));
-        for (int i = 0; i < operators.size(); i++) {
-            String op = extractPlusMinusOperator(operators.get(i));
+        for (int i = 0; i < operands.size(); i++) {
+            String op = ctx.getChild(2 * i - 1).getText();
             ASTNode right = visit(operands.get(i + 1));
             left = new NodeBinaryOperation(
                     left,
@@ -561,11 +589,10 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitMultiplicativeExpression(LatinParser.MultiplicativeExpressionContext ctx) {
         List<LatinParser.UnaryExpressionContext> operands = ctx.unaryExpression();
-        List<LatinParser.MultSplitExpressionContext> operators = ctx.multSplitExpression();
 
         ASTNode left = visit(operands.get(0));
-        for (int i = 0; i < operators.size(); i++) {
-            String op = extractMultSplitOperator(operators.get(i));
+        for (int i = 0; i < operands.size(); i++) {
+            String op = ctx.getChild( 2 * i - 1 ).getText();
             ASTNode right = visit(operands.get(i + 1));
             left = new NodeBinaryOperation(
                     left,
@@ -578,8 +605,8 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitUnaryExpressionAddSub(LatinParser.UnaryExpressionAddSubContext ctx) {
-        String op = extractAddSubOperator(ctx.addSubExpression());
+    public ASTNode visitUnaryPrefix(LatinParser.UnaryPrefixContext ctx) {
+        String op = ctx.getChild(0).getText();
         ASTNode operand = visit(ctx.unaryExpression());
         return new NodeUnaryOperation(
                 op,
@@ -589,44 +616,55 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitUnaryExpressionNumeric(LatinParser.UnaryExpressionNumericContext ctx) {
+    public ASTNode visitUnaryPrimary(LatinParser.UnaryPrimaryContext ctx) {
         return visit(ctx.primaryNumeric());
     }
 
     @Override
-    public ASTNode visitPrimaryNumericNumericLiteral(LatinParser.PrimaryNumericNumericLiteralContext ctx) {
+    public ASTNode visitPrimaryNumLiteral(LatinParser.PrimaryNumLiteralContext ctx) {
         return visit(ctx.numericLiteral());
     }
 
     @Override
-    public ASTNode visitPrimaryNumericAtributeAccessExpression(
-            LatinParser.PrimaryNumericAtributeAccessExpressionContext ctx) {
-        NodeIdentifier base = new NodeIdentifier(
-                ctx.ID().getText(),
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
-        return buildAccessChain(base, ctx.atributeAccessExpresion());
+    public ASTNode visitPrimaryNumId(
+            LatinParser.PrimaryNumIdContext ctx) {
+       String id = ctx.ID().getText();
+       NodeIdentifier base = new NodeIdentifier(id, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+
+       //* Handle postfix ++ or --
+       ASTNode result = buildAccessChain(base, ctx.attributeAccess());
+
+       //* Check for postfix increment/decrement
+        if (ctx.ADD() != null) {
+            return new NodeIncrementDecrement(result, "++", true,
+                    ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+        }
+        if (ctx.SUB() != null) {
+            return new NodeIncrementDecrement(result, "--", true,
+                    ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+        }
+        return result;
     }
 
     @Override
-    public ASTNode visitPrimaryNumericNumericExpression(LatinParser.PrimaryNumericNumericExpressionContext ctx) {
+    public ASTNode visitPrimaryNumParen(LatinParser.PrimaryNumParenContext ctx) {
         return visit(ctx.numericExpression());
     }
 
     @Override
-    public ASTNode visitNumericLiteralInteger(LatinParser.NumericLiteralIntegerContext ctx) {
-        return new NodeIntegerLiteral(
-                Integer.parseInt(ctx.INTEGER().getText()),
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
-    }
+    public ASTNode visitNumericLiteral(LatinParser.NumericLiteralContext ctx) {
 
-    @Override
-    public ASTNode visitNumericLiteralDecimal(LatinParser.NumericLiteralDecimalContext ctx) {
-        return new NodeDecimalLiteral(
-                Double.parseDouble(ctx.DECIMAL().getText()),
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+        if (ctx.INTEGER() != null){
+            return new NodeIntegerLiteral(
+                    Integer.parseInt(ctx.INTEGER().getText()),
+                    ctx.getStart().getLine(),
+                    ctx.getStart().getCharPositionInLine());
+        }else {
+            return new NodeDecimalLiteral(
+                    Double.parseDouble(ctx.DECIMAL().getText()),
+                    ctx.getStart().getLine(),
+                    ctx.getStart().getCharPositionInLine());
+        }
     }
 
     // ============================================================
@@ -635,7 +673,9 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitStringAdditiveExpression(LatinParser.StringAdditiveExpressionContext ctx) {
-        ASTNode left = visit(ctx.stringPrimary());
+        List<LatinParser.StringAdditiveItemContext> items = ctx.stringAdditiveItem();
+
+        ASTNode left = visit(items.get(0));
         for (LatinParser.StringAdditiveItemContext itemCtx : ctx.stringAdditiveItem()) {
             ASTNode right = visit(itemCtx);
             left = new NodeBinaryOperation(
@@ -649,18 +689,22 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitStringAdditiveItemStringPrimary(LatinParser.StringAdditiveItemStringPrimaryContext ctx) {
+    public ASTNode visitStringItemPrimary(LatinParser.StringItemPrimaryContext ctx) {
         return visit(ctx.stringPrimary());
     }
 
     @Override
-    public ASTNode visitStringAdditiveItemNumericExpression(
-            LatinParser.StringAdditiveItemNumericExpressionContext ctx) {
+    public ASTNode visitStringItemNumeric (LatinParser.StringItemNumericContext ctx) {
         return visit(ctx.numericExpression());
     }
 
     @Override
-    public ASTNode visitStringPrimaryString(LatinParser.StringPrimaryStringContext ctx) {
+    public ASTNode visitStringItemBoolean (LatinParser.StringItemBooleanContext ctx) {
+        return visit(ctx.booleanLiteral());
+    }
+
+    @Override
+    public ASTNode visitStringPrimString (LatinParser.StringPrimStringContext ctx) {
         return new NodeStringLiteral(
                 ctx.STRING().getText(),
                 ctx.getStart().getLine(),
@@ -668,43 +712,16 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitStringPrimaryChar(LatinParser.StringPrimaryCharContext ctx) {
+    public ASTNode visitStringPrimChar (LatinParser.StringPrimCharContext ctx) {
         String text = ctx.CHAR().getText();
-        char value = text.length() >= 3 ? text.charAt(1) : '\0';
-        return new NodeCharLiteral(
-                value,
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+        char value = text.length() >= 3 ? text.charAt(0) : '\0';
+        return new NodeCharLiteral(value, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
     }
 
     @Override
-    public ASTNode visitStringPrimaryAtributeAccessExpression(
-            LatinParser.StringPrimaryAtributeAccessExpressionContext ctx) {
-        NodeIdentifier base = new NodeIdentifier(
-                ctx.ID().getText(),
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
-        return buildAccessChain(base, ctx.atributeAccessExpresion());
-    }
-
-    // ============================================================
-    // BOOLEAN LITERALS
-    // ============================================================
-
-    @Override
-    public ASTNode visitBooleanLiteralVerum(LatinParser.BooleanLiteralVerumContext ctx) {
-        return new NodeBooleanLiteral(
-                true,
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
-    }
-
-    @Override
-    public ASTNode visitBooleanLiteralFalsus(LatinParser.BooleanLiteralFalsusContext ctx) {
-        return new NodeBooleanLiteral(
-                false,
-                ctx.getStart().getLine(),
-                ctx.getStart().getCharPositionInLine());
+    public ASTNode visitStringPrimId (LatinParser.StringPrimIdContext ctx) {
+        NodeIdentifier base = new NodeIdentifier(ctx.ID().getText(), ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
+        return buildAccessChain(base, ctx.attributeAccess());
     }
 
     // ============================================================
@@ -712,19 +729,36 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     // ============================================================
 
     @Override
-    public ASTNode visitAtributeAccessExpressionDitID(LatinParser.AtributeAccessExpressionDitIDContext ctx) {
+    public ASTNode visitAttrField(LatinParser.AttrFieldContext ctx) {
         return new NodeFieldAccess(
+                null,
                 ctx.ID().getText(),
                 ctx.getStart().getLine(),
                 ctx.getStart().getCharPositionInLine());
     }
 
     @Override
-    public ASTNode visitAtributeAccessExpressionClaspExpression(
-            LatinParser.AtributeAccessExpressionClaspExpressionContext ctx) {
+    public ASTNode visitAttrIndex(LatinParser.AttrIndexContext ctx) {
         ASTNode index = visit(ctx.expression());
         return new NodeIndexAccess(
+                null,
                 index,
+                ctx.getStart().getLine(),
+                ctx.getStart().getCharPositionInLine());
+    }
+
+    @Override
+    public ASTNode visitAttrCall(LatinParser.AttrCallContext ctx) {
+        List<ASTNode> arguments = new ArrayList<>();
+        if (ctx.argumentList() != null) {
+            for (LatinParser.ExpressionContext argCtx : ctx.argumentList().expression()) {
+                arguments.add(visit(argCtx));
+            }
+        }
+        return new NodeFunctionCall(
+                null,
+                null,
+                arguments,
                 ctx.getStart().getLine(),
                 ctx.getStart().getCharPositionInLine());
     }
@@ -749,6 +783,11 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
         return arrLit;
     }
 
+
+    // ============================================================
+    // HELPER METHODS
+    // ============================================================
+
     private static NodeLvalue asLvalue(ASTNode node) {
         return (node instanceof NodeLvalue) ? (NodeLvalue) node : null;
     }
@@ -757,85 +796,30 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
         return (node instanceof NodeBlock) ? (NodeBlock) node : null;
     }
 
-    private static NodeBooleanExpression wrapBoolean(ASTNode node, int line, int column) {
-        if (node instanceof NodeBooleanExpression) {
-            return (NodeBooleanExpression) node;
-        }
-        return new NodeBooleanExpression(node, line, column);
-    }
-
-    // ============================================================
-    // HELPER METHODS
-    // ============================================================
-
     private String extractType(LatinParser.TypeContext ctx) {
-        if (ctx == null)
-            return null;
-        if (ctx instanceof LatinParser.TypeNumerusContext)
-            return "NUMERUS";
-        if (ctx instanceof LatinParser.TypeTextumContext)
-            return "TEXTUM";
-        if (ctx instanceof LatinParser.TypeDecimalisContext)
-            return "DECIMALIS";
-        if (ctx instanceof LatinParser.TypeLitteraContext)
-            return "LITTERA";
-        if (ctx instanceof LatinParser.TypeIDContext)
-            return ctx.getText();
-        if (ctx instanceof LatinParser.TypeBoolContext)
-            return "BOOL";
-        return null;
+        return switch (ctx) {
+            case LatinParser.TypeNumerusContext typeNumerusContext -> "NUMERUS";
+            case LatinParser.TypeTextumContext typeTextumContext -> "TEXTUM";
+            case LatinParser.TypeDecimalisContext typeDecimalisContext -> "DECIMALIS";
+            case LatinParser.TypeLitteraContext typeLitteraContext -> "LITTERA";
+            case LatinParser.TypeIDContext typeIDContext -> ctx.getText();
+            case LatinParser.TypeBoolContext typeBoolContext -> "BOOL";
+            case null, default -> null;
+        };
     }
 
-    private String extractRelationalOperator(LatinParser.RelationalLiteralContext ctx) {
+    private String extractRelationalOperator(LatinParser.RelationalOpContext ctx) {
         if (ctx == null)
             return "==";
-        if (ctx instanceof LatinParser.RelationalLiteralIdenticContext)
-            return "==";
-        if (ctx instanceof LatinParser.RelationalLiteralDiffContext)
-            return "!=";
-        if (ctx instanceof LatinParser.RelationalLiteralMinorContext)
-            return "<";
-        if (ctx instanceof LatinParser.RelationalLiteralMajorContext)
-            return ">";
-        if (ctx instanceof LatinParser.RelationalLiteralMinorToContext)
-            return "<=";
-        if (ctx instanceof LatinParser.RelationalLiteralMajorToContext)
-            return ">=";
-        return "==";
-    }
 
-    private String extractPlusMinusOperator(LatinParser.PlusMinusExpressionContext ctx) {
-        if (ctx == null)
-            return "+";
-        if (ctx instanceof LatinParser.PlusMinusExpressionPlusContext)
-            return "+";
-        if (ctx instanceof LatinParser.PlusMinusExpressionMinusContext)
-            return "-";
-        return "+";
-    }
-
-    private String extractMultSplitOperator(LatinParser.MultSplitExpressionContext ctx) {
-        if (ctx == null)
-            return "*";
-        if (ctx instanceof LatinParser.MultSplitExpressionMultContext)
-            return "*";
-        if (ctx instanceof LatinParser.MultSplitExpressionSplitContext)
-            return "/";
-        return "*";
-    }
-
-    private String extractAddSubOperator(LatinParser.AddSubExpressionContext ctx) {
-        if (ctx == null)
-            return "+";
-        if (ctx instanceof LatinParser.AddSubExpressionPlusContext)
-            return "+";
-        if (ctx instanceof LatinParser.AddSubExpressionMinusContext)
-            return "-";
-        if (ctx instanceof LatinParser.AddSubExpressionAddContext)
-            return "+";
-        if (ctx instanceof LatinParser.AddSubExpressionSubContext)
-            return "-";
-        return "+";
+        return switch (ctx.getText()) {
+            case "!=" -> "!=";
+            case "<" -> "<";
+            case ">" -> ">";
+            case "<=" -> "<=";
+            case ">=" -> ">=";
+            default -> "==";
+        };
     }
 
     private ASTNode normalizeInitializerLiteral(ASTNode node, String rawText, int line, int column) {
@@ -851,5 +835,26 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
             }
         }
         return node;
+    }
+
+    private ASTNode buildAccessChain(NodeIdentifier base, List<LatinParser.AttributeAccessContext> accesses) {
+        ASTNode current = base;
+
+        for (LatinParser.AttributeAccessContext access : accesses) {
+            ASTNode accessNode = visit(access);
+            if (accessNode instanceof NodeFieldAccess){
+                //* When we have a field access, we need to combined it with the current node
+                NodeFieldAccess fieldAccess = (NodeFieldAccess) accessNode;
+
+                current = new NodeFieldAccess(current, fieldAccess.getFieldName(), fieldAccess.getLine(), fieldAccess.getColumn());
+            } else if (accessNode instanceof NodeIndexAccess) {
+                NodeIndexAccess indexAccess = (NodeIndexAccess) accessNode;
+                current = new NodeIndexAccess(current, indexAccess.getIndexExpression(), indexAccess.getLine(), indexAccess.getColumn());
+            } else if (accessNode instanceof NodeFunctionCall) {
+                NodeFunctionCall functionCall = (NodeFunctionCall) accessNode;
+                current = new NodeFunctionCall(current, functionCall.getFunctionName(), functionCall.getArguments(), functionCall.getLine(), functionCall.getColumn());
+            }
+        }
+        return current;
     }
 }

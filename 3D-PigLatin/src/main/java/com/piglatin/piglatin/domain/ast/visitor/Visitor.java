@@ -34,10 +34,12 @@ public interface Visitor<T> {
         T visitBooleanLiteral(NodeBooleanLiteral n);
         T visitIdentifier(NodeIdentifier n);
         T visitIndexAccess(NodeIndexAccess n);
+        T visitFieldAccess (NodeFieldAccess n);
         T visitBinaryOperation(NodeBinaryOperation n);
         T visitUnaryOperation(NodeUnaryOperation n);
         T visitIncrementDecrement(NodeIncrementDecrement n);
         T visitArrayLiteral(NodeArrayLiteral n);
         T visitLvalue(NodeLvalue n);
         T visitImport(NodeImport n);
+        T visitFunctionCall (NodeFunctionCall n);
 }

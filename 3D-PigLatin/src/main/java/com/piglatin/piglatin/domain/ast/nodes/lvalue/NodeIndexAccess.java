@@ -16,17 +16,21 @@ public class NodeIndexAccess extends ASTNode {
     //* The expression that evaluates to the index
     private ASTNode indexExpression;
 
+    //* The current node
+    private ASTNode currentNode;
+
     public NodeIndexAccess() {
-        this(null, 0, 0);
+        this(null, null, 0, 0);
     }
 
     public NodeIndexAccess(int line, int column) {
         super(line, column);
     }
 
-    public NodeIndexAccess(ASTNode indexExpression, int line, int column) {
+    public NodeIndexAccess(ASTNode current, ASTNode indexExpression, int line, int column) {
         super(line, column);
         this.indexExpression = indexExpression;
+        this.currentNode = current;
     }
 
     @Override

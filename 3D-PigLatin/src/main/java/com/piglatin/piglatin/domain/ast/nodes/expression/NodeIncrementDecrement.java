@@ -18,18 +18,22 @@ public class NodeIncrementDecrement extends ASTNode {
     //* The type of operation
     private String operation;
 
+    //* if its postfix
+    private boolean postfix;
+
     public NodeIncrementDecrement() {
-        this(null, null, 0, 0);
+        this(null, null, false, 0, 0);
     }
 
     public NodeIncrementDecrement(int line, int column) {
-        this(null, null, line, column);
+        this(null, null, false, line, column);
     }
 
-    public NodeIncrementDecrement(ASTNode operand, String operation, int line, int column) {
+    public NodeIncrementDecrement(ASTNode operand, String operation, boolean postfix, int line, int column) {
         super(line, column);
         this.operand = operand;
         this.operation = operation;
+        this.postfix = postfix;
     }
 
     @Override
