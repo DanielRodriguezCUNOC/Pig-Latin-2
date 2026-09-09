@@ -1,4 +1,4 @@
-package com.piglatin.piglatin.infrastructure.semantic;
+package com.piglatin.piglatin.domain.semantic;
 
 import com.piglatin.common.application.dto.CustomErrorDTO;
 import com.piglatin.piglatin.domain.ast.principal.ASTNode;

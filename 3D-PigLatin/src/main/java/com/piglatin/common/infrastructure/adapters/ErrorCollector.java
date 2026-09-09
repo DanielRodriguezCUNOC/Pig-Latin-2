@@ -31,7 +31,7 @@ public class ErrorCollector implements ErrorReporter {
 
     @Override
     public boolean hasFatalErrors() {
-        return errors.isEmpty();
+        return !errors.isEmpty();
     }
 
     @Override

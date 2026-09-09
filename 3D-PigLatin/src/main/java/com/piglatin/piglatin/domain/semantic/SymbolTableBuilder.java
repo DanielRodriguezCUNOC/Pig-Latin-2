@@ -1,4 +1,4 @@
-package com.piglatin.piglatin.infrastructure.semantic;
+package com.piglatin.piglatin.domain.semantic;
 
 import com.piglatin.piglatin.domain.ast.nodes.NodeImport;
 import com.piglatin.piglatin.domain.ast.nodes.declaration.NodeArrayDeclaration;
@@ -14,7 +14,6 @@ import com.piglatin.piglatin.domain.ast.principal.ASTNode;
 import com.piglatin.piglatin.domain.ast.principal.NodeProgram;
 import com.piglatin.piglatin.domain.ast.visitor.Visitor;
 import com.piglatin.piglatin.domain.symboltable.ArraySymbol;
-import com.piglatin.piglatin.domain.symboltable.Symbol;
 import com.piglatin.piglatin.domain.symboltable.SymbolTable;
 import com.piglatin.piglatin.domain.symboltable.VariableSymbol;
 import com.piglatin.piglatin.domain.types.TypeTable;

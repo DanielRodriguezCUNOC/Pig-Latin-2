@@ -1,4 +1,4 @@
-package com.piglatin.piglatin.infrastructure.semantic;
+package com.piglatin.piglatin.domain.semantic;
 
 import com.piglatin.piglatin.domain.ast.nodes.NodeImport;
 import com.piglatin.piglatin.domain.ast.nodes.declaration.*;
@@ -13,9 +13,7 @@ import com.piglatin.piglatin.domain.types.TypeTable;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 /**

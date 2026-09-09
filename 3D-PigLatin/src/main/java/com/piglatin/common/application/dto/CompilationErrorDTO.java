@@ -3,8 +3,6 @@ package com.piglatin.common.application.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.print.attribute.standard.Severity;
-
 /**
  * This clas send a compilation error from any language to UI.
  */

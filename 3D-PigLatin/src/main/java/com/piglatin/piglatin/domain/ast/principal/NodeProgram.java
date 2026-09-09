@@ -19,8 +19,6 @@ public class NodeProgram extends ASTNode{
 
     //* This represents the section VARIABILES>
     private List<NodeDeclaration> globalDeclarations;
-    //* This represents the section MUNERA>
-    private List<ASTNode> functionDefinitions;
     //* This represents the section MAIOR>
     private List<ASTNode> mainInstructions;
     //* This represents the section of imports
@@ -40,16 +38,11 @@ public class NodeProgram extends ASTNode{
                        int line, int column) {
         super(line, column);
         this.globalDeclarations = globalDeclarations != null ? globalDeclarations : new ArrayList<>();
-        this.functionDefinitions = functionDefinitions != null ? functionDefinitions : new ArrayList<>();
         this.mainInstructions = mainInstructions != null ? mainInstructions : new ArrayList<>();
     }
 
    public void addGlobalDeclaration(NodeDeclaration declaration) {
         if(declaration != null) this.globalDeclarations.add(declaration);
-   }
-
-   public void addFunctionDefinition(ASTNode declaration) {
-        if(declaration != null) this.functionDefinitions.add(declaration);
    }
 
    public void addMainInstruction(ASTNode instruction) {
@@ -63,11 +56,6 @@ public class NodeProgram extends ASTNode{
 
         sb.append(" === Global Declarations ===\n");
         for(NodeDeclaration statement : globalDeclarations) {
-            sb.append(statement.toString()).append("\n");
-        }
-
-        sb.append(" === Function Definitions ===\n");
-        for(ASTNode statement : functionDefinitions) {
             sb.append(statement.toString()).append("\n");
         }
 

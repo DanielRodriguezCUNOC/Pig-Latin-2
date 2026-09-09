@@ -12,6 +12,10 @@ public class FileResultExporter implements ResultExporter {
 
     private String outputDirectory;
 
+    public FileResultExporter(String outputDirectory) {
+        this.outputDirectory = outputDirectory;
+    }
+
     @Override
     public String export3DC(String code, String fileName) {
         String fullName = fileName + "_c3d.txt";

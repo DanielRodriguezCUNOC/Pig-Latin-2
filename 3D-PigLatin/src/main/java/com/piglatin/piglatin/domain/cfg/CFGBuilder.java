@@ -1,4 +1,4 @@
-package com.piglatin.piglatin.infrastructure.cfg;
+package com.piglatin.piglatin.domain.cfg;
 
 import com.piglatin.piglatin.domain.ast.nodes.declaration.*;
 import com.piglatin.piglatin.domain.ast.nodes.expression.*;
@@ -11,14 +11,12 @@ import com.piglatin.piglatin.domain.ast.nodes.NodeImport;
 import com.piglatin.piglatin.domain.ast.principal.ASTNode;
 import com.piglatin.piglatin.domain.ast.principal.NodeProgram;
 import com.piglatin.piglatin.domain.ast.visitor.Visitor;
-import com.piglatin.piglatin.domain.cfg.BasicBlock;
-import com.piglatin.piglatin.domain.cfg.ControlFlowGraph;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * Infrastructure visitor to build a Control Flow Graph from the AST.
+ * Builds a Control Flow Graph from the AST.
  */
 public class CFGBuilder implements Visitor<Void> {
 
