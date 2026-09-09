@@ -26,11 +26,11 @@ public class CFGBuilder implements Visitor<Void> {
     private BasicBlock currentBlock;
     private ControlFlowGraph graph;
 
-    // Stacks to manage break and continue jumps inside loops
+    //* Stacks to manage break and continue jumps inside loops
     private final Deque<BasicBlock> loopHeaderStack = new ArrayDeque<>();
     private final Deque<BasicBlock> loopExitStack = new ArrayDeque<>();
 
-    public ControlFlowGraph buildGraph(NodeProgram program) {
+    public ControlFlowGraph build(NodeProgram program) {
         BasicBlock entry = createBlock();
         entry.setEntry(true);
 
@@ -42,7 +42,7 @@ public class CFGBuilder implements Visitor<Void> {
 
         program.accept(this);
 
-        // Connect the last active block to the exit block if not already connected
+        //* Connect the last active block to the exit block if not already connected
         if (currentBlock != null) {
             currentBlock.addSuccessor(exit);
         }
@@ -94,7 +94,7 @@ public class CFGBuilder implements Visitor<Void> {
         BasicBlock thenBlock = createBlock();
         BasicBlock nextBlock = createBlock();
 
-        // Path for condition == true
+        //* Path for condition == true
         conditionBlock.addSuccessor(thenBlock);
         currentBlock = thenBlock;
         if (n.getThenBlock() != null) {
@@ -114,7 +114,7 @@ public class CFGBuilder implements Visitor<Void> {
                 currentBlock.addSuccessor(nextBlock);
             }
         } else {
-            // Jump directly to the continuation block if there is no else
+            //* Jump directly to the continuation block if there is no else
             conditionBlock.addSuccessor(nextBlock);
         }
 
@@ -128,31 +128,31 @@ public class CFGBuilder implements Visitor<Void> {
         BasicBlock bodyBlock = createBlock();
         BasicBlock exitBlock = createBlock();
 
-        // Jump into loop header
+        //* Jump into loop header
         currentBlock.addSuccessor(headerBlock);
 
-        // Header block checks the condition
+        //* Header block checks the condition
         currentBlock = headerBlock;
         currentBlock.addInstruction(n.getCondition());
         currentBlock.addSuccessor(bodyBlock);
         currentBlock.addSuccessor(exitBlock);
 
-        // Push loop targets for break/continue
+        //* Push loop targets for break/continue
         loopHeaderStack.push(headerBlock);
         loopExitStack.push(exitBlock);
 
-        // Build loop body
+        //* Build loop body
         currentBlock = bodyBlock;
         if (n.getBlock() != null) {
             n.getBlock().accept(this);
         }
 
-        // Body loops back to header
+        //* Body loops back to header
         if (currentBlock != null) {
             currentBlock.addSuccessor(headerBlock);
         }
 
-        // Pop loop targets
+        //* Pop loop targets
         loopHeaderStack.pop();
         loopExitStack.pop();
 
@@ -168,11 +168,11 @@ public class CFGBuilder implements Visitor<Void> {
 
         currentBlock.addSuccessor(bodyBlock);
 
-        // Push loop targets
+        //* Push loop targets
         loopHeaderStack.push(conditionBlock);
         loopExitStack.push(exitBlock);
 
-        // Build body
+        //* Build body
         currentBlock = bodyBlock;
         if (n.getBlock() != null) {
             n.getBlock().accept(this);
@@ -181,11 +181,13 @@ public class CFGBuilder implements Visitor<Void> {
             currentBlock.addSuccessor(conditionBlock);
         }
 
-        // Condition evaluation
+        //* Condition evaluation
         currentBlock = conditionBlock;
         currentBlock.addInstruction(n.getCondition());
-        currentBlock.addSuccessor(bodyBlock); // Loop back if true
-        currentBlock.addSuccessor(exitBlock); // Exit if false
+        //* Loop back if true
+        currentBlock.addSuccessor(bodyBlock);
+        //* Exit if false
+        currentBlock.addSuccessor(exitBlock);
 
         loopHeaderStack.pop();
         loopExitStack.pop();
@@ -215,11 +217,11 @@ public class CFGBuilder implements Visitor<Void> {
         currentBlock.addSuccessor(bodyBlock);
         currentBlock.addSuccessor(exitBlock);
 
-        // Target for continue is updateBlock, target for break is exitBlock
+        //* Target for continue is updateBlock, target for break is exitBlock
         loopHeaderStack.push(updateBlock);
         loopExitStack.push(exitBlock);
 
-        // Body
+        //* Body
         currentBlock = bodyBlock;
         if (n.getBlock() != null) {
             n.getBlock().accept(this);
@@ -228,7 +230,7 @@ public class CFGBuilder implements Visitor<Void> {
             currentBlock.addSuccessor(updateBlock);
         }
 
-        // Update block
+        //* Update block
         currentBlock = updateBlock;
         if (n.getUpdate() != null) {
             currentBlock.addInstruction(n.getUpdate());
@@ -261,7 +263,8 @@ public class CFGBuilder implements Visitor<Void> {
         if (!loopHeaderStack.isEmpty()) {
             currentBlock.addInstruction(n);
             currentBlock.addSuccessor(loopHeaderStack.peek());
-            currentBlock = null; // Unreachable code following continue
+            //* Unreachable code following continue
+            currentBlock = null;
         }
         return null;
     }
@@ -270,12 +273,13 @@ public class CFGBuilder implements Visitor<Void> {
     public Void visitReturn(NodeReturn n) {
         currentBlock.addInstruction(n);
         currentBlock.addSuccessor(graph.getExitBlock());
-        currentBlock = null; // Unreachable code following return
+        //* Unreachable code following return
+        currentBlock = null;
         return null;
     }
 
     // ============================================================
-    // LINEAR INSTRUCTIONS (Added directly to the current block)
+    // LINEAR INSTRUCTIONS
     // ============================================================
 
     @Override
@@ -314,7 +318,6 @@ public class CFGBuilder implements Visitor<Void> {
         return null;
     }
 
-    // Standard leaf expression nodes do not create new blocks
     @Override public Void visitNewInstance(NodeNewInstance n) { return null; }
     @Override public Void visitStructLiteral(NodeStructLiteral n) { return null; }
     @Override public Void visitIntegerLiteral(NodeIntegerLiteral n) { return null; }

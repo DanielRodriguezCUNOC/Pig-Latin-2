@@ -114,31 +114,33 @@ public class ConstantFolder implements Visitor<Object> {
 
     @Override
     public Object visitIntegerLiteral(NodeIntegerLiteral n) {
-        return null;
+        return n.getValue();
     }
 
     @Override
     public Object visitDecimalLiteral(NodeDecimalLiteral n) {
-        return null;
+        return n.getValue();
     }
 
     @Override
     public Object visitStringLiteral(NodeStringLiteral n) {
-        return null;
+        return n.getValue();
     }
 
     @Override
     public Object visitCharLiteral(NodeCharLiteral n) {
-        return null;
+        return n.getValue();
     }
 
     @Override
     public Object visitBooleanLiteral(NodeBooleanLiteral n) {
-        return null;
+        return n.isValue();
     }
 
     @Override
     public Object visitIdentifier(NodeIdentifier n) {
+        VariableSymbol symbol = (VariableSymbol) symbolTable.lookup(n.getId());
+        if (symbol != null) return symbol.getConstantValue();
         return null;
     }
 
@@ -154,11 +156,65 @@ public class ConstantFolder implements Visitor<Object> {
 
     @Override
     public Object visitBinaryOperation(NodeBinaryOperation n) {
+        Object left = evaluate(n.getLeft());
+        Object right = evaluate(n.getRight());
+
+        if (left == null || right == null) return null;
+
+        String op = n.getOperator();
+
+        if ("+".equals(op) || "-".equals(op) || "*".equals(op) || "/".equals(op)) {
+            double l = toDouble(left);
+            double r = toDouble(right);
+
+            if ("/".equals(op) && r == 0.0) {
+                errorReporter.reportError("Division by zero in constant expression", n.getLine(), n.getColumn());
+                return null;
+            }
+
+            double result = switch (op) {
+                case "+" -> l + r;
+                case "-" -> l - r;
+                case "*" -> l * r;
+                case "/" -> l / r;
+                default -> 0.0;
+            };
+
+            return (left instanceof Integer && right instanceof Integer) ? (int) result : result;
+        }
+
+        if ("==".equals(op) || "!=".equals(op) || "<".equals(op) || ">".equals(op) || "<=".equals(op) || ">=".equals(op)) {
+            double l = toDouble(left);
+            double r = toDouble(right);
+            return switch (op) {
+                case "==" -> l == r;
+                case "!=" -> l != r;
+                case "<" -> l < r;
+                case ">" -> l > r;
+                case "<=" -> l <= r;
+                case ">=" -> l >= r;
+                default -> false;
+            };
+        }
+
+        if ("&&".equals(op) || "||".equals(op)) {
+            if (left instanceof Boolean bLeft && right instanceof Boolean bRight) {
+                return "&&".equals(op) ? bLeft && bRight : bLeft || bRight;
+            }
+        }
         return null;
     }
 
     @Override
     public Object visitUnaryOperation(NodeUnaryOperation n) {
+        Object operand = evaluate(n.getOperand());
+        if (operand == null) return null;
+
+        String op = n.getOperator();
+        if ("+".equals(op)) return operand;
+        if ("-".equals(op)) return -toDouble(operand);
+        if ("!".equals(op) && operand instanceof Boolean b) return !b;
+
         return null;
     }
 
@@ -185,5 +241,13 @@ public class ConstantFolder implements Visitor<Object> {
     @Override
     public Object visitFunctionCall(NodeFunctionCall n) {
         return null;
+    }
+
+    private double toDouble(Object obj) {
+        if (obj instanceof Integer i) return i.doubleValue();
+        if (obj instanceof Double d) return d;
+        if (obj instanceof Boolean b) return b ? 1.0 : 0.0;
+        if (obj instanceof Character c) return (double) c;
+        return 0.0;
     }
 }

@@ -44,7 +44,7 @@ private final TypeTable typeTable;
 private final SemanticErrorReporter errorReporter;
 private int loopDepth = 0;
     public SymbolTableBuilder(TypeTable typeTable, SemanticErrorReporter errorReporter) {
-        this.symbolTable = new SymbolTable(); // Automatically pushes "global" scope
+        this.symbolTable = new SymbolTable();
         this.typeTable = typeTable;
         this.errorReporter = errorReporter;
     }
