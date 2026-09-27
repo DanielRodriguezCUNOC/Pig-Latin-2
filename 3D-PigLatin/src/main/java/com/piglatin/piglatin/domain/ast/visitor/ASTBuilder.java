@@ -1,6 +1,5 @@
 package com.piglatin.piglatin.domain.ast.visitor;
 
-import com.piglatin.piglatin.domain.ast.nodes.*;
 import com.piglatin.piglatin.domain.ast.nodes.NodeImport;
 import com.piglatin.piglatin.domain.ast.nodes.declaration.*;
 import com.piglatin.piglatin.domain.ast.nodes.lvalue.*;
@@ -36,8 +35,12 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
 
         //* Imports
         if (ctx.importList() != null) {
-              ASTNode imports = visit(ctx.importList());
-              if (imports != null) program.setImports((List<NodeImport>) imports);
+            for (LatinParser.ImportStatementContext impCtx : ctx.importList().importStatement()) {
+                ASTNode imp = visit(impCtx);
+                if (imp instanceof NodeImport) {
+                    program.addImport((NodeImport) imp);
+                }
+            }
         }
 
         //* Global declarations
@@ -65,12 +68,8 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitImportList(LatinParser.ImportListContext ctx){
-        List<NodeImport> imports = new ArrayList<>();
-        for (LatinParser.ImportStatementContext impCtx : ctx.importStatement()) {
-            ASTNode imp = visit(impCtx);
-            if (imp instanceof NodeImport) imports.add((NodeImport) imp);
-        }
-        return (ASTNode) imports;
+
+        return null;
     }
 
     @Override
@@ -275,7 +274,7 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
         // * else if clauses
         for (LatinParser.ElseIfClauseContext elseIfCtx : ctx.elseIfClause()) {
 
-            ASTNode elseCondition = visit(ctx.booleanExpression());
+            ASTNode elseCondition = visit(elseIfCtx.booleanExpression());
             NodeBlock elseIfBlock = asBlock(visit(elseIfCtx.block()));
             nodeIf.addElseIfClause(elseCondition, elseIfBlock);
         }
@@ -572,8 +571,8 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     public ASTNode visitAdditiveExpression(LatinParser.AdditiveExpressionContext ctx) {
         List<LatinParser.MultiplicativeExpressionContext> operands = ctx.multiplicativeExpression();
 
-        ASTNode left = visit(operands.get(0));
-        for (int i = 0; i < operands.size(); i++) {
+        ASTNode left = visit(operands.getFirst());
+        for (int i = 1; i < operands.size(); i++) {
             String op = ctx.getChild(2 * i - 1).getText();
             ASTNode right = visit(operands.get(i + 1));
             left = new NodeBinaryOperation(
@@ -589,11 +588,11 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitMultiplicativeExpression(LatinParser.MultiplicativeExpressionContext ctx) {
         List<LatinParser.UnaryExpressionContext> operands = ctx.unaryExpression();
+        ASTNode left = visit(operands.getFirst());
 
-        ASTNode left = visit(operands.get(0));
-        for (int i = 0; i < operands.size(); i++) {
-            String op = ctx.getChild( 2 * i - 1 ).getText();
-            ASTNode right = visit(operands.get(i + 1));
+        for (int i = 1; i < operands.size(); i++) {
+            String op = ctx.getChild(2 * i - 1).getText();
+            ASTNode right = visit(operands.get(i));
             left = new NodeBinaryOperation(
                     left,
                     op,
@@ -675,9 +674,9 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     public ASTNode visitStringAdditiveExpression(LatinParser.StringAdditiveExpressionContext ctx) {
         List<LatinParser.StringAdditiveItemContext> items = ctx.stringAdditiveItem();
 
-        ASTNode left = visit(items.get(0));
-        for (LatinParser.StringAdditiveItemContext itemCtx : ctx.stringAdditiveItem()) {
-            ASTNode right = visit(itemCtx);
+        ASTNode left = visit(items.getFirst());
+        for (int i = 1; i < items.size(); i++) {
+            ASTNode right = visit(items.get(i));
             left = new NodeBinaryOperation(
                     left,
                     "+",
@@ -712,9 +711,9 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitStringPrimChar (LatinParser.StringPrimCharContext ctx) {
+    public ASTNode visitStringPrimChar(LatinParser.StringPrimCharContext ctx) {
         String text = ctx.CHAR().getText();
-        char value = text.length() >= 3 ? text.charAt(0) : '\0';
+        char value = text.length() >= 3 ? text.charAt(1) : '\0';
         return new NodeCharLiteral(value, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
     }
 
@@ -842,17 +841,19 @@ public class ASTBuilder extends LatinParserBaseVisitor<ASTNode> {
 
         for (LatinParser.AttributeAccessContext access : accesses) {
             ASTNode accessNode = visit(access);
-            if (accessNode instanceof NodeFieldAccess){
-                //* When we have a field access, we need to combined it with the current node
-                NodeFieldAccess fieldAccess = (NodeFieldAccess) accessNode;
-
+            if (accessNode instanceof NodeFieldAccess fieldAccess) {
                 current = new NodeFieldAccess(current, fieldAccess.getFieldName(), fieldAccess.getLine(), fieldAccess.getColumn());
-            } else if (accessNode instanceof NodeIndexAccess) {
-                NodeIndexAccess indexAccess = (NodeIndexAccess) accessNode;
+            } else if (accessNode instanceof NodeIndexAccess indexAccess) {
                 current = new NodeIndexAccess(current, indexAccess.getIndexExpression(), indexAccess.getLine(), indexAccess.getColumn());
-            } else if (accessNode instanceof NodeFunctionCall) {
-                NodeFunctionCall functionCall = (NodeFunctionCall) accessNode;
-                current = new NodeFunctionCall(current, functionCall.getFunctionName(), functionCall.getArguments(), functionCall.getLine(), functionCall.getColumn());
+            } else if (accessNode instanceof NodeFunctionCall functionCall) {
+                if (current instanceof NodeIdentifier) {
+                    String fnName = ((NodeIdentifier) current).getId();
+                    current = new NodeFunctionCall(null, fnName, functionCall.getArguments(), functionCall.getLine(), functionCall.getColumn());
+                } else if (current instanceof NodeFieldAccess fieldAccess) {
+                    current = new NodeFunctionCall(fieldAccess.getCurrentNode(), fieldAccess.getFieldName(), functionCall.getArguments(), functionCall.getLine(), functionCall.getColumn());
+                } else {
+                    current = new NodeFunctionCall(current, null, functionCall.getArguments(), functionCall.getLine(), functionCall.getColumn());
+                }
             }
         }
         return current;

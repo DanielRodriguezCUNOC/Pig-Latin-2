@@ -15,6 +15,8 @@ import com.piglatin.piglatin.application.services.PigLatinCompiler;
 import com.piglatin.piglatin.application.services.PigLatinSemanticAnalyzer;
 import com.piglatin.piglatin.application.services.PigLatinTreeMapperService;
 import com.piglatin.piglatin.infrastructure.parser.PigLatinServiceAnalyzer;
+import com.piglatin.y.application.services.YCompiler;
+import com.piglatin.zetariano.application.services.ZetarianoCompiler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +52,16 @@ public class ApplicationConfig {
                 );
 
         /*
+         * Y compiler
+         */
+        YCompiler yCompiler = new YCompiler();
+
+        /*
+         * Zetariano compiler
+         */
+        ZetarianoCompiler zetarianoCompiler = new ZetarianoCompiler();
+
+        /*
          * Register language compilers
          */
         Map<LanguageType, CompilerUseCase> compilers =
@@ -58,6 +70,14 @@ public class ApplicationConfig {
         compilers.put(
                 LanguageType.PIGLATIN,
                 pigLatinCompiler
+        );
+        compilers.put(
+                LanguageType.Y,
+                yCompiler
+        );
+        compilers.put(
+                LanguageType.ZETARIANO,
+                zetarianoCompiler
         );
 
         /*

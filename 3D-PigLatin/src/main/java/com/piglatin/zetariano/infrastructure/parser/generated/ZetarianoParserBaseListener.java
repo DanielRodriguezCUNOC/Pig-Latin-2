@@ -29,25 +29,61 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClass_declaration(ZetarianoParser.Class_declarationContext ctx) { }
+	@Override public void enterClassDefinition(ZetarianoParser.ClassDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClass_declaration(ZetarianoParser.Class_declarationContext ctx) { }
+	@Override public void exitClassDefinition(ZetarianoParser.ClassDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClass_body(ZetarianoParser.Class_bodyContext ctx) { }
+	@Override public void enterGlobalDeclarations(ZetarianoParser.GlobalDeclarationsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClass_body(ZetarianoParser.Class_bodyContext ctx) { }
+	@Override public void exitGlobalDeclarations(ZetarianoParser.GlobalDeclarationsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGlobalField(ZetarianoParser.GlobalFieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGlobalField(ZetarianoParser.GlobalFieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGlobalMethod(ZetarianoParser.GlobalMethodContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGlobalMethod(ZetarianoParser.GlobalMethodContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGlobalConstructor(ZetarianoParser.GlobalConstructorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGlobalConstructor(ZetarianoParser.GlobalConstructorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -65,18 +101,6 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConstructorDeclaration(ZetarianoParser.ConstructorDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitConstructorDeclaration(ZetarianoParser.ConstructorDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterMethodDeclaration(ZetarianoParser.MethodDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -89,13 +113,25 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParameter_list(ZetarianoParser.Parameter_listContext ctx) { }
+	@Override public void enterConstructorDeclaration(ZetarianoParser.ConstructorDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParameter_list(ZetarianoParser.Parameter_listContext ctx) { }
+	@Override public void exitConstructorDeclaration(ZetarianoParser.ConstructorDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParameterList(ZetarianoParser.ParameterListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParameterList(ZetarianoParser.ParameterListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -113,78 +149,6 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypeInt(ZetarianoParser.TypeIntContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeInt(ZetarianoParser.TypeIntContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeDouble(ZetarianoParser.TypeDoubleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeDouble(ZetarianoParser.TypeDoubleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeChar(ZetarianoParser.TypeCharContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeChar(ZetarianoParser.TypeCharContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeBoolean(ZetarianoParser.TypeBooleanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeBoolean(ZetarianoParser.TypeBooleanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeString(ZetarianoParser.TypeStringContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeString(ZetarianoParser.TypeStringContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTypeId(ZetarianoParser.TypeIdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTypeId(ZetarianoParser.TypeIdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterBlock(ZetarianoParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -197,229 +161,181 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementVariableDeclaration(ZetarianoParser.StatementVariableDeclarationContext ctx) { }
+	@Override public void enterMainInstructions(ZetarianoParser.MainInstructionsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementVariableDeclaration(ZetarianoParser.StatementVariableDeclarationContext ctx) { }
+	@Override public void exitMainInstructions(ZetarianoParser.MainInstructionsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementAssignment(ZetarianoParser.StatementAssignmentContext ctx) { }
+	@Override public void enterInstructionAssignment(ZetarianoParser.InstructionAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementAssignment(ZetarianoParser.StatementAssignmentContext ctx) { }
+	@Override public void exitInstructionAssignment(ZetarianoParser.InstructionAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementIf(ZetarianoParser.StatementIfContext ctx) { }
+	@Override public void enterInstructionRead(ZetarianoParser.InstructionReadContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementIf(ZetarianoParser.StatementIfContext ctx) { }
+	@Override public void exitInstructionRead(ZetarianoParser.InstructionReadContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementSwitch(ZetarianoParser.StatementSwitchContext ctx) { }
+	@Override public void enterInstructionPrint(ZetarianoParser.InstructionPrintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementSwitch(ZetarianoParser.StatementSwitchContext ctx) { }
+	@Override public void exitInstructionPrint(ZetarianoParser.InstructionPrintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementFor(ZetarianoParser.StatementForContext ctx) { }
+	@Override public void enterInstructionIf(ZetarianoParser.InstructionIfContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementFor(ZetarianoParser.StatementForContext ctx) { }
+	@Override public void exitInstructionIf(ZetarianoParser.InstructionIfContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementWhile(ZetarianoParser.StatementWhileContext ctx) { }
+	@Override public void enterInstructionSwitch(ZetarianoParser.InstructionSwitchContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementWhile(ZetarianoParser.StatementWhileContext ctx) { }
+	@Override public void exitInstructionSwitch(ZetarianoParser.InstructionSwitchContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementDoWhile(ZetarianoParser.StatementDoWhileContext ctx) { }
+	@Override public void enterInstructionWhile(ZetarianoParser.InstructionWhileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementDoWhile(ZetarianoParser.StatementDoWhileContext ctx) { }
+	@Override public void exitInstructionWhile(ZetarianoParser.InstructionWhileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementReturn(ZetarianoParser.StatementReturnContext ctx) { }
+	@Override public void enterInstructionDoWhile(ZetarianoParser.InstructionDoWhileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementReturn(ZetarianoParser.StatementReturnContext ctx) { }
+	@Override public void exitInstructionDoWhile(ZetarianoParser.InstructionDoWhileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementBreak(ZetarianoParser.StatementBreakContext ctx) { }
+	@Override public void enterInstructionFor(ZetarianoParser.InstructionForContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementBreak(ZetarianoParser.StatementBreakContext ctx) { }
+	@Override public void exitInstructionFor(ZetarianoParser.InstructionForContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementContinue(ZetarianoParser.StatementContinueContext ctx) { }
+	@Override public void enterInstructionJump(ZetarianoParser.InstructionJumpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementContinue(ZetarianoParser.StatementContinueContext ctx) { }
+	@Override public void exitInstructionJump(ZetarianoParser.InstructionJumpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementPrint(ZetarianoParser.StatementPrintContext ctx) { }
+	@Override public void enterInstructionDeclaration(ZetarianoParser.InstructionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementPrint(ZetarianoParser.StatementPrintContext ctx) { }
+	@Override public void exitInstructionDeclaration(ZetarianoParser.InstructionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementRead(ZetarianoParser.StatementReadContext ctx) { }
+	@Override public void enterInstructionArrayDeclaration(ZetarianoParser.InstructionArrayDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementRead(ZetarianoParser.StatementReadContext ctx) { }
+	@Override public void exitInstructionArrayDeclaration(ZetarianoParser.InstructionArrayDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementObjectCreation(ZetarianoParser.StatementObjectCreationContext ctx) { }
+	@Override public void enterInstructionExpression(ZetarianoParser.InstructionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementObjectCreation(ZetarianoParser.StatementObjectCreationContext ctx) { }
+	@Override public void exitInstructionExpression(ZetarianoParser.InstructionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementExpression(ZetarianoParser.StatementExpressionContext ctx) { }
+	@Override public void enterVariableDeclaration(ZetarianoParser.VariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementExpression(ZetarianoParser.StatementExpressionContext ctx) { }
+	@Override public void exitVariableDeclaration(ZetarianoParser.VariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementEmpty(ZetarianoParser.StatementEmptyContext ctx) { }
+	@Override public void enterArrayDeclaration(ZetarianoParser.ArrayDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementEmpty(ZetarianoParser.StatementEmptyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVariableDeclarationSimple(ZetarianoParser.VariableDeclarationSimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariableDeclarationSimple(ZetarianoParser.VariableDeclarationSimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVariableDeclarationArray(ZetarianoParser.VariableDeclarationArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariableDeclarationArray(ZetarianoParser.VariableDeclarationArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVariableDeclarationMatrix(ZetarianoParser.VariableDeclarationMatrixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariableDeclarationMatrix(ZetarianoParser.VariableDeclarationMatrixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVariableDeclarationObject(ZetarianoParser.VariableDeclarationObjectContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariableDeclarationObject(ZetarianoParser.VariableDeclarationObjectContext ctx) { }
+	@Override public void exitArrayDeclaration(ZetarianoParser.ArrayDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -437,145 +353,37 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayInitializerNew(ZetarianoParser.ArrayInitializerNewContext ctx) { }
+	@Override public void enterAssignment(ZetarianoParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArrayInitializerNew(ZetarianoParser.ArrayInitializerNewContext ctx) { }
+	@Override public void exitAssignment(ZetarianoParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayInitializerMatrix(ZetarianoParser.ArrayInitializerMatrixContext ctx) { }
+	@Override public void enterReadStatement(ZetarianoParser.ReadStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArrayInitializerMatrix(ZetarianoParser.ArrayInitializerMatrixContext ctx) { }
+	@Override public void exitReadStatement(ZetarianoParser.ReadStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterObjectCreation(ZetarianoParser.ObjectCreationContext ctx) { }
+	@Override public void enterPrintStatement(ZetarianoParser.PrintStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitObjectCreation(ZetarianoParser.ObjectCreationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentSimple(ZetarianoParser.AssignmentSimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentSimple(ZetarianoParser.AssignmentSimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentPlus(ZetarianoParser.AssignmentPlusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentPlus(ZetarianoParser.AssignmentPlusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentMinus(ZetarianoParser.AssignmentMinusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentMinus(ZetarianoParser.AssignmentMinusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentMult(ZetarianoParser.AssignmentMultContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentMult(ZetarianoParser.AssignmentMultContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentSplit(ZetarianoParser.AssignmentSplitContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentSplit(ZetarianoParser.AssignmentSplitContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentIncrement(ZetarianoParser.AssignmentIncrementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentIncrement(ZetarianoParser.AssignmentIncrementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentDecrement(ZetarianoParser.AssignmentDecrementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentDecrement(ZetarianoParser.AssignmentDecrementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArrayAccess(ZetarianoParser.ArrayAccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArrayAccess(ZetarianoParser.ArrayAccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStructAccess(ZetarianoParser.StructAccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStructAccess(ZetarianoParser.StructAccessContext ctx) { }
+	@Override public void exitPrintStatement(ZetarianoParser.PrintStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -605,114 +413,6 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCaseStatement(ZetarianoParser.CaseStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCaseStatement(ZetarianoParser.CaseStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefaultStatement(ZetarianoParser.DefaultStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefaultStatement(ZetarianoParser.DefaultStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForStatement(ZetarianoParser.ForStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForStatement(ZetarianoParser.ForStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForInitVariable(ZetarianoParser.ForInitVariableContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForInitVariable(ZetarianoParser.ForInitVariableContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForInitAssignment(ZetarianoParser.ForInitAssignmentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForInitAssignment(ZetarianoParser.ForInitAssignmentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForInitEmpty(ZetarianoParser.ForInitEmptyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForInitEmpty(ZetarianoParser.ForInitEmptyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForCondition(ZetarianoParser.ForConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForCondition(ZetarianoParser.ForConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForUpdateAssignment(ZetarianoParser.ForUpdateAssignmentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForUpdateAssignment(ZetarianoParser.ForUpdateAssignmentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForUpdateExpression(ZetarianoParser.ForUpdateExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForUpdateExpression(ZetarianoParser.ForUpdateExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterWhileStatement(ZetarianoParser.WhileStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -737,73 +437,73 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnStatement(ZetarianoParser.ReturnStatementContext ctx) { }
+	@Override public void enterForStatement(ZetarianoParser.ForStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnStatement(ZetarianoParser.ReturnStatementContext ctx) { }
+	@Override public void exitForStatement(ZetarianoParser.ForStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBreakStatement(ZetarianoParser.BreakStatementContext ctx) { }
+	@Override public void enterJumpBreak(ZetarianoParser.JumpBreakContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBreakStatement(ZetarianoParser.BreakStatementContext ctx) { }
+	@Override public void exitJumpBreak(ZetarianoParser.JumpBreakContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterContinueStatement(ZetarianoParser.ContinueStatementContext ctx) { }
+	@Override public void enterJumpContinue(ZetarianoParser.JumpContinueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitContinueStatement(ZetarianoParser.ContinueStatementContext ctx) { }
+	@Override public void exitJumpContinue(ZetarianoParser.JumpContinueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrintlnStatement(ZetarianoParser.PrintlnStatementContext ctx) { }
+	@Override public void enterJumpReturn(ZetarianoParser.JumpReturnContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrintlnStatement(ZetarianoParser.PrintlnStatementContext ctx) { }
+	@Override public void exitJumpReturn(ZetarianoParser.JumpReturnContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrintStatement(ZetarianoParser.PrintStatementContext ctx) { }
+	@Override public void enterLvalue(ZetarianoParser.LvalueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrintStatement(ZetarianoParser.PrintStatementContext ctx) { }
+	@Override public void exitLvalue(ZetarianoParser.LvalueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReadlnStatement(ZetarianoParser.ReadlnStatementContext ctx) { }
+	@Override public void enterType(ZetarianoParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReadlnStatement(ZetarianoParser.ReadlnStatementContext ctx) { }
+	@Override public void exitType(ZetarianoParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -816,6 +516,18 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExprPrimary(ZetarianoParser.ExprPrimaryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExprAnd(ZetarianoParser.ExprAndContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExprAnd(ZetarianoParser.ExprAndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -845,6 +557,18 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExprOr(ZetarianoParser.ExprOrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExprOr(ZetarianoParser.ExprOrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExprMultiplicative(ZetarianoParser.ExprMultiplicativeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -864,18 +588,6 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExprUnary(ZetarianoParser.ExprUnaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExprLogicalOr(ZetarianoParser.ExprLogicalOrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExprLogicalOr(ZetarianoParser.ExprLogicalOrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -917,289 +629,61 @@ public class ZetarianoParserBaseListener implements ZetarianoParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprLogicalAnd(ZetarianoParser.ExprLogicalAndContext ctx) { }
+	@Override public void enterPrimaryLiteral(ZetarianoParser.PrimaryLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprLogicalAnd(ZetarianoParser.ExprLogicalAndContext ctx) { }
+	@Override public void exitPrimaryLiteral(ZetarianoParser.PrimaryLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprPostfix(ZetarianoParser.ExprPostfixContext ctx) { }
+	@Override public void enterPrimaryNewObject(ZetarianoParser.PrimaryNewObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprPostfix(ZetarianoParser.ExprPostfixContext ctx) { }
+	@Override public void exitPrimaryNewObject(ZetarianoParser.PrimaryNewObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimaryInteger(ZetarianoParser.PrimaryIntegerContext ctx) { }
+	@Override public void enterPrimaryNewArray(ZetarianoParser.PrimaryNewArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimaryInteger(ZetarianoParser.PrimaryIntegerContext ctx) { }
+	@Override public void exitPrimaryNewArray(ZetarianoParser.PrimaryNewArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimaryDecimal(ZetarianoParser.PrimaryDecimalContext ctx) { }
+	@Override public void enterPrimaryLvalueOrCall(ZetarianoParser.PrimaryLvalueOrCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimaryDecimal(ZetarianoParser.PrimaryDecimalContext ctx) { }
+	@Override public void exitPrimaryLvalueOrCall(ZetarianoParser.PrimaryLvalueOrCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimaryString(ZetarianoParser.PrimaryStringContext ctx) { }
+	@Override public void enterLiteral(ZetarianoParser.LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimaryString(ZetarianoParser.PrimaryStringContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryChar(ZetarianoParser.PrimaryCharContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryChar(ZetarianoParser.PrimaryCharContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryTrue(ZetarianoParser.PrimaryTrueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryTrue(ZetarianoParser.PrimaryTrueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryFalse(ZetarianoParser.PrimaryFalseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryFalse(ZetarianoParser.PrimaryFalseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryNull(ZetarianoParser.PrimaryNullContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryNull(ZetarianoParser.PrimaryNullContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryArrayAccess(ZetarianoParser.PrimaryArrayAccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryArrayAccess(ZetarianoParser.PrimaryArrayAccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryStructAccess(ZetarianoParser.PrimaryStructAccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryStructAccess(ZetarianoParser.PrimaryStructAccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryMethodCall(ZetarianoParser.PrimaryMethodCallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryMethodCall(ZetarianoParser.PrimaryMethodCallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryId(ZetarianoParser.PrimaryIdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryId(ZetarianoParser.PrimaryIdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimaryObjectCreation(ZetarianoParser.PrimaryObjectCreationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimaryObjectCreation(ZetarianoParser.PrimaryObjectCreationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLogicalOr(ZetarianoParser.LogicalOrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogicalOr(ZetarianoParser.LogicalOrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLogicalAnd(ZetarianoParser.LogicalAndContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogicalAnd(ZetarianoParser.LogicalAndContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEqualityRelational(ZetarianoParser.EqualityRelationalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEqualityRelational(ZetarianoParser.EqualityRelationalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRelationalAdditive(ZetarianoParser.RelationalAdditiveContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRelationalAdditive(ZetarianoParser.RelationalAdditiveContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAdditiveMultiplicative(ZetarianoParser.AdditiveMultiplicativeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAdditiveMultiplicative(ZetarianoParser.AdditiveMultiplicativeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMultiplicativeUnary(ZetarianoParser.MultiplicativeUnaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMultiplicativeUnary(ZetarianoParser.MultiplicativeUnaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterUnaryPrefix(ZetarianoParser.UnaryPrefixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUnaryPrefix(ZetarianoParser.UnaryPrefixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterUnaryPostfix(ZetarianoParser.UnaryPostfixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUnaryPostfix(ZetarianoParser.UnaryPostfixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPostfixPrimary(ZetarianoParser.PostfixPrimaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPostfixPrimary(ZetarianoParser.PostfixPrimaryContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMethodCall(ZetarianoParser.MethodCallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMethodCall(ZetarianoParser.MethodCallContext ctx) { }
+	@Override public void exitLiteral(ZetarianoParser.LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

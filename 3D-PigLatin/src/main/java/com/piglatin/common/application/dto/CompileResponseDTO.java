@@ -18,7 +18,7 @@ public class CompileResponseDTO {
     private List<CompilationErrorDTO> errors;
     private GeneretedCodeDTO generatedCode;
     private String executionOutput;
-    private long compilationTimeMs; // mas fancy diria Moi XD
+    private long compilationTimeMs;
 
     public CompileResponseDTO(boolean success, List<CompilationErrorDTO> errors, GeneretedCodeDTO generatedCode, String executionOutput, long compilationTimeMs) {
         this.success = success;

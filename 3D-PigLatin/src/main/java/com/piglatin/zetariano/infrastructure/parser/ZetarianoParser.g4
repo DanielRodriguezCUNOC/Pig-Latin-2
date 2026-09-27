@@ -2,261 +2,165 @@ parser grammar ZetarianoParser;
 
 options { tokenVocab = ZetarianoLexer; }
 
-// Entry point
 program
-    :   class_declaration EOF
+    : classDefinition EOF
     ;
 
-// Class declaration
-class_declaration
-    :   PUBLIC CLASS ID LEFT_BRACE class_body RIGHT_BRACE
+classDefinition
+    : PUBLIC? CLASS ID LEFT_BRACE globalDeclarations RIGHT_BRACE
     ;
 
-class_body
-    :   (field_declaration | constructor_declaration | method_declaration)*
+globalDeclarations
+    : globalDeclaration*
     ;
 
-// Field declaration
-field_declaration
-    :   type ID SEMICOLON                                   #FieldDeclaration
+globalDeclaration
+    : fieldDeclaration                                              #GlobalField
+    | methodDeclaration                                             #GlobalMethod
+    | constructorDeclaration                                        #GlobalConstructor
     ;
 
-// Constructor declaration
-constructor_declaration
-    :   PUBLIC ID LEFT_PAREN parameter_list? RIGHT_PAREN LEFT_BRACE block RIGHT_BRACE      #ConstructorDeclaration
+fieldDeclaration
+    : type (LEFT_BRACKET RIGHT_BRACKET)* ID (ASSIGN (expression | arrayInitializer))? SEMICOLON
     ;
 
-// Method declaration
-method_declaration
-    :   PUBLIC (VOID | type) ID LEFT_PAREN parameter_list? RIGHT_PAREN LEFT_BRACE block RIGHT_BRACE     #MethodDeclaration
+methodDeclaration
+    : PUBLIC? (type | VOID) ID LEFT_PAREN parameterList? RIGHT_PAREN block
     ;
 
-// Parameter list
-parameter_list
-    :   parameter (COMMA parameter)*
+constructorDeclaration
+    : PUBLIC? ID LEFT_PAREN parameterList? RIGHT_PAREN block
+    ;
+
+parameterList
+    : parameter (COMMA parameter)*
     ;
 
 parameter
-    :   type ID
+    : type ID
+    | type (LEFT_BRACKET RIGHT_BRACKET)* ID
     ;
 
-// Types
-type
-    :   INT                                                     #TypeInt
-    |   DOUBLE                                                  #TypeDouble
-    |   CHAR                                                    #TypeChar
-    |   BOOLEAN                                                 #TypeBoolean
-    |   STRING                                                  #TypeString
-    |   ID                                                      #TypeId
-    ;
-
-// Block: sequence of statements
 block
-    :   statement*
+    : LEFT_BRACE mainInstructions RIGHT_BRACE
+    | instruction
     ;
 
-// Statements
-statement
-    :   variable_declaration SEMICOLON                         #StatementVariableDeclaration
-    |   assignment SEMICOLON                                   #StatementAssignment
-    |   if_statement                                           #StatementIf
-    |   switch_statement                                       #StatementSwitch
-    |   for_statement                                          #StatementFor
-    |   while_statement                                        #StatementWhile
-    |   do_while_statement                                     #StatementDoWhile
-    |   return_statement SEMICOLON                             #StatementReturn
-    |   break_statement SEMICOLON                              #StatementBreak
-    |   continue_statement SEMICOLON                           #StatementContinue
-    |   print_statement SEMICOLON                              #StatementPrint
-    |   read_statement SEMICOLON                               #StatementRead
-    |   object_creation SEMICOLON                              #StatementObjectCreation
-    |   expression SEMICOLON                                   #StatementExpression
-    |   SEMICOLON                                              #StatementEmpty
+mainInstructions
+    : instruction*
     ;
 
-// Variable declaration
-variable_declaration
-    :   type ID (ASSIGN expression)?                           #VariableDeclarationSimple
-    |   type ID LEFT_CLASP (INTEGER)? RIGHT_CLASP (ASSIGN array_initializer)?      #VariableDeclarationArray
-    |   type ID LEFT_CLASP LEFT_CLASP RIGHT_CLASP RIGHT_CLASP (ASSIGN array_initializer)?  #VariableDeclarationMatrix
-    |   type ID ASSIGN object_creation                         #VariableDeclarationObject
+instruction
+    : assignment SEMICOLON                                          #InstructionAssignment
+    | readStatement SEMICOLON                                       #InstructionRead
+    | printStatement SEMICOLON                                      #InstructionPrint
+    | ifStatement                                                   #InstructionIf
+    | switchStatement                                               #InstructionSwitch
+    | whileStatement                                                #InstructionWhile
+    | doWhileStatement SEMICOLON                                    #InstructionDoWhile
+    | forStatement                                                  #InstructionFor
+    | jumpStatement SEMICOLON                                       #InstructionJump
+    | variableDeclaration SEMICOLON                                 #InstructionDeclaration
+    | arrayDeclaration SEMICOLON                                    #InstructionArrayDeclaration
+    | expression SEMICOLON                                          #InstructionExpression
     ;
 
-// Array initializer
-array_initializer
-    :   LEFT_BRACE expression (COMMA expression)* RIGHT_BRACE      #ArrayInitializer
-    |   NEW type LEFT_CLASP INTEGER RIGHT_CLASP                    #ArrayInitializerNew
-    |   NEW type LEFT_CLASP LEFT_CLASP RIGHT_CLASP RIGHT_CLASP     #ArrayInitializerMatrix
+variableDeclaration
+    : type ID (ASSIGN expression)?
     ;
 
-// Object creation
-object_creation
-    :   NEW ID LEFT_PAREN argument_list? RIGHT_PAREN           #ObjectCreation
+arrayDeclaration
+    : type (LEFT_BRACKET RIGHT_BRACKET)+ ID (ASSIGN (expression | arrayInitializer))?
     ;
 
-// Assignment
+arrayInitializer
+    : LEFT_BRACE (expression | arrayInitializer) (COMMA (expression | arrayInitializer))* RIGHT_BRACE
+    ;
+
 assignment
-    :   (ID | array_access | struct_access) ASSIGN expression          #AssignmentSimple
-    |   (ID | array_access | struct_access) PLUS_ASSIGN expression     #AssignmentPlus
-    |   (ID | array_access | struct_access) MINUS_ASSIGN expression    #AssignmentMinus
-    |   (ID | array_access | struct_access) MULT_ASSIGN expression     #AssignmentMult
-    |   (ID | array_access | struct_access) SPLIT_ASSIGN expression    #AssignmentSplit
-    |   (ID | array_access | struct_access) INCREMENT                   #AssignmentIncrement
-    |   (ID | array_access | struct_access) DECREMENT                   #AssignmentDecrement
+    : lvalue (ASSIGN | ADD_ASSIGN | SUB_ASSIGN | MULT_ASSIGN) expression
+    | lvalue (INC | DEC)
     ;
 
-// Array access
-array_access
-    :   ID (LEFT_CLASP expression RIGHT_CLASP)+                #ArrayAccess
+readStatement
+    : READLN LEFT_PAREN RIGHT_PAREN
     ;
 
-// Struct/object access
-struct_access
-    :   ID (DOT ID)+                                          #StructAccess
+printStatement
+    : (PRINT | PRINTLN) LEFT_PAREN expression? RIGHT_PAREN
     ;
 
-// If statement
-if_statement
-    :   IF LEFT_PAREN expression RIGHT_PAREN statement (ELSE statement)?     #IfStatement
+ifStatement
+    : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?
     ;
 
-// Switch statement
-switch_statement
-    :   SWITCH LEFT_PAREN expression RIGHT_PAREN LEFT_BRACE (case_statement)* (default_statement)? RIGHT_BRACE      #SwitchStatement
+switchStatement
+    : SWITCH LEFT_PAREN expression RIGHT_PAREN LEFT_BRACE (CASE expression COLON mainInstructions)* (DEFAULT COLON mainInstructions)? RIGHT_BRACE
     ;
 
-case_statement
-    :   CASE (INTEGER | STRING_LITERAL | CHAR_LITERAL | ID) COLON block (BREAK SEMICOLON)?       #CaseStatement
+whileStatement
+    : WHILE LEFT_PAREN expression RIGHT_PAREN block
     ;
 
-default_statement
-    :   DEFAULT COLON block (BREAK SEMICOLON)?                #DefaultStatement
+doWhileStatement
+    : DO block WHILE LEFT_PAREN expression RIGHT_PAREN
     ;
 
-// For statement
-for_statement
-    :   FOR LEFT_PAREN for_initialization SEMICOLON for_condition? SEMICOLON for_update? RIGHT_PAREN statement     #ForStatement
+forStatement
+    : FOR LEFT_PAREN (variableDeclaration | assignment)? SEMICOLON expression? SEMICOLON (assignment | expression)? RIGHT_PAREN block
     ;
 
-for_initialization
-    :   variable_declaration                                   #ForInitVariable
-    |   assignment                                             #ForInitAssignment
-    |                                                          #ForInitEmpty
+jumpStatement
+    : BREAK                                                         #JumpBreak
+    | CONTINUE                                                      #JumpContinue
+    | RETURN expression?                                            #JumpReturn
     ;
 
-for_condition
-    :   expression                                             #ForCondition
+lvalue
+    : ID
+    | lvalue DOT ID
+    | lvalue LEFT_BRACKET expression RIGHT_BRACKET
     ;
 
-for_update
-    :   assignment                                             #ForUpdateAssignment
-    |   expression                                             #ForUpdateExpression
+type
+    : INT
+    | DOUBLE
+    | CHAR_TYPE
+    | BOOLEAN
+    | STRING_TYPE
+    | ID // For class types
     ;
 
-// While statement
-while_statement
-    :   WHILE LEFT_PAREN expression RIGHT_PAREN statement      #WhileStatement
-    ;
-
-// Do-while statement
-do_while_statement
-    :   DO statement WHILE LEFT_PAREN expression RIGHT_PAREN SEMICOLON     #DoWhileStatement
-    ;
-
-// Return statement
-return_statement
-    :   RETURN expression?                                    #ReturnStatement
-    ;
-
-// Break statement
-break_statement
-    :   BREAK                                                #BreakStatement
-    ;
-
-// Continue statement
-continue_statement
-    :   CONTINUE                                             #ContinueStatement
-    ;
-
-// Print statements
-print_statement
-    :   PRINTLN LEFT_PAREN expression? RIGHT_PAREN           #PrintlnStatement
-    |   PRINT LEFT_PAREN expression? RIGHT_PAREN             #PrintStatement
-    ;
-
-// Read statement
-read_statement
-    :   READLN LEFT_PAREN RIGHT_PAREN                        #ReadlnStatement
-    ;
-
-// Expressions: Ordered low to high precedence
-// Expressions: Ordenadas explícitamente de mayor a menor precedencia
 expression
-    :   LEFT_PAREN expression RIGHT_PAREN                       #ExprParen
-    |   primary                                                 #ExprPrimary
-    |   expression (INCREMENT | DECREMENT)                      #ExprPostfix
-    |   (NOT | PLUS | MINUS | INCREMENT | DECREMENT) expression #ExprUnary
-    |   expression (MULT | SPLIT | MODULO) expression           #ExprMultiplicative
-    |   expression (PLUS | MINUS) expression                    #ExprAdditive
-    |   expression (MAJOR | MINOR | MAJORTO | MINORTO) expression #ExprRelational
-    |   expression (IDENTIC | DIFF) expression                  #ExprEquality
-    |   expression AND expression                               #ExprLogicalAnd
-    |   expression OR expression                                #ExprLogicalOr
-    |   expression QUESTION expression COLON expression         #ExprTernary
+    : LEFT_PAREN expression RIGHT_PAREN                             #ExprParen
+    | (PLUS | MINUS | NOT | INC | DEC) expression                   #ExprUnary
+    | expression (MULT | DIV | MOD) expression                      #ExprMultiplicative
+    | expression (PLUS | MINUS) expression                          #ExprAdditive
+    | expression (LESS | GREATER | LESSEQUAL | GREATEREQUAL) expression #ExprRelational
+    | expression (EQUAL | NOTEQUAL) expression                      #ExprEquality
+    | expression AND expression                                     #ExprAnd
+    | expression OR expression                                      #ExprOr
+    | expression QUESTION expression COLON expression               #ExprTernary
+    | primary                                                       #ExprPrimary
     ;
 
 primary
-    :   INTEGER                                              #PrimaryInteger
-    |   DECIMAL                                              #PrimaryDecimal
-    |   STRING_LITERAL                                       #PrimaryString
-    |   CHAR_LITERAL                                         #PrimaryChar
-    |   TRUE                                                 #PrimaryTrue
-    |   FALSE                                                #PrimaryFalse
-    |   NULL                                                 #PrimaryNull
-    |   array_access                                         #PrimaryArrayAccess
-    |   struct_access                                        #PrimaryStructAccess
-    |   method_call                                          #PrimaryMethodCall
-    |   ID                                                   #PrimaryId
-    |   object_creation                                      #PrimaryObjectCreation
+    : literal                                                       #PrimaryLiteral
+    | NEW ID LEFT_PAREN argumentList? RIGHT_PAREN                  #PrimaryNewObject
+    | NEW type (LEFT_BRACKET expression RIGHT_BRACKET)+            #PrimaryNewArray
+    | lvalue (LEFT_PAREN argumentList? RIGHT_PAREN)?               #PrimaryLvalueOrCall
     ;
 
-logical_or
-    :   logical_and (OR logical_and)*                        #LogicalOr
+literal
+    : INTEGER
+    | DECIMAL
+    | CHAR
+    | STRING
+    | TRUE
+    | FALSE
+    | NULL
     ;
 
-logical_and
-    :   equality (AND equality)*                             #LogicalAnd
-    ;
-
-equality
-    :   relational (IDENTIC relational | DIFF relational)*  #EqualityRelational
-    ;
-
-relational
-    :   additive (MAJOR additive | MINOR additive | MAJORTO additive | MINORTO additive)*   #RelationalAdditive
-    ;
-
-additive
-    :   multiplicative ((PLUS | MINUS) multiplicative)*     #AdditiveMultiplicative
-    ;
-
-multiplicative
-    :   unary ((MULT | SPLIT | MODULO) unary)*              #MultiplicativeUnary
-    ;
-
-unary
-    :   (NOT | PLUS | MINUS | INCREMENT | DECREMENT) unary   #UnaryPrefix
-    |   postfix                                              #UnaryPostfix
-    ;
-
-postfix
-    :   primary (INCREMENT | DECREMENT)?                    #PostfixPrimary
-    ;
-
-method_call
-    :   ID LEFT_PAREN argument_list? RIGHT_PAREN            #MethodCall
-    ;
-
-argument_list
-    :   expression (COMMA expression)*                      #ArgumentList
+argumentList
+    : expression (COMMA expression)*
     ;

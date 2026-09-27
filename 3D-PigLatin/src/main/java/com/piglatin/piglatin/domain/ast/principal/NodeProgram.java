@@ -33,12 +33,13 @@ public class NodeProgram extends ASTNode{
     }
 
     public NodeProgram(List<NodeDeclaration> globalDeclarations,
-                       List<ASTNode> functionDefinitions,
                        List<ASTNode> mainInstructions,
+                       List<NodeImport> imports,
                        int line, int column) {
         super(line, column);
         this.globalDeclarations = globalDeclarations != null ? globalDeclarations : new ArrayList<>();
         this.mainInstructions = mainInstructions != null ? mainInstructions : new ArrayList<>();
+        this.imports = imports != null ? imports : new ArrayList<>();
     }
 
    public void addGlobalDeclaration(NodeDeclaration declaration) {
@@ -48,6 +49,10 @@ public class NodeProgram extends ASTNode{
    public void addMainInstruction(ASTNode instruction) {
         if(instruction != null) this.mainInstructions.add(instruction);
    }
+
+   public void addImport(NodeImport importNode) {
+        if(importNode != null) this.imports.add(importNode);
+    }
 
     @Override
     public String toString() {

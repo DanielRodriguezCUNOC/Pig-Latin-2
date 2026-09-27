@@ -1,5 +1,7 @@
 package com.piglatin.piglatin.domain.cfg;
 
+import com.piglatin.common.domain.cfg.BasicBlock;
+import com.piglatin.common.domain.cfg.ControlFlowGraph;
 import com.piglatin.piglatin.domain.ast.nodes.declaration.*;
 import com.piglatin.piglatin.domain.ast.nodes.expression.*;
 import com.piglatin.piglatin.domain.ast.nodes.instruction.*;
@@ -21,21 +23,21 @@ import java.util.Deque;
 public class CFGBuilder implements Visitor<Void> {
 
     private int blockCounter = 0;
-    private BasicBlock currentBlock;
-    private ControlFlowGraph graph;
+    private BasicBlock<ASTNode> currentBlock;
+    private ControlFlowGraph<ASTNode> graph;
 
     //* Stacks to manage break and continue jumps inside loops
-    private final Deque<BasicBlock> loopHeaderStack = new ArrayDeque<>();
-    private final Deque<BasicBlock> loopExitStack = new ArrayDeque<>();
+    private final Deque<BasicBlock<ASTNode>> loopHeaderStack = new ArrayDeque<>();
+    private final Deque<BasicBlock<ASTNode>> loopExitStack = new ArrayDeque<>();
 
-    public ControlFlowGraph build(NodeProgram program) {
-        BasicBlock entry = createBlock();
+    public ControlFlowGraph<ASTNode> build(NodeProgram program) {
+        BasicBlock<ASTNode> entry = createBlock();
         entry.setEntry(true);
 
-        BasicBlock exit = createBlock();
+        BasicBlock<ASTNode> exit = createBlock();
         exit.setExit(true);
 
-        this.graph = new ControlFlowGraph(entry, exit);
+        this.graph = new ControlFlowGraph<>(entry, exit);
         this.currentBlock = entry;
 
         program.accept(this);
@@ -48,8 +50,8 @@ public class CFGBuilder implements Visitor<Void> {
         return this.graph;
     }
 
-    private BasicBlock createBlock() {
-        BasicBlock block = new BasicBlock(blockCounter++);
+    private BasicBlock<ASTNode> createBlock() {
+        BasicBlock<ASTNode> block = new BasicBlock<>(blockCounter++);
         if (graph != null) {
             graph.addBlock(block);
         }
@@ -87,10 +89,10 @@ public class CFGBuilder implements Visitor<Void> {
     public Void visitIf(NodeIf n) {
         // Evaluate condition in current block
         currentBlock.addInstruction(n.getCondition());
-        BasicBlock conditionBlock = currentBlock;
+        BasicBlock<ASTNode> conditionBlock = currentBlock;
 
-        BasicBlock thenBlock = createBlock();
-        BasicBlock nextBlock = createBlock();
+        BasicBlock<ASTNode> thenBlock = createBlock();
+        BasicBlock<ASTNode> nextBlock = createBlock();
 
         //* Path for condition == true
         conditionBlock.addSuccessor(thenBlock);
@@ -104,7 +106,7 @@ public class CFGBuilder implements Visitor<Void> {
 
         // Path for condition == false
         if (n.getElseBlock() != null) {
-            BasicBlock elseBlock = createBlock();
+            BasicBlock<ASTNode> elseBlock = createBlock();
             conditionBlock.addSuccessor(elseBlock);
             currentBlock = elseBlock;
             n.getElseBlock().accept(this);
@@ -122,9 +124,9 @@ public class CFGBuilder implements Visitor<Void> {
 
     @Override
     public Void visitWhile(NodeWhile n) {
-        BasicBlock headerBlock = createBlock();
-        BasicBlock bodyBlock = createBlock();
-        BasicBlock exitBlock = createBlock();
+        BasicBlock<ASTNode> headerBlock = createBlock();
+        BasicBlock<ASTNode> bodyBlock = createBlock();
+        BasicBlock<ASTNode> exitBlock = createBlock();
 
         //* Jump into loop header
         currentBlock.addSuccessor(headerBlock);
@@ -160,9 +162,9 @@ public class CFGBuilder implements Visitor<Void> {
 
     @Override
     public Void visitDoWhile(NodeDoWhile n) {
-        BasicBlock bodyBlock = createBlock();
-        BasicBlock conditionBlock = createBlock();
-        BasicBlock exitBlock = createBlock();
+        BasicBlock<ASTNode> bodyBlock = createBlock();
+        BasicBlock<ASTNode> conditionBlock = createBlock();
+        BasicBlock<ASTNode> exitBlock = createBlock();
 
         currentBlock.addSuccessor(bodyBlock);
 
@@ -200,10 +202,10 @@ public class CFGBuilder implements Visitor<Void> {
             currentBlock.addInstruction(n.getInitialization());
         }
 
-        BasicBlock conditionBlock = createBlock();
-        BasicBlock bodyBlock = createBlock();
-        BasicBlock updateBlock = createBlock();
-        BasicBlock exitBlock = createBlock();
+        BasicBlock<ASTNode> conditionBlock = createBlock();
+        BasicBlock<ASTNode> bodyBlock = createBlock();
+        BasicBlock<ASTNode> updateBlock = createBlock();
+        BasicBlock<ASTNode> exitBlock = createBlock();
 
         currentBlock.addSuccessor(conditionBlock);
 

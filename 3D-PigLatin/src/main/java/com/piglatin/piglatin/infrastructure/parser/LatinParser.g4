@@ -7,7 +7,7 @@ program
     : importList?
       (VARIABILES_INIT globalDeclarations)?
       MAIOR_INIT mainInstructions
-      FINIS_EOF SEMICOLON? EOF
+      (FINIS_EOF | FINIS) SEMICOLON? EOF
     ;
 
 importList
@@ -15,7 +15,7 @@ importList
     ;
 
 importStatement
-    : IMPORT ID (DOT ID)* SEMICOLON
+    : IMPORT ID (DOT ID)* SEMICOLON?
     ;
 
 globalDeclarations
@@ -47,7 +47,7 @@ instruction
 
 // Variable Declaration
 declaration
-    : ESTO ID COLON type (expression)? SEMICOLON?
+    : ESTO ID COLON (type (expression)? | expression) SEMICOLON?
     ;
 
 arrayDeclaration

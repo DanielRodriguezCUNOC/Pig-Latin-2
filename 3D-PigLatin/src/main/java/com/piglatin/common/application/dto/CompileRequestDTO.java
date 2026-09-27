@@ -18,6 +18,8 @@ public class CompileRequestDTO {
     private CompilationMode mode;
     private String projectRootPath;
     private List<ProjectNodeDTO> projectFiles;
+    private String projectDirectory;
+    private String currentFileName;
 
     public CompileRequestDTO() {
     }

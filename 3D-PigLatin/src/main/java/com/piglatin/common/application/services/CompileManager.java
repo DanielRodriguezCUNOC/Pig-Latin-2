@@ -8,6 +8,7 @@ import com.piglatin.common.application.ports.output.Logger;
 import com.piglatin.common.application.ports.output.ResultExporter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,15 +35,24 @@ public class CompileManager implements CompilerUseCase {
         CompilerUseCase compiler = resolveCompiler(request.getLanguageType());
         if (compiler == null) {
             logger.error("Compiler not found for the language: " + request.getLanguageType());
-            return buildErrorResponse (request, "Compiler not available for the language");
+            return buildErrorResponse(request, "Compiler not available for the language");
         }
+
         CompileResponseDTO responseDTO = compiler.compile(request);
 
         if (!responseDTO.isSuccess() || errorReporter.hasFatalErrors()) {
 
-            logger.warn("Compilation failed. Errors detected: " + errorReporter.getErrors().size());
+            List<CompilationErrorDTO> merged = new ArrayList<>();
+            if (responseDTO.getErrors() != null) {
+                merged.addAll(responseDTO.getErrors());
+            }
+            if (errorReporter.getErrors() != null) {
+                merged.addAll(errorReporter.getErrors());
+            }
+
+            logger.warn("Compilation failed. Errors detected: " + merged.size());
             responseDTO.setSuccess(false);
-            responseDTO.setErrors(errorReporter.getErrors());
+            responseDTO.setErrors(merged);
             responseDTO.setCompilationTimeMs(System.currentTimeMillis() - startTime);
             return responseDTO;
         }

@@ -16,9 +16,11 @@ import java.util.Set;
 public class TypeTable {
 
     private final Set<String> primitiveTypes;
+    private final Set<String> customTypes;
 
     public TypeTable() {
         this.primitiveTypes = new HashSet<>();
+        this.customTypes = new HashSet<>();
         preloadPrimitives();
     }
 
@@ -61,6 +63,12 @@ public class TypeTable {
     public String getArrayElementType(String arrayType) {
         if (arrayType == null || !arrayType.startsWith("SERIES_")) return null;
         return resolveType(arrayType.substring(7));
+    }
+
+    public void registerType(String typeName) {
+        if (typeName != null && !typeName.isEmpty()) {
+            customTypes.add(typeName);
+        }
     }
 
 }

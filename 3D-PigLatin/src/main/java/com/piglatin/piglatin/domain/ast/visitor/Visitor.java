@@ -1,6 +1,5 @@
 package com.piglatin.piglatin.domain.ast.visitor;
 
-import com.piglatin.piglatin.domain.ast.nodes.*;
 import com.piglatin.piglatin.domain.ast.nodes.NodeImport;
 import com.piglatin.piglatin.domain.ast.nodes.declaration.*;
 import com.piglatin.piglatin.domain.ast.nodes.lvalue.*;

@@ -17,71 +17,63 @@ public class ZetarianoParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		LINE_COMMENT=1, BLOCK_COMMENT=2, PLUS=3, MINUS=4, MULT=5, SPLIT=6, MODULO=7, 
-		ASSIGN=8, PLUS_ASSIGN=9, MINUS_ASSIGN=10, MULT_ASSIGN=11, SPLIT_ASSIGN=12, 
-		IDENTIC=13, DIFF=14, MAJORTO=15, MINORTO=16, MINOR=17, MAJOR=18, AND=19, 
-		OR=20, NOT=21, INCREMENT=22, DECREMENT=23, COLON=24, COMMA=25, DOT=26, 
-		SEMICOLON=27, QUESTION=28, LEFT_CLASP=29, RIGHT_CLASP=30, LEFT_BRACE=31, 
-		RIGHT_BRACE=32, LEFT_PAREN=33, RIGHT_PAREN=34, PUBLIC=35, CLASS=36, NEW=37, 
-		VOID=38, RETURN=39, IF=40, ELSE=41, SWITCH=42, CASE=43, DEFAULT=44, BREAK=45, 
-		CONTINUE=46, FOR=47, WHILE=48, DO=49, PRINTLN=50, PRINT=51, READLN=52, 
-		TRUE=53, FALSE=54, NULL=55, INT=56, DOUBLE=57, CHAR=58, BOOLEAN=59, STRING=60, 
-		ID=61, INTEGER=62, DECIMAL=63, STRING_LITERAL=64, CHAR_LITERAL=65, WS=66;
+		PUBLIC=1, CLASS=2, INT=3, DOUBLE=4, CHAR_TYPE=5, BOOLEAN=6, STRING_TYPE=7, 
+		VOID=8, NEW=9, NULL=10, IF=11, ELSE=12, SWITCH=13, CASE=14, DEFAULT=15, 
+		BREAK=16, CONTINUE=17, RETURN=18, FOR=19, WHILE=20, DO=21, PRINTLN=22, 
+		PRINT=23, READLN=24, TRUE=25, FALSE=26, PLUS=27, MINUS=28, MULT=29, DIV=30, 
+		MOD=31, INC=32, DEC=33, EQUAL=34, NOTEQUAL=35, LESS=36, GREATER=37, LESSEQUAL=38, 
+		GREATEREQUAL=39, AND=40, OR=41, NOT=42, ASSIGN=43, ADD_ASSIGN=44, SUB_ASSIGN=45, 
+		MULT_ASSIGN=46, QUESTION=47, COLON=48, SEMICOLON=49, COMMA=50, DOT=51, 
+		LEFT_PAREN=52, RIGHT_PAREN=53, LEFT_BRACE=54, RIGHT_BRACE=55, LEFT_BRACKET=56, 
+		RIGHT_BRACKET=57, INTEGER=58, DECIMAL=59, CHAR=60, STRING=61, ID=62, LINE_COMMENT=63, 
+		BLOCK_COMMENT=64, WS=65;
 	public static final int
-		RULE_program = 0, RULE_class_declaration = 1, RULE_class_body = 2, RULE_field_declaration = 3, 
-		RULE_constructor_declaration = 4, RULE_method_declaration = 5, RULE_parameter_list = 6, 
-		RULE_parameter = 7, RULE_type = 8, RULE_block = 9, RULE_statement = 10, 
-		RULE_variable_declaration = 11, RULE_array_initializer = 12, RULE_object_creation = 13, 
-		RULE_assignment = 14, RULE_array_access = 15, RULE_struct_access = 16, 
-		RULE_if_statement = 17, RULE_switch_statement = 18, RULE_case_statement = 19, 
-		RULE_default_statement = 20, RULE_for_statement = 21, RULE_for_initialization = 22, 
-		RULE_for_condition = 23, RULE_for_update = 24, RULE_while_statement = 25, 
-		RULE_do_while_statement = 26, RULE_return_statement = 27, RULE_break_statement = 28, 
-		RULE_continue_statement = 29, RULE_print_statement = 30, RULE_read_statement = 31, 
-		RULE_expression = 32, RULE_primary = 33, RULE_logical_or = 34, RULE_logical_and = 35, 
-		RULE_equality = 36, RULE_relational = 37, RULE_additive = 38, RULE_multiplicative = 39, 
-		RULE_unary = 40, RULE_postfix = 41, RULE_method_call = 42, RULE_argument_list = 43;
+		RULE_program = 0, RULE_classDefinition = 1, RULE_globalDeclarations = 2, 
+		RULE_globalDeclaration = 3, RULE_fieldDeclaration = 4, RULE_methodDeclaration = 5, 
+		RULE_constructorDeclaration = 6, RULE_parameterList = 7, RULE_parameter = 8, 
+		RULE_block = 9, RULE_mainInstructions = 10, RULE_instruction = 11, RULE_variableDeclaration = 12, 
+		RULE_arrayDeclaration = 13, RULE_arrayInitializer = 14, RULE_assignment = 15, 
+		RULE_readStatement = 16, RULE_printStatement = 17, RULE_ifStatement = 18, 
+		RULE_switchStatement = 19, RULE_whileStatement = 20, RULE_doWhileStatement = 21, 
+		RULE_forStatement = 22, RULE_jumpStatement = 23, RULE_lvalue = 24, RULE_type = 25, 
+		RULE_expression = 26, RULE_primary = 27, RULE_literal = 28, RULE_argumentList = 29;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "class_declaration", "class_body", "field_declaration", "constructor_declaration", 
-			"method_declaration", "parameter_list", "parameter", "type", "block", 
-			"statement", "variable_declaration", "array_initializer", "object_creation", 
-			"assignment", "array_access", "struct_access", "if_statement", "switch_statement", 
-			"case_statement", "default_statement", "for_statement", "for_initialization", 
-			"for_condition", "for_update", "while_statement", "do_while_statement", 
-			"return_statement", "break_statement", "continue_statement", "print_statement", 
-			"read_statement", "expression", "primary", "logical_or", "logical_and", 
-			"equality", "relational", "additive", "multiplicative", "unary", "postfix", 
-			"method_call", "argument_list"
+			"program", "classDefinition", "globalDeclarations", "globalDeclaration", 
+			"fieldDeclaration", "methodDeclaration", "constructorDeclaration", "parameterList", 
+			"parameter", "block", "mainInstructions", "instruction", "variableDeclaration", 
+			"arrayDeclaration", "arrayInitializer", "assignment", "readStatement", 
+			"printStatement", "ifStatement", "switchStatement", "whileStatement", 
+			"doWhileStatement", "forStatement", "jumpStatement", "lvalue", "type", 
+			"expression", "primary", "literal", "argumentList"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, null, "'+'", "'-'", "'*'", "'/'", "'%'", "'='", "'+='", "'-='", 
-			"'*='", "'/='", "'=='", "'!='", "'>='", "'<='", "'<'", "'>'", "'&&'", 
-			"'||'", "'!'", "'++'", "'--'", "':'", "','", "'.'", "';'", "'?'", "'['", 
-			"']'", "'{'", "'}'", "'('", "')'", "'public'", "'class'", "'new'", "'void'", 
-			"'return'", "'if'", "'else'", "'switch'", "'case'", "'default'", "'break'", 
-			"'continue'", "'for'", "'while'", "'do'", "'println'", "'print'", "'readln'", 
-			"'true'", "'false'", "'null'", "'int'", "'double'", "'char'", "'boolean'", 
-			"'String'"
+			null, "'public'", "'class'", "'int'", "'double'", "'char'", "'boolean'", 
+			"'String'", "'void'", "'new'", "'null'", "'if'", "'else'", "'switch'", 
+			"'case'", "'default'", "'break'", "'continue'", "'return'", "'for'", 
+			"'while'", "'do'", "'println'", "'print'", "'readln'", "'true'", "'false'", 
+			"'+'", "'-'", "'*'", "'/'", "'%'", "'++'", "'--'", "'=='", "'!='", "'<'", 
+			"'>'", "'<='", "'>='", "'&&'", "'||'", "'!'", "'='", "'+='", "'-='", 
+			"'*='", "'?'", "':'", "';'", "','", "'.'", "'('", "')'", "'{'", "'}'", 
+			"'['", "']'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "LINE_COMMENT", "BLOCK_COMMENT", "PLUS", "MINUS", "MULT", "SPLIT", 
-			"MODULO", "ASSIGN", "PLUS_ASSIGN", "MINUS_ASSIGN", "MULT_ASSIGN", "SPLIT_ASSIGN", 
-			"IDENTIC", "DIFF", "MAJORTO", "MINORTO", "MINOR", "MAJOR", "AND", "OR", 
-			"NOT", "INCREMENT", "DECREMENT", "COLON", "COMMA", "DOT", "SEMICOLON", 
-			"QUESTION", "LEFT_CLASP", "RIGHT_CLASP", "LEFT_BRACE", "RIGHT_BRACE", 
-			"LEFT_PAREN", "RIGHT_PAREN", "PUBLIC", "CLASS", "NEW", "VOID", "RETURN", 
-			"IF", "ELSE", "SWITCH", "CASE", "DEFAULT", "BREAK", "CONTINUE", "FOR", 
-			"WHILE", "DO", "PRINTLN", "PRINT", "READLN", "TRUE", "FALSE", "NULL", 
-			"INT", "DOUBLE", "CHAR", "BOOLEAN", "STRING", "ID", "INTEGER", "DECIMAL", 
-			"STRING_LITERAL", "CHAR_LITERAL", "WS"
+			null, "PUBLIC", "CLASS", "INT", "DOUBLE", "CHAR_TYPE", "BOOLEAN", "STRING_TYPE", 
+			"VOID", "NEW", "NULL", "IF", "ELSE", "SWITCH", "CASE", "DEFAULT", "BREAK", 
+			"CONTINUE", "RETURN", "FOR", "WHILE", "DO", "PRINTLN", "PRINT", "READLN", 
+			"TRUE", "FALSE", "PLUS", "MINUS", "MULT", "DIV", "MOD", "INC", "DEC", 
+			"EQUAL", "NOTEQUAL", "LESS", "GREATER", "LESSEQUAL", "GREATEREQUAL", 
+			"AND", "OR", "NOT", "ASSIGN", "ADD_ASSIGN", "SUB_ASSIGN", "MULT_ASSIGN", 
+			"QUESTION", "COLON", "SEMICOLON", "COMMA", "DOT", "LEFT_PAREN", "RIGHT_PAREN", 
+			"LEFT_BRACE", "RIGHT_BRACE", "LEFT_BRACKET", "RIGHT_BRACKET", "INTEGER", 
+			"DECIMAL", "CHAR", "STRING", "ID", "LINE_COMMENT", "BLOCK_COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -137,8 +129,8 @@ public class ZetarianoParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgramContext extends ParserRuleContext {
-		public Class_declarationContext class_declaration() {
-			return getRuleContext(Class_declarationContext.class,0);
+		public ClassDefinitionContext classDefinition() {
+			return getRuleContext(ClassDefinitionContext.class,0);
 		}
 		public TerminalNode EOF() { return getToken(ZetarianoParser.EOF, 0); }
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
@@ -166,9 +158,9 @@ public class ZetarianoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(88);
-			class_declaration();
-			setState(89);
+			setState(60);
+			classDefinition();
+			setState(61);
 			match(EOF);
 			}
 		}
@@ -184,51 +176,60 @@ public class ZetarianoParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Class_declarationContext extends ParserRuleContext {
-		public TerminalNode PUBLIC() { return getToken(ZetarianoParser.PUBLIC, 0); }
+	public static class ClassDefinitionContext extends ParserRuleContext {
 		public TerminalNode CLASS() { return getToken(ZetarianoParser.CLASS, 0); }
 		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
 		public TerminalNode LEFT_BRACE() { return getToken(ZetarianoParser.LEFT_BRACE, 0); }
-		public Class_bodyContext class_body() {
-			return getRuleContext(Class_bodyContext.class,0);
+		public GlobalDeclarationsContext globalDeclarations() {
+			return getRuleContext(GlobalDeclarationsContext.class,0);
 		}
 		public TerminalNode RIGHT_BRACE() { return getToken(ZetarianoParser.RIGHT_BRACE, 0); }
-		public Class_declarationContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode PUBLIC() { return getToken(ZetarianoParser.PUBLIC, 0); }
+		public ClassDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_class_declaration; }
+		@Override public int getRuleIndex() { return RULE_classDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterClass_declaration(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterClassDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitClass_declaration(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitClassDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitClass_declaration(this);
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitClassDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Class_declarationContext class_declaration() throws RecognitionException {
-		Class_declarationContext _localctx = new Class_declarationContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_class_declaration);
+	public final ClassDefinitionContext classDefinition() throws RecognitionException {
+		ClassDefinitionContext _localctx = new ClassDefinitionContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_classDefinition);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(91);
-			match(PUBLIC);
-			setState(92);
+			setState(64);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==PUBLIC) {
+				{
+				setState(63);
+				match(PUBLIC);
+				}
+			}
+
+			setState(66);
 			match(CLASS);
-			setState(93);
+			setState(67);
 			match(ID);
-			setState(94);
+			setState(68);
 			match(LEFT_BRACE);
-			setState(95);
-			class_body();
-			setState(96);
+			setState(69);
+			globalDeclarations();
+			setState(70);
 			match(RIGHT_BRACE);
 			}
 		}
@@ -244,80 +245,50 @@ public class ZetarianoParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Class_bodyContext extends ParserRuleContext {
-		public List<Field_declarationContext> field_declaration() {
-			return getRuleContexts(Field_declarationContext.class);
+	public static class GlobalDeclarationsContext extends ParserRuleContext {
+		public List<GlobalDeclarationContext> globalDeclaration() {
+			return getRuleContexts(GlobalDeclarationContext.class);
 		}
-		public Field_declarationContext field_declaration(int i) {
-			return getRuleContext(Field_declarationContext.class,i);
+		public GlobalDeclarationContext globalDeclaration(int i) {
+			return getRuleContext(GlobalDeclarationContext.class,i);
 		}
-		public List<Constructor_declarationContext> constructor_declaration() {
-			return getRuleContexts(Constructor_declarationContext.class);
-		}
-		public Constructor_declarationContext constructor_declaration(int i) {
-			return getRuleContext(Constructor_declarationContext.class,i);
-		}
-		public List<Method_declarationContext> method_declaration() {
-			return getRuleContexts(Method_declarationContext.class);
-		}
-		public Method_declarationContext method_declaration(int i) {
-			return getRuleContext(Method_declarationContext.class,i);
-		}
-		public Class_bodyContext(ParserRuleContext parent, int invokingState) {
+		public GlobalDeclarationsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_class_body; }
+		@Override public int getRuleIndex() { return RULE_globalDeclarations; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterClass_body(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterGlobalDeclarations(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitClass_body(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitGlobalDeclarations(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitClass_body(this);
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitGlobalDeclarations(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Class_bodyContext class_body() throws RecognitionException {
-		Class_bodyContext _localctx = new Class_bodyContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_class_body);
+	public final GlobalDeclarationsContext globalDeclarations() throws RecognitionException {
+		GlobalDeclarationsContext _localctx = new GlobalDeclarationsContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_globalDeclarations);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(103);
+			setState(75);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4539628458749198336L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4611686018427388410L) != 0)) {
 				{
-				setState(101);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
-				case 1:
-					{
-					setState(98);
-					field_declaration();
-					}
-					break;
-				case 2:
-					{
-					setState(99);
-					constructor_declaration();
-					}
-					break;
-				case 3:
-					{
-					setState(100);
-					method_declaration();
-					}
-					break;
+				{
+				setState(72);
+				globalDeclaration();
 				}
 				}
-				setState(105);
+				setState(77);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -335,25 +306,148 @@ public class ZetarianoParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Field_declarationContext extends ParserRuleContext {
-		public Field_declarationContext(ParserRuleContext parent, int invokingState) {
+	public static class GlobalDeclarationContext extends ParserRuleContext {
+		public GlobalDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_field_declaration; }
+		@Override public int getRuleIndex() { return RULE_globalDeclaration; }
 	 
-		public Field_declarationContext() { }
-		public void copyFrom(Field_declarationContext ctx) {
+		public GlobalDeclarationContext() { }
+		public void copyFrom(GlobalDeclarationContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class FieldDeclarationContext extends Field_declarationContext {
+	public static class GlobalConstructorContext extends GlobalDeclarationContext {
+		public ConstructorDeclarationContext constructorDeclaration() {
+			return getRuleContext(ConstructorDeclarationContext.class,0);
+		}
+		public GlobalConstructorContext(GlobalDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterGlobalConstructor(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitGlobalConstructor(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitGlobalConstructor(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class GlobalFieldContext extends GlobalDeclarationContext {
+		public FieldDeclarationContext fieldDeclaration() {
+			return getRuleContext(FieldDeclarationContext.class,0);
+		}
+		public GlobalFieldContext(GlobalDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterGlobalField(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitGlobalField(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitGlobalField(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class GlobalMethodContext extends GlobalDeclarationContext {
+		public MethodDeclarationContext methodDeclaration() {
+			return getRuleContext(MethodDeclarationContext.class,0);
+		}
+		public GlobalMethodContext(GlobalDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterGlobalMethod(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitGlobalMethod(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitGlobalMethod(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final GlobalDeclarationContext globalDeclaration() throws RecognitionException {
+		GlobalDeclarationContext _localctx = new GlobalDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_globalDeclaration);
+		try {
+			setState(81);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			case 1:
+				_localctx = new GlobalFieldContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(78);
+				fieldDeclaration();
+				}
+				break;
+			case 2:
+				_localctx = new GlobalMethodContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(79);
+				methodDeclaration();
+				}
+				break;
+			case 3:
+				_localctx = new GlobalConstructorContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(80);
+				constructorDeclaration();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class FieldDeclarationContext extends ParserRuleContext {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
 		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
 		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public FieldDeclarationContext(Field_declarationContext ctx) { copyFrom(ctx); }
+		public List<TerminalNode> LEFT_BRACKET() { return getTokens(ZetarianoParser.LEFT_BRACKET); }
+		public TerminalNode LEFT_BRACKET(int i) {
+			return getToken(ZetarianoParser.LEFT_BRACKET, i);
+		}
+		public List<TerminalNode> RIGHT_BRACKET() { return getTokens(ZetarianoParser.RIGHT_BRACKET); }
+		public TerminalNode RIGHT_BRACKET(int i) {
+			return getToken(ZetarianoParser.RIGHT_BRACKET, i);
+		}
+		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public ArrayInitializerContext arrayInitializer() {
+			return getRuleContext(ArrayInitializerContext.class,0);
+		}
+		public FieldDeclarationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_fieldDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterFieldDeclaration(this);
@@ -369,18 +463,76 @@ public class ZetarianoParser extends Parser {
 		}
 	}
 
-	public final Field_declarationContext field_declaration() throws RecognitionException {
-		Field_declarationContext _localctx = new Field_declarationContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_field_declaration);
+	public final FieldDeclarationContext fieldDeclaration() throws RecognitionException {
+		FieldDeclarationContext _localctx = new FieldDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_fieldDeclaration);
+		int _la;
 		try {
-			_localctx = new FieldDeclarationContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106);
+			setState(83);
 			type();
-			setState(107);
+			setState(88);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==LEFT_BRACKET) {
+				{
+				{
+				setState(84);
+				match(LEFT_BRACKET);
+				setState(85);
+				match(RIGHT_BRACKET);
+				}
+				}
+				setState(90);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(91);
 			match(ID);
-			setState(108);
+			setState(97);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==ASSIGN) {
+				{
+				setState(92);
+				match(ASSIGN);
+				setState(95);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case NEW:
+				case NULL:
+				case TRUE:
+				case FALSE:
+				case PLUS:
+				case MINUS:
+				case INC:
+				case DEC:
+				case NOT:
+				case LEFT_PAREN:
+				case INTEGER:
+				case DECIMAL:
+				case CHAR:
+				case STRING:
+				case ID:
+					{
+					setState(93);
+					expression(0);
+					}
+					break;
+				case LEFT_BRACE:
+					{
+					setState(94);
+					arrayInitializer();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+			}
+
+			setState(99);
 			match(SEMICOLON);
 			}
 		}
@@ -396,123 +548,25 @@ public class ZetarianoParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Constructor_declarationContext extends ParserRuleContext {
-		public Constructor_declarationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_constructor_declaration; }
-	 
-		public Constructor_declarationContext() { }
-		public void copyFrom(Constructor_declarationContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ConstructorDeclarationContext extends Constructor_declarationContext {
-		public TerminalNode PUBLIC() { return getToken(ZetarianoParser.PUBLIC, 0); }
+	public static class MethodDeclarationContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
 		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
 		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public TerminalNode LEFT_BRACE() { return getToken(ZetarianoParser.LEFT_BRACE, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
-		public TerminalNode RIGHT_BRACE() { return getToken(ZetarianoParser.RIGHT_BRACE, 0); }
-		public Parameter_listContext parameter_list() {
-			return getRuleContext(Parameter_listContext.class,0);
-		}
-		public ConstructorDeclarationContext(Constructor_declarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterConstructorDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitConstructorDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitConstructorDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Constructor_declarationContext constructor_declaration() throws RecognitionException {
-		Constructor_declarationContext _localctx = new Constructor_declarationContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_constructor_declaration);
-		int _la;
-		try {
-			_localctx = new ConstructorDeclarationContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(110);
-			match(PUBLIC);
-			setState(111);
-			match(ID);
-			setState(112);
-			match(LEFT_PAREN);
-			setState(114);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4539628424389459968L) != 0)) {
-				{
-				setState(113);
-				parameter_list();
-				}
-			}
-
-			setState(116);
-			match(RIGHT_PAREN);
-			setState(117);
-			match(LEFT_BRACE);
-			setState(118);
-			block();
-			setState(119);
-			match(RIGHT_BRACE);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Method_declarationContext extends ParserRuleContext {
-		public Method_declarationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_method_declaration; }
-	 
-		public Method_declarationContext() { }
-		public void copyFrom(Method_declarationContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class MethodDeclarationContext extends Method_declarationContext {
-		public TerminalNode PUBLIC() { return getToken(ZetarianoParser.PUBLIC, 0); }
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public TerminalNode LEFT_BRACE() { return getToken(ZetarianoParser.LEFT_BRACE, 0); }
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
-		}
-		public TerminalNode RIGHT_BRACE() { return getToken(ZetarianoParser.RIGHT_BRACE, 0); }
-		public TerminalNode VOID() { return getToken(ZetarianoParser.VOID, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public Parameter_listContext parameter_list() {
-			return getRuleContext(Parameter_listContext.class,0);
+		public TerminalNode VOID() { return getToken(ZetarianoParser.VOID, 0); }
+		public TerminalNode PUBLIC() { return getToken(ZetarianoParser.PUBLIC, 0); }
+		public ParameterListContext parameterList() {
+			return getRuleContext(ParameterListContext.class,0);
 		}
-		public MethodDeclarationContext(Method_declarationContext ctx) { copyFrom(ctx); }
+		public MethodDeclarationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_methodDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterMethodDeclaration(this);
@@ -528,61 +582,64 @@ public class ZetarianoParser extends Parser {
 		}
 	}
 
-	public final Method_declarationContext method_declaration() throws RecognitionException {
-		Method_declarationContext _localctx = new Method_declarationContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_method_declaration);
+	public final MethodDeclarationContext methodDeclaration() throws RecognitionException {
+		MethodDeclarationContext _localctx = new MethodDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_methodDeclaration);
 		int _la;
 		try {
-			_localctx = new MethodDeclarationContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
-			match(PUBLIC);
-			setState(124);
+			setState(102);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==PUBLIC) {
+				{
+				setState(101);
+				match(PUBLIC);
+				}
+			}
+
+			setState(106);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case VOID:
-				{
-				setState(122);
-				match(VOID);
-				}
-				break;
 			case INT:
 			case DOUBLE:
-			case CHAR:
+			case CHAR_TYPE:
 			case BOOLEAN:
-			case STRING:
+			case STRING_TYPE:
 			case ID:
 				{
-				setState(123);
+				setState(104);
 				type();
+				}
+				break;
+			case VOID:
+				{
+				setState(105);
+				match(VOID);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(126);
+			setState(108);
 			match(ID);
-			setState(127);
+			setState(109);
 			match(LEFT_PAREN);
-			setState(129);
+			setState(111);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4539628424389459968L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4611686018427388152L) != 0)) {
 				{
-				setState(128);
-				parameter_list();
+				setState(110);
+				parameterList();
 				}
 			}
 
-			setState(131);
+			setState(113);
 			match(RIGHT_PAREN);
-			setState(132);
-			match(LEFT_BRACE);
-			setState(133);
+			setState(114);
 			block();
-			setState(134);
-			match(RIGHT_BRACE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -597,7 +654,86 @@ public class ZetarianoParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Parameter_listContext extends ParserRuleContext {
+	public static class ConstructorDeclarationContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public BlockContext block() {
+			return getRuleContext(BlockContext.class,0);
+		}
+		public TerminalNode PUBLIC() { return getToken(ZetarianoParser.PUBLIC, 0); }
+		public ParameterListContext parameterList() {
+			return getRuleContext(ParameterListContext.class,0);
+		}
+		public ConstructorDeclarationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_constructorDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterConstructorDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitConstructorDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitConstructorDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ConstructorDeclarationContext constructorDeclaration() throws RecognitionException {
+		ConstructorDeclarationContext _localctx = new ConstructorDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_constructorDeclaration);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(117);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==PUBLIC) {
+				{
+				setState(116);
+				match(PUBLIC);
+				}
+			}
+
+			setState(119);
+			match(ID);
+			setState(120);
+			match(LEFT_PAREN);
+			setState(122);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4611686018427388152L) != 0)) {
+				{
+				setState(121);
+				parameterList();
+				}
+			}
+
+			setState(124);
+			match(RIGHT_PAREN);
+			setState(125);
+			block();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class ParameterListContext extends ParserRuleContext {
 		public List<ParameterContext> parameter() {
 			return getRuleContexts(ParameterContext.class);
 		}
@@ -608,47 +744,47 @@ public class ZetarianoParser extends Parser {
 		public TerminalNode COMMA(int i) {
 			return getToken(ZetarianoParser.COMMA, i);
 		}
-		public Parameter_listContext(ParserRuleContext parent, int invokingState) {
+		public ParameterListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_parameter_list; }
+		@Override public int getRuleIndex() { return RULE_parameterList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterParameter_list(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterParameterList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitParameter_list(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitParameterList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitParameter_list(this);
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitParameterList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Parameter_listContext parameter_list() throws RecognitionException {
-		Parameter_listContext _localctx = new Parameter_listContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_parameter_list);
+	public final ParameterListContext parameterList() throws RecognitionException {
+		ParameterListContext _localctx = new ParameterListContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_parameterList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(136);
+			setState(127);
 			parameter();
-			setState(141);
+			setState(132);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(137);
+				setState(128);
 				match(COMMA);
-				setState(138);
+				setState(129);
 				parameter();
 				}
 				}
-				setState(143);
+				setState(134);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -671,6 +807,14 @@ public class ZetarianoParser extends Parser {
 			return getRuleContext(TypeContext.class,0);
 		}
 		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
+		public List<TerminalNode> LEFT_BRACKET() { return getTokens(ZetarianoParser.LEFT_BRACKET); }
+		public TerminalNode LEFT_BRACKET(int i) {
+			return getToken(ZetarianoParser.LEFT_BRACKET, i);
+		}
+		public List<TerminalNode> RIGHT_BRACKET() { return getTokens(ZetarianoParser.RIGHT_BRACKET); }
+		public TerminalNode RIGHT_BRACKET(int i) {
+			return getToken(ZetarianoParser.RIGHT_BRACKET, i);
+		}
 		public ParameterContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -692,205 +836,46 @@ public class ZetarianoParser extends Parser {
 
 	public final ParameterContext parameter() throws RecognitionException {
 		ParameterContext _localctx = new ParameterContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_parameter);
+		enterRule(_localctx, 16, RULE_parameter);
+		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(144);
-			type();
-			setState(145);
-			match(ID);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class TypeContext extends ParserRuleContext {
-		public TypeContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_type; }
-	 
-		public TypeContext() { }
-		public void copyFrom(TypeContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class TypeIdContext extends TypeContext {
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public TypeIdContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterTypeId(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitTypeId(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitTypeId(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class TypeCharContext extends TypeContext {
-		public TerminalNode CHAR() { return getToken(ZetarianoParser.CHAR, 0); }
-		public TypeCharContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterTypeChar(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitTypeChar(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitTypeChar(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class TypeBooleanContext extends TypeContext {
-		public TerminalNode BOOLEAN() { return getToken(ZetarianoParser.BOOLEAN, 0); }
-		public TypeBooleanContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterTypeBoolean(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitTypeBoolean(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitTypeBoolean(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class TypeIntContext extends TypeContext {
-		public TerminalNode INT() { return getToken(ZetarianoParser.INT, 0); }
-		public TypeIntContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterTypeInt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitTypeInt(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitTypeInt(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class TypeDoubleContext extends TypeContext {
-		public TerminalNode DOUBLE() { return getToken(ZetarianoParser.DOUBLE, 0); }
-		public TypeDoubleContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterTypeDouble(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitTypeDouble(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitTypeDouble(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class TypeStringContext extends TypeContext {
-		public TerminalNode STRING() { return getToken(ZetarianoParser.STRING, 0); }
-		public TypeStringContext(TypeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterTypeString(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitTypeString(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitTypeString(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final TypeContext type() throws RecognitionException {
-		TypeContext _localctx = new TypeContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_type);
-		try {
-			setState(153);
+			setState(148);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case INT:
-				_localctx = new TypeIntContext(_localctx);
+			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
+			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(147);
-				match(INT);
-				}
-				break;
-			case DOUBLE:
-				_localctx = new TypeDoubleContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(148);
-				match(DOUBLE);
-				}
-				break;
-			case CHAR:
-				_localctx = new TypeCharContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(149);
-				match(CHAR);
-				}
-				break;
-			case BOOLEAN:
-				_localctx = new TypeBooleanContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(150);
-				match(BOOLEAN);
-				}
-				break;
-			case STRING:
-				_localctx = new TypeStringContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(151);
-				match(STRING);
-				}
-				break;
-			case ID:
-				_localctx = new TypeIdContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(152);
+				setState(135);
+				type();
+				setState(136);
 				match(ID);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(138);
+				type();
+				setState(143);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==LEFT_BRACKET) {
+					{
+					{
+					setState(139);
+					match(LEFT_BRACKET);
+					setState(140);
+					match(RIGHT_BRACKET);
+					}
+					}
+					setState(145);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(146);
+				match(ID);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -906,11 +891,13 @@ public class ZetarianoParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class BlockContext extends ParserRuleContext {
-		public List<StatementContext> statement() {
-			return getRuleContexts(StatementContext.class);
+		public TerminalNode LEFT_BRACE() { return getToken(ZetarianoParser.LEFT_BRACE, 0); }
+		public MainInstructionsContext mainInstructions() {
+			return getRuleContext(MainInstructionsContext.class,0);
 		}
-		public StatementContext statement(int i) {
-			return getRuleContext(StatementContext.class,i);
+		public TerminalNode RIGHT_BRACE() { return getToken(ZetarianoParser.RIGHT_BRACE, 0); }
+		public InstructionContext instruction() {
+			return getRuleContext(InstructionContext.class,0);
 		}
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -935,2776 +922,55 @@ public class ZetarianoParser extends Parser {
 		BlockContext _localctx = new BlockContext(_ctx, getState());
 		enterRule(_localctx, 18, RULE_block);
 		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(158);
+			setState(155);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(155);
-					statement();
-					}
-					} 
-				}
-				setState(160);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementContext extends ParserRuleContext {
-		public StatementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_statement; }
-	 
-		public StatementContext() { }
-		public void copyFrom(StatementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementVariableDeclarationContext extends StatementContext {
-		public Variable_declarationContext variable_declaration() {
-			return getRuleContext(Variable_declarationContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementVariableDeclarationContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementVariableDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementVariableDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementVariableDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementWhileContext extends StatementContext {
-		public While_statementContext while_statement() {
-			return getRuleContext(While_statementContext.class,0);
-		}
-		public StatementWhileContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementWhile(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementWhile(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementWhile(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementExpressionContext extends StatementContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementExpressionContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementContinueContext extends StatementContext {
-		public Continue_statementContext continue_statement() {
-			return getRuleContext(Continue_statementContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementContinueContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementContinue(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementContinue(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementContinue(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementAssignmentContext extends StatementContext {
-		public AssignmentContext assignment() {
-			return getRuleContext(AssignmentContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementAssignmentContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementAssignment(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementAssignment(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementAssignment(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementIfContext extends StatementContext {
-		public If_statementContext if_statement() {
-			return getRuleContext(If_statementContext.class,0);
-		}
-		public StatementIfContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementIf(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementIf(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementIf(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementForContext extends StatementContext {
-		public For_statementContext for_statement() {
-			return getRuleContext(For_statementContext.class,0);
-		}
-		public StatementForContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementFor(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementFor(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementFor(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementReturnContext extends StatementContext {
-		public Return_statementContext return_statement() {
-			return getRuleContext(Return_statementContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementReturnContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementReturn(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementReturn(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementReturn(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementBreakContext extends StatementContext {
-		public Break_statementContext break_statement() {
-			return getRuleContext(Break_statementContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementBreakContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementBreak(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementBreak(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementBreak(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementEmptyContext extends StatementContext {
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementEmptyContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementEmpty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementEmpty(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementEmpty(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementSwitchContext extends StatementContext {
-		public Switch_statementContext switch_statement() {
-			return getRuleContext(Switch_statementContext.class,0);
-		}
-		public StatementSwitchContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementSwitch(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementSwitch(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementSwitch(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementPrintContext extends StatementContext {
-		public Print_statementContext print_statement() {
-			return getRuleContext(Print_statementContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementPrintContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementPrint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementPrint(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementPrint(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementReadContext extends StatementContext {
-		public Read_statementContext read_statement() {
-			return getRuleContext(Read_statementContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementReadContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementRead(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementRead(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementRead(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementDoWhileContext extends StatementContext {
-		public Do_while_statementContext do_while_statement() {
-			return getRuleContext(Do_while_statementContext.class,0);
-		}
-		public StatementDoWhileContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementDoWhile(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementDoWhile(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementDoWhile(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StatementObjectCreationContext extends StatementContext {
-		public Object_creationContext object_creation() {
-			return getRuleContext(Object_creationContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public StatementObjectCreationContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStatementObjectCreation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStatementObjectCreation(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStatementObjectCreation(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final StatementContext statement() throws RecognitionException {
-		StatementContext _localctx = new StatementContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_statement);
-		try {
-			setState(194);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
-			case 1:
-				_localctx = new StatementVariableDeclarationContext(_localctx);
+			switch (_input.LA(1)) {
+			case LEFT_BRACE:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(161);
-				variable_declaration();
-				setState(162);
-				match(SEMICOLON);
-				}
-				break;
-			case 2:
-				_localctx = new StatementAssignmentContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(164);
-				assignment();
-				setState(165);
-				match(SEMICOLON);
-				}
-				break;
-			case 3:
-				_localctx = new StatementIfContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(167);
-				if_statement();
-				}
-				break;
-			case 4:
-				_localctx = new StatementSwitchContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(168);
-				switch_statement();
-				}
-				break;
-			case 5:
-				_localctx = new StatementForContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(169);
-				for_statement();
-				}
-				break;
-			case 6:
-				_localctx = new StatementWhileContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(170);
-				while_statement();
-				}
-				break;
-			case 7:
-				_localctx = new StatementDoWhileContext(_localctx);
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(171);
-				do_while_statement();
-				}
-				break;
-			case 8:
-				_localctx = new StatementReturnContext(_localctx);
-				enterOuterAlt(_localctx, 8);
-				{
-				setState(172);
-				return_statement();
-				setState(173);
-				match(SEMICOLON);
-				}
-				break;
-			case 9:
-				_localctx = new StatementBreakContext(_localctx);
-				enterOuterAlt(_localctx, 9);
-				{
-				setState(175);
-				break_statement();
-				setState(176);
-				match(SEMICOLON);
-				}
-				break;
-			case 10:
-				_localctx = new StatementContinueContext(_localctx);
-				enterOuterAlt(_localctx, 10);
-				{
-				setState(178);
-				continue_statement();
-				setState(179);
-				match(SEMICOLON);
-				}
-				break;
-			case 11:
-				_localctx = new StatementPrintContext(_localctx);
-				enterOuterAlt(_localctx, 11);
-				{
-				setState(181);
-				print_statement();
-				setState(182);
-				match(SEMICOLON);
-				}
-				break;
-			case 12:
-				_localctx = new StatementReadContext(_localctx);
-				enterOuterAlt(_localctx, 12);
-				{
-				setState(184);
-				read_statement();
-				setState(185);
-				match(SEMICOLON);
-				}
-				break;
-			case 13:
-				_localctx = new StatementObjectCreationContext(_localctx);
-				enterOuterAlt(_localctx, 13);
-				{
-				setState(187);
-				object_creation();
-				setState(188);
-				match(SEMICOLON);
-				}
-				break;
-			case 14:
-				_localctx = new StatementExpressionContext(_localctx);
-				enterOuterAlt(_localctx, 14);
-				{
-				setState(190);
-				expression(0);
-				setState(191);
-				match(SEMICOLON);
-				}
-				break;
-			case 15:
-				_localctx = new StatementEmptyContext(_localctx);
-				enterOuterAlt(_localctx, 15);
-				{
-				setState(193);
-				match(SEMICOLON);
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Variable_declarationContext extends ParserRuleContext {
-		public Variable_declarationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_variable_declaration; }
-	 
-		public Variable_declarationContext() { }
-		public void copyFrom(Variable_declarationContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class VariableDeclarationArrayContext extends Variable_declarationContext {
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public TerminalNode LEFT_CLASP() { return getToken(ZetarianoParser.LEFT_CLASP, 0); }
-		public TerminalNode RIGHT_CLASP() { return getToken(ZetarianoParser.RIGHT_CLASP, 0); }
-		public TerminalNode INTEGER() { return getToken(ZetarianoParser.INTEGER, 0); }
-		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
-		public Array_initializerContext array_initializer() {
-			return getRuleContext(Array_initializerContext.class,0);
-		}
-		public VariableDeclarationArrayContext(Variable_declarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterVariableDeclarationArray(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitVariableDeclarationArray(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitVariableDeclarationArray(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class VariableDeclarationObjectContext extends Variable_declarationContext {
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
-		public Object_creationContext object_creation() {
-			return getRuleContext(Object_creationContext.class,0);
-		}
-		public VariableDeclarationObjectContext(Variable_declarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterVariableDeclarationObject(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitVariableDeclarationObject(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitVariableDeclarationObject(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class VariableDeclarationMatrixContext extends Variable_declarationContext {
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public List<TerminalNode> LEFT_CLASP() { return getTokens(ZetarianoParser.LEFT_CLASP); }
-		public TerminalNode LEFT_CLASP(int i) {
-			return getToken(ZetarianoParser.LEFT_CLASP, i);
-		}
-		public List<TerminalNode> RIGHT_CLASP() { return getTokens(ZetarianoParser.RIGHT_CLASP); }
-		public TerminalNode RIGHT_CLASP(int i) {
-			return getToken(ZetarianoParser.RIGHT_CLASP, i);
-		}
-		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
-		public Array_initializerContext array_initializer() {
-			return getRuleContext(Array_initializerContext.class,0);
-		}
-		public VariableDeclarationMatrixContext(Variable_declarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterVariableDeclarationMatrix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitVariableDeclarationMatrix(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitVariableDeclarationMatrix(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class VariableDeclarationSimpleContext extends Variable_declarationContext {
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public VariableDeclarationSimpleContext(Variable_declarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterVariableDeclarationSimple(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitVariableDeclarationSimple(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitVariableDeclarationSimple(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Variable_declarationContext variable_declaration() throws RecognitionException {
-		Variable_declarationContext _localctx = new Variable_declarationContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_variable_declaration);
-		int _la;
-		try {
-			setState(228);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
-			case 1:
-				_localctx = new VariableDeclarationSimpleContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(196);
-				type();
-				setState(197);
-				match(ID);
-				setState(200);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==ASSIGN) {
-					{
-					setState(198);
-					match(ASSIGN);
-					setState(199);
-					expression(0);
-					}
-				}
-
-				}
-				break;
-			case 2:
-				_localctx = new VariableDeclarationArrayContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(202);
-				type();
-				setState(203);
-				match(ID);
-				setState(204);
-				match(LEFT_CLASP);
-				setState(206);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==INTEGER) {
-					{
-					setState(205);
-					match(INTEGER);
-					}
-				}
-
-				setState(208);
-				match(RIGHT_CLASP);
-				setState(211);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==ASSIGN) {
-					{
-					setState(209);
-					match(ASSIGN);
-					setState(210);
-					array_initializer();
-					}
-				}
-
-				}
-				break;
-			case 3:
-				_localctx = new VariableDeclarationMatrixContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(213);
-				type();
-				setState(214);
-				match(ID);
-				setState(215);
-				match(LEFT_CLASP);
-				setState(216);
-				match(LEFT_CLASP);
-				setState(217);
-				match(RIGHT_CLASP);
-				setState(218);
-				match(RIGHT_CLASP);
-				setState(221);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==ASSIGN) {
-					{
-					setState(219);
-					match(ASSIGN);
-					setState(220);
-					array_initializer();
-					}
-				}
-
-				}
-				break;
-			case 4:
-				_localctx = new VariableDeclarationObjectContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(223);
-				type();
-				setState(224);
-				match(ID);
-				setState(225);
-				match(ASSIGN);
-				setState(226);
-				object_creation();
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Array_initializerContext extends ParserRuleContext {
-		public Array_initializerContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_array_initializer; }
-	 
-		public Array_initializerContext() { }
-		public void copyFrom(Array_initializerContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ArrayInitializerNewContext extends Array_initializerContext {
-		public TerminalNode NEW() { return getToken(ZetarianoParser.NEW, 0); }
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public TerminalNode LEFT_CLASP() { return getToken(ZetarianoParser.LEFT_CLASP, 0); }
-		public TerminalNode INTEGER() { return getToken(ZetarianoParser.INTEGER, 0); }
-		public TerminalNode RIGHT_CLASP() { return getToken(ZetarianoParser.RIGHT_CLASP, 0); }
-		public ArrayInitializerNewContext(Array_initializerContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterArrayInitializerNew(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitArrayInitializerNew(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitArrayInitializerNew(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ArrayInitializerMatrixContext extends Array_initializerContext {
-		public TerminalNode NEW() { return getToken(ZetarianoParser.NEW, 0); }
-		public TypeContext type() {
-			return getRuleContext(TypeContext.class,0);
-		}
-		public List<TerminalNode> LEFT_CLASP() { return getTokens(ZetarianoParser.LEFT_CLASP); }
-		public TerminalNode LEFT_CLASP(int i) {
-			return getToken(ZetarianoParser.LEFT_CLASP, i);
-		}
-		public List<TerminalNode> RIGHT_CLASP() { return getTokens(ZetarianoParser.RIGHT_CLASP); }
-		public TerminalNode RIGHT_CLASP(int i) {
-			return getToken(ZetarianoParser.RIGHT_CLASP, i);
-		}
-		public ArrayInitializerMatrixContext(Array_initializerContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterArrayInitializerMatrix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitArrayInitializerMatrix(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitArrayInitializerMatrix(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ArrayInitializerContext extends Array_initializerContext {
-		public TerminalNode LEFT_BRACE() { return getToken(ZetarianoParser.LEFT_BRACE, 0); }
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode RIGHT_BRACE() { return getToken(ZetarianoParser.RIGHT_BRACE, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(ZetarianoParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(ZetarianoParser.COMMA, i);
-		}
-		public ArrayInitializerContext(Array_initializerContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterArrayInitializer(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitArrayInitializer(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitArrayInitializer(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Array_initializerContext array_initializer() throws RecognitionException {
-		Array_initializerContext _localctx = new Array_initializerContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_array_initializer);
-		int _la;
-		try {
-			setState(254);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
-			case 1:
-				_localctx = new ArrayInitializerContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(230);
+				setState(150);
 				match(LEFT_BRACE);
-				setState(231);
-				expression(0);
-				setState(236);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==COMMA) {
-					{
-					{
-					setState(232);
-					match(COMMA);
-					setState(233);
-					expression(0);
-					}
-					}
-					setState(238);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				setState(239);
+				setState(151);
+				mainInstructions();
+				setState(152);
 				match(RIGHT_BRACE);
 				}
 				break;
-			case 2:
-				_localctx = new ArrayInitializerNewContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(241);
-				match(NEW);
-				setState(242);
-				type();
-				setState(243);
-				match(LEFT_CLASP);
-				setState(244);
-				match(INTEGER);
-				setState(245);
-				match(RIGHT_CLASP);
-				}
-				break;
-			case 3:
-				_localctx = new ArrayInitializerMatrixContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(247);
-				match(NEW);
-				setState(248);
-				type();
-				setState(249);
-				match(LEFT_CLASP);
-				setState(250);
-				match(LEFT_CLASP);
-				setState(251);
-				match(RIGHT_CLASP);
-				setState(252);
-				match(RIGHT_CLASP);
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Object_creationContext extends ParserRuleContext {
-		public Object_creationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_object_creation; }
-	 
-		public Object_creationContext() { }
-		public void copyFrom(Object_creationContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ObjectCreationContext extends Object_creationContext {
-		public TerminalNode NEW() { return getToken(ZetarianoParser.NEW, 0); }
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public Argument_listContext argument_list() {
-			return getRuleContext(Argument_listContext.class,0);
-		}
-		public ObjectCreationContext(Object_creationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterObjectCreation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitObjectCreation(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitObjectCreation(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Object_creationContext object_creation() throws RecognitionException {
-		Object_creationContext _localctx = new Object_creationContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_object_creation);
-		int _la;
-		try {
-			_localctx = new ObjectCreationContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(256);
-			match(NEW);
-			setState(257);
-			match(ID);
-			setState(258);
-			match(LEFT_PAREN);
-			setState(260);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (((((_la - 3)) & ~0x3f) == 0 && ((1L << (_la - 3)) & 8943022978306408451L) != 0)) {
-				{
-				setState(259);
-				argument_list();
-				}
-			}
-
-			setState(262);
-			match(RIGHT_PAREN);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class AssignmentContext extends ParserRuleContext {
-		public AssignmentContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_assignment; }
-	 
-		public AssignmentContext() { }
-		public void copyFrom(AssignmentContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AssignmentDecrementContext extends AssignmentContext {
-		public TerminalNode DECREMENT() { return getToken(ZetarianoParser.DECREMENT, 0); }
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public Array_accessContext array_access() {
-			return getRuleContext(Array_accessContext.class,0);
-		}
-		public Struct_accessContext struct_access() {
-			return getRuleContext(Struct_accessContext.class,0);
-		}
-		public AssignmentDecrementContext(AssignmentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAssignmentDecrement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAssignmentDecrement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAssignmentDecrement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AssignmentMultContext extends AssignmentContext {
-		public TerminalNode MULT_ASSIGN() { return getToken(ZetarianoParser.MULT_ASSIGN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public Array_accessContext array_access() {
-			return getRuleContext(Array_accessContext.class,0);
-		}
-		public Struct_accessContext struct_access() {
-			return getRuleContext(Struct_accessContext.class,0);
-		}
-		public AssignmentMultContext(AssignmentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAssignmentMult(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAssignmentMult(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAssignmentMult(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AssignmentSimpleContext extends AssignmentContext {
-		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public Array_accessContext array_access() {
-			return getRuleContext(Array_accessContext.class,0);
-		}
-		public Struct_accessContext struct_access() {
-			return getRuleContext(Struct_accessContext.class,0);
-		}
-		public AssignmentSimpleContext(AssignmentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAssignmentSimple(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAssignmentSimple(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAssignmentSimple(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AssignmentIncrementContext extends AssignmentContext {
-		public TerminalNode INCREMENT() { return getToken(ZetarianoParser.INCREMENT, 0); }
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public Array_accessContext array_access() {
-			return getRuleContext(Array_accessContext.class,0);
-		}
-		public Struct_accessContext struct_access() {
-			return getRuleContext(Struct_accessContext.class,0);
-		}
-		public AssignmentIncrementContext(AssignmentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAssignmentIncrement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAssignmentIncrement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAssignmentIncrement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AssignmentPlusContext extends AssignmentContext {
-		public TerminalNode PLUS_ASSIGN() { return getToken(ZetarianoParser.PLUS_ASSIGN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public Array_accessContext array_access() {
-			return getRuleContext(Array_accessContext.class,0);
-		}
-		public Struct_accessContext struct_access() {
-			return getRuleContext(Struct_accessContext.class,0);
-		}
-		public AssignmentPlusContext(AssignmentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAssignmentPlus(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAssignmentPlus(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAssignmentPlus(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AssignmentMinusContext extends AssignmentContext {
-		public TerminalNode MINUS_ASSIGN() { return getToken(ZetarianoParser.MINUS_ASSIGN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public Array_accessContext array_access() {
-			return getRuleContext(Array_accessContext.class,0);
-		}
-		public Struct_accessContext struct_access() {
-			return getRuleContext(Struct_accessContext.class,0);
-		}
-		public AssignmentMinusContext(AssignmentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAssignmentMinus(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAssignmentMinus(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAssignmentMinus(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AssignmentSplitContext extends AssignmentContext {
-		public TerminalNode SPLIT_ASSIGN() { return getToken(ZetarianoParser.SPLIT_ASSIGN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public Array_accessContext array_access() {
-			return getRuleContext(Array_accessContext.class,0);
-		}
-		public Struct_accessContext struct_access() {
-			return getRuleContext(Struct_accessContext.class,0);
-		}
-		public AssignmentSplitContext(AssignmentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAssignmentSplit(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAssignmentSplit(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAssignmentSplit(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final AssignmentContext assignment() throws RecognitionException {
-		AssignmentContext _localctx = new AssignmentContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_assignment);
-		try {
-			setState(311);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
-			case 1:
-				_localctx = new AssignmentSimpleContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(267);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
-				case 1:
-					{
-					setState(264);
-					match(ID);
-					}
-					break;
-				case 2:
-					{
-					setState(265);
-					array_access();
-					}
-					break;
-				case 3:
-					{
-					setState(266);
-					struct_access();
-					}
-					break;
-				}
-				setState(269);
-				match(ASSIGN);
-				setState(270);
-				expression(0);
-				}
-				break;
-			case 2:
-				_localctx = new AssignmentPlusContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(274);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
-				case 1:
-					{
-					setState(271);
-					match(ID);
-					}
-					break;
-				case 2:
-					{
-					setState(272);
-					array_access();
-					}
-					break;
-				case 3:
-					{
-					setState(273);
-					struct_access();
-					}
-					break;
-				}
-				setState(276);
-				match(PLUS_ASSIGN);
-				setState(277);
-				expression(0);
-				}
-				break;
-			case 3:
-				_localctx = new AssignmentMinusContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(281);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,19,_ctx) ) {
-				case 1:
-					{
-					setState(278);
-					match(ID);
-					}
-					break;
-				case 2:
-					{
-					setState(279);
-					array_access();
-					}
-					break;
-				case 3:
-					{
-					setState(280);
-					struct_access();
-					}
-					break;
-				}
-				setState(283);
-				match(MINUS_ASSIGN);
-				setState(284);
-				expression(0);
-				}
-				break;
-			case 4:
-				_localctx = new AssignmentMultContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(288);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
-				case 1:
-					{
-					setState(285);
-					match(ID);
-					}
-					break;
-				case 2:
-					{
-					setState(286);
-					array_access();
-					}
-					break;
-				case 3:
-					{
-					setState(287);
-					struct_access();
-					}
-					break;
-				}
-				setState(290);
-				match(MULT_ASSIGN);
-				setState(291);
-				expression(0);
-				}
-				break;
-			case 5:
-				_localctx = new AssignmentSplitContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(295);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,21,_ctx) ) {
-				case 1:
-					{
-					setState(292);
-					match(ID);
-					}
-					break;
-				case 2:
-					{
-					setState(293);
-					array_access();
-					}
-					break;
-				case 3:
-					{
-					setState(294);
-					struct_access();
-					}
-					break;
-				}
-				setState(297);
-				match(SPLIT_ASSIGN);
-				setState(298);
-				expression(0);
-				}
-				break;
-			case 6:
-				_localctx = new AssignmentIncrementContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(302);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,22,_ctx) ) {
-				case 1:
-					{
-					setState(299);
-					match(ID);
-					}
-					break;
-				case 2:
-					{
-					setState(300);
-					array_access();
-					}
-					break;
-				case 3:
-					{
-					setState(301);
-					struct_access();
-					}
-					break;
-				}
-				setState(304);
-				match(INCREMENT);
-				}
-				break;
-			case 7:
-				_localctx = new AssignmentDecrementContext(_localctx);
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(308);
-				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,23,_ctx) ) {
-				case 1:
-					{
-					setState(305);
-					match(ID);
-					}
-					break;
-				case 2:
-					{
-					setState(306);
-					array_access();
-					}
-					break;
-				case 3:
-					{
-					setState(307);
-					struct_access();
-					}
-					break;
-				}
-				setState(310);
-				match(DECREMENT);
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Array_accessContext extends ParserRuleContext {
-		public Array_accessContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_array_access; }
-	 
-		public Array_accessContext() { }
-		public void copyFrom(Array_accessContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ArrayAccessContext extends Array_accessContext {
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public List<TerminalNode> LEFT_CLASP() { return getTokens(ZetarianoParser.LEFT_CLASP); }
-		public TerminalNode LEFT_CLASP(int i) {
-			return getToken(ZetarianoParser.LEFT_CLASP, i);
-		}
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public List<TerminalNode> RIGHT_CLASP() { return getTokens(ZetarianoParser.RIGHT_CLASP); }
-		public TerminalNode RIGHT_CLASP(int i) {
-			return getToken(ZetarianoParser.RIGHT_CLASP, i);
-		}
-		public ArrayAccessContext(Array_accessContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterArrayAccess(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitArrayAccess(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitArrayAccess(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Array_accessContext array_access() throws RecognitionException {
-		Array_accessContext _localctx = new Array_accessContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_array_access);
-		try {
-			int _alt;
-			_localctx = new ArrayAccessContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(313);
-			match(ID);
-			setState(318); 
-			_errHandler.sync(this);
-			_alt = 1;
-			do {
-				switch (_alt) {
-				case 1:
-					{
-					{
-					setState(314);
-					match(LEFT_CLASP);
-					setState(315);
-					expression(0);
-					setState(316);
-					match(RIGHT_CLASP);
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				setState(320); 
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Struct_accessContext extends ParserRuleContext {
-		public Struct_accessContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_struct_access; }
-	 
-		public Struct_accessContext() { }
-		public void copyFrom(Struct_accessContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class StructAccessContext extends Struct_accessContext {
-		public List<TerminalNode> ID() { return getTokens(ZetarianoParser.ID); }
-		public TerminalNode ID(int i) {
-			return getToken(ZetarianoParser.ID, i);
-		}
-		public List<TerminalNode> DOT() { return getTokens(ZetarianoParser.DOT); }
-		public TerminalNode DOT(int i) {
-			return getToken(ZetarianoParser.DOT, i);
-		}
-		public StructAccessContext(Struct_accessContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterStructAccess(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitStructAccess(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitStructAccess(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Struct_accessContext struct_access() throws RecognitionException {
-		Struct_accessContext _localctx = new Struct_accessContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_struct_access);
-		try {
-			int _alt;
-			_localctx = new StructAccessContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(322);
-			match(ID);
-			setState(325); 
-			_errHandler.sync(this);
-			_alt = 1;
-			do {
-				switch (_alt) {
-				case 1:
-					{
-					{
-					setState(323);
-					match(DOT);
-					setState(324);
-					match(ID);
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				setState(327); 
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,26,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class If_statementContext extends ParserRuleContext {
-		public If_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_if_statement; }
-	 
-		public If_statementContext() { }
-		public void copyFrom(If_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class IfStatementContext extends If_statementContext {
-		public TerminalNode IF() { return getToken(ZetarianoParser.IF, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public List<StatementContext> statement() {
-			return getRuleContexts(StatementContext.class);
-		}
-		public StatementContext statement(int i) {
-			return getRuleContext(StatementContext.class,i);
-		}
-		public TerminalNode ELSE() { return getToken(ZetarianoParser.ELSE, 0); }
-		public IfStatementContext(If_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterIfStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitIfStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitIfStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final If_statementContext if_statement() throws RecognitionException {
-		If_statementContext _localctx = new If_statementContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_if_statement);
-		try {
-			_localctx = new IfStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(329);
-			match(IF);
-			setState(330);
-			match(LEFT_PAREN);
-			setState(331);
-			expression(0);
-			setState(332);
-			match(RIGHT_PAREN);
-			setState(333);
-			statement();
-			setState(336);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
-			case 1:
-				{
-				setState(334);
-				match(ELSE);
-				setState(335);
-				statement();
-				}
-				break;
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Switch_statementContext extends ParserRuleContext {
-		public Switch_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_switch_statement; }
-	 
-		public Switch_statementContext() { }
-		public void copyFrom(Switch_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class SwitchStatementContext extends Switch_statementContext {
-		public TerminalNode SWITCH() { return getToken(ZetarianoParser.SWITCH, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public TerminalNode LEFT_BRACE() { return getToken(ZetarianoParser.LEFT_BRACE, 0); }
-		public TerminalNode RIGHT_BRACE() { return getToken(ZetarianoParser.RIGHT_BRACE, 0); }
-		public List<Case_statementContext> case_statement() {
-			return getRuleContexts(Case_statementContext.class);
-		}
-		public Case_statementContext case_statement(int i) {
-			return getRuleContext(Case_statementContext.class,i);
-		}
-		public Default_statementContext default_statement() {
-			return getRuleContext(Default_statementContext.class,0);
-		}
-		public SwitchStatementContext(Switch_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterSwitchStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitSwitchStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitSwitchStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Switch_statementContext switch_statement() throws RecognitionException {
-		Switch_statementContext _localctx = new Switch_statementContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_switch_statement);
-		int _la;
-		try {
-			_localctx = new SwitchStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(338);
-			match(SWITCH);
-			setState(339);
-			match(LEFT_PAREN);
-			setState(340);
-			expression(0);
-			setState(341);
-			match(RIGHT_PAREN);
-			setState(342);
-			match(LEFT_BRACE);
-			setState(346);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==CASE) {
-				{
-				{
-				setState(343);
-				case_statement();
-				}
-				}
-				setState(348);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(350);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==DEFAULT) {
-				{
-				setState(349);
-				default_statement();
-				}
-			}
-
-			setState(352);
-			match(RIGHT_BRACE);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Case_statementContext extends ParserRuleContext {
-		public Case_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_case_statement; }
-	 
-		public Case_statementContext() { }
-		public void copyFrom(Case_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class CaseStatementContext extends Case_statementContext {
-		public TerminalNode CASE() { return getToken(ZetarianoParser.CASE, 0); }
-		public TerminalNode COLON() { return getToken(ZetarianoParser.COLON, 0); }
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
-		}
-		public TerminalNode INTEGER() { return getToken(ZetarianoParser.INTEGER, 0); }
-		public TerminalNode STRING_LITERAL() { return getToken(ZetarianoParser.STRING_LITERAL, 0); }
-		public TerminalNode CHAR_LITERAL() { return getToken(ZetarianoParser.CHAR_LITERAL, 0); }
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public TerminalNode BREAK() { return getToken(ZetarianoParser.BREAK, 0); }
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public CaseStatementContext(Case_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterCaseStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitCaseStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitCaseStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Case_statementContext case_statement() throws RecognitionException {
-		Case_statementContext _localctx = new Case_statementContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_case_statement);
-		int _la;
-		try {
-			_localctx = new CaseStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(354);
-			match(CASE);
-			setState(355);
-			_la = _input.LA(1);
-			if ( !(((((_la - 61)) & ~0x3f) == 0 && ((1L << (_la - 61)) & 27L) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
-			setState(356);
-			match(COLON);
-			setState(357);
-			block();
-			setState(360);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==BREAK) {
-				{
-				setState(358);
-				match(BREAK);
-				setState(359);
-				match(SEMICOLON);
-				}
-			}
-
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Default_statementContext extends ParserRuleContext {
-		public Default_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_default_statement; }
-	 
-		public Default_statementContext() { }
-		public void copyFrom(Default_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class DefaultStatementContext extends Default_statementContext {
-		public TerminalNode DEFAULT() { return getToken(ZetarianoParser.DEFAULT, 0); }
-		public TerminalNode COLON() { return getToken(ZetarianoParser.COLON, 0); }
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
-		}
-		public TerminalNode BREAK() { return getToken(ZetarianoParser.BREAK, 0); }
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public DefaultStatementContext(Default_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterDefaultStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitDefaultStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitDefaultStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Default_statementContext default_statement() throws RecognitionException {
-		Default_statementContext _localctx = new Default_statementContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_default_statement);
-		int _la;
-		try {
-			_localctx = new DefaultStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(362);
-			match(DEFAULT);
-			setState(363);
-			match(COLON);
-			setState(364);
-			block();
-			setState(367);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==BREAK) {
-				{
-				setState(365);
-				match(BREAK);
-				setState(366);
-				match(SEMICOLON);
-				}
-			}
-
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class For_statementContext extends ParserRuleContext {
-		public For_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_for_statement; }
-	 
-		public For_statementContext() { }
-		public void copyFrom(For_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ForStatementContext extends For_statementContext {
-		public TerminalNode FOR() { return getToken(ZetarianoParser.FOR, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public For_initializationContext for_initialization() {
-			return getRuleContext(For_initializationContext.class,0);
-		}
-		public List<TerminalNode> SEMICOLON() { return getTokens(ZetarianoParser.SEMICOLON); }
-		public TerminalNode SEMICOLON(int i) {
-			return getToken(ZetarianoParser.SEMICOLON, i);
-		}
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public StatementContext statement() {
-			return getRuleContext(StatementContext.class,0);
-		}
-		public For_conditionContext for_condition() {
-			return getRuleContext(For_conditionContext.class,0);
-		}
-		public For_updateContext for_update() {
-			return getRuleContext(For_updateContext.class,0);
-		}
-		public ForStatementContext(For_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterForStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitForStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitForStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final For_statementContext for_statement() throws RecognitionException {
-		For_statementContext _localctx = new For_statementContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_for_statement);
-		int _la;
-		try {
-			_localctx = new ForStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(369);
-			match(FOR);
-			setState(370);
-			match(LEFT_PAREN);
-			setState(371);
-			for_initialization();
-			setState(372);
-			match(SEMICOLON);
-			setState(374);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (((((_la - 3)) & ~0x3f) == 0 && ((1L << (_la - 3)) & 8943022978306408451L) != 0)) {
-				{
-				setState(373);
-				for_condition();
-				}
-			}
-
-			setState(376);
-			match(SEMICOLON);
-			setState(378);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (((((_la - 3)) & ~0x3f) == 0 && ((1L << (_la - 3)) & 8943022978306408451L) != 0)) {
-				{
-				setState(377);
-				for_update();
-				}
-			}
-
-			setState(380);
-			match(RIGHT_PAREN);
-			setState(381);
-			statement();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class For_initializationContext extends ParserRuleContext {
-		public For_initializationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_for_initialization; }
-	 
-		public For_initializationContext() { }
-		public void copyFrom(For_initializationContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ForInitEmptyContext extends For_initializationContext {
-		public ForInitEmptyContext(For_initializationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterForInitEmpty(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitForInitEmpty(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitForInitEmpty(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ForInitVariableContext extends For_initializationContext {
-		public Variable_declarationContext variable_declaration() {
-			return getRuleContext(Variable_declarationContext.class,0);
-		}
-		public ForInitVariableContext(For_initializationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterForInitVariable(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitForInitVariable(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitForInitVariable(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ForInitAssignmentContext extends For_initializationContext {
-		public AssignmentContext assignment() {
-			return getRuleContext(AssignmentContext.class,0);
-		}
-		public ForInitAssignmentContext(For_initializationContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterForInitAssignment(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitForInitAssignment(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitForInitAssignment(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final For_initializationContext for_initialization() throws RecognitionException {
-		For_initializationContext _localctx = new For_initializationContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_for_initialization);
-		try {
-			setState(386);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,34,_ctx) ) {
-			case 1:
-				_localctx = new ForInitVariableContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(383);
-				variable_declaration();
-				}
-				break;
-			case 2:
-				_localctx = new ForInitAssignmentContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(384);
-				assignment();
-				}
-				break;
-			case 3:
-				_localctx = new ForInitEmptyContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class For_conditionContext extends ParserRuleContext {
-		public For_conditionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_for_condition; }
-	 
-		public For_conditionContext() { }
-		public void copyFrom(For_conditionContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ForConditionContext extends For_conditionContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ForConditionContext(For_conditionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterForCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitForCondition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitForCondition(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final For_conditionContext for_condition() throws RecognitionException {
-		For_conditionContext _localctx = new For_conditionContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_for_condition);
-		try {
-			_localctx = new ForConditionContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(388);
-			expression(0);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class For_updateContext extends ParserRuleContext {
-		public For_updateContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_for_update; }
-	 
-		public For_updateContext() { }
-		public void copyFrom(For_updateContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ForUpdateExpressionContext extends For_updateContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ForUpdateExpressionContext(For_updateContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterForUpdateExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitForUpdateExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitForUpdateExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ForUpdateAssignmentContext extends For_updateContext {
-		public AssignmentContext assignment() {
-			return getRuleContext(AssignmentContext.class,0);
-		}
-		public ForUpdateAssignmentContext(For_updateContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterForUpdateAssignment(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitForUpdateAssignment(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitForUpdateAssignment(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final For_updateContext for_update() throws RecognitionException {
-		For_updateContext _localctx = new For_updateContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_for_update);
-		try {
-			setState(392);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,35,_ctx) ) {
-			case 1:
-				_localctx = new ForUpdateAssignmentContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(390);
-				assignment();
-				}
-				break;
-			case 2:
-				_localctx = new ForUpdateExpressionContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(391);
-				expression(0);
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class While_statementContext extends ParserRuleContext {
-		public While_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_while_statement; }
-	 
-		public While_statementContext() { }
-		public void copyFrom(While_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class WhileStatementContext extends While_statementContext {
-		public TerminalNode WHILE() { return getToken(ZetarianoParser.WHILE, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public StatementContext statement() {
-			return getRuleContext(StatementContext.class,0);
-		}
-		public WhileStatementContext(While_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterWhileStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitWhileStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitWhileStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final While_statementContext while_statement() throws RecognitionException {
-		While_statementContext _localctx = new While_statementContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_while_statement);
-		try {
-			_localctx = new WhileStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(394);
-			match(WHILE);
-			setState(395);
-			match(LEFT_PAREN);
-			setState(396);
-			expression(0);
-			setState(397);
-			match(RIGHT_PAREN);
-			setState(398);
-			statement();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Do_while_statementContext extends ParserRuleContext {
-		public Do_while_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_do_while_statement; }
-	 
-		public Do_while_statementContext() { }
-		public void copyFrom(Do_while_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class DoWhileStatementContext extends Do_while_statementContext {
-		public TerminalNode DO() { return getToken(ZetarianoParser.DO, 0); }
-		public StatementContext statement() {
-			return getRuleContext(StatementContext.class,0);
-		}
-		public TerminalNode WHILE() { return getToken(ZetarianoParser.WHILE, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
-		public DoWhileStatementContext(Do_while_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterDoWhileStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitDoWhileStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitDoWhileStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Do_while_statementContext do_while_statement() throws RecognitionException {
-		Do_while_statementContext _localctx = new Do_while_statementContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_do_while_statement);
-		try {
-			_localctx = new DoWhileStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(400);
-			match(DO);
-			setState(401);
-			statement();
-			setState(402);
-			match(WHILE);
-			setState(403);
-			match(LEFT_PAREN);
-			setState(404);
-			expression(0);
-			setState(405);
-			match(RIGHT_PAREN);
-			setState(406);
-			match(SEMICOLON);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Return_statementContext extends ParserRuleContext {
-		public Return_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_return_statement; }
-	 
-		public Return_statementContext() { }
-		public void copyFrom(Return_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ReturnStatementContext extends Return_statementContext {
-		public TerminalNode RETURN() { return getToken(ZetarianoParser.RETURN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public ReturnStatementContext(Return_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterReturnStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitReturnStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitReturnStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Return_statementContext return_statement() throws RecognitionException {
-		Return_statementContext _localctx = new Return_statementContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_return_statement);
-		int _la;
-		try {
-			_localctx = new ReturnStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(408);
-			match(RETURN);
-			setState(410);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (((((_la - 3)) & ~0x3f) == 0 && ((1L << (_la - 3)) & 8943022978306408451L) != 0)) {
-				{
-				setState(409);
-				expression(0);
-				}
-			}
-
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Break_statementContext extends ParserRuleContext {
-		public Break_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_break_statement; }
-	 
-		public Break_statementContext() { }
-		public void copyFrom(Break_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class BreakStatementContext extends Break_statementContext {
-		public TerminalNode BREAK() { return getToken(ZetarianoParser.BREAK, 0); }
-		public BreakStatementContext(Break_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterBreakStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitBreakStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitBreakStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Break_statementContext break_statement() throws RecognitionException {
-		Break_statementContext _localctx = new Break_statementContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_break_statement);
-		try {
-			_localctx = new BreakStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(412);
-			match(BREAK);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Continue_statementContext extends ParserRuleContext {
-		public Continue_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_continue_statement; }
-	 
-		public Continue_statementContext() { }
-		public void copyFrom(Continue_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ContinueStatementContext extends Continue_statementContext {
-		public TerminalNode CONTINUE() { return getToken(ZetarianoParser.CONTINUE, 0); }
-		public ContinueStatementContext(Continue_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterContinueStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitContinueStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitContinueStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Continue_statementContext continue_statement() throws RecognitionException {
-		Continue_statementContext _localctx = new Continue_statementContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_continue_statement);
-		try {
-			_localctx = new ContinueStatementContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(414);
-			match(CONTINUE);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Print_statementContext extends ParserRuleContext {
-		public Print_statementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_print_statement; }
-	 
-		public Print_statementContext() { }
-		public void copyFrom(Print_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrintlnStatementContext extends Print_statementContext {
-		public TerminalNode PRINTLN() { return getToken(ZetarianoParser.PRINTLN, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public PrintlnStatementContext(Print_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrintlnStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrintlnStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrintlnStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrintStatementContext extends Print_statementContext {
-		public TerminalNode PRINT() { return getToken(ZetarianoParser.PRINT, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public PrintStatementContext(Print_statementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrintStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrintStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrintStatement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Print_statementContext print_statement() throws RecognitionException {
-		Print_statementContext _localctx = new Print_statementContext(_ctx, getState());
-		enterRule(_localctx, 60, RULE_print_statement);
-		int _la;
-		try {
-			setState(428);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
+			case INT:
+			case DOUBLE:
+			case CHAR_TYPE:
+			case BOOLEAN:
+			case STRING_TYPE:
+			case NEW:
+			case NULL:
+			case IF:
+			case SWITCH:
+			case BREAK:
+			case CONTINUE:
+			case RETURN:
+			case FOR:
+			case WHILE:
+			case DO:
 			case PRINTLN:
-				_localctx = new PrintlnStatementContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(416);
-				match(PRINTLN);
-				setState(417);
-				match(LEFT_PAREN);
-				setState(419);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (((((_la - 3)) & ~0x3f) == 0 && ((1L << (_la - 3)) & 8943022978306408451L) != 0)) {
-					{
-					setState(418);
-					expression(0);
-					}
-				}
-
-				setState(421);
-				match(RIGHT_PAREN);
-				}
-				break;
 			case PRINT:
-				_localctx = new PrintStatementContext(_localctx);
+			case READLN:
+			case TRUE:
+			case FALSE:
+			case PLUS:
+			case MINUS:
+			case INC:
+			case DEC:
+			case NOT:
+			case LEFT_PAREN:
+			case INTEGER:
+			case DECIMAL:
+			case CHAR:
+			case STRING:
+			case ID:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(422);
-				match(PRINT);
-				setState(423);
-				match(LEFT_PAREN);
-				setState(425);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (((((_la - 3)) & ~0x3f) == 0 && ((1L << (_la - 3)) & 8943022978306408451L) != 0)) {
-					{
-					setState(424);
-					expression(0);
-					}
-				}
-
-				setState(427);
-				match(RIGHT_PAREN);
+				setState(154);
+				instruction();
 				}
 				break;
 			default:
@@ -3723,51 +989,1706 @@ public class ZetarianoParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Read_statementContext extends ParserRuleContext {
-		public Read_statementContext(ParserRuleContext parent, int invokingState) {
+	public static class MainInstructionsContext extends ParserRuleContext {
+		public List<InstructionContext> instruction() {
+			return getRuleContexts(InstructionContext.class);
+		}
+		public InstructionContext instruction(int i) {
+			return getRuleContext(InstructionContext.class,i);
+		}
+		public MainInstructionsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_read_statement; }
-	 
-		public Read_statementContext() { }
-		public void copyFrom(Read_statementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ReadlnStatementContext extends Read_statementContext {
-		public TerminalNode READLN() { return getToken(ZetarianoParser.READLN, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public ReadlnStatementContext(Read_statementContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_mainInstructions; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterReadlnStatement(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterMainInstructions(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitReadlnStatement(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitMainInstructions(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitReadlnStatement(this);
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitMainInstructions(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Read_statementContext read_statement() throws RecognitionException {
-		Read_statementContext _localctx = new Read_statementContext(_ctx, getState());
-		enterRule(_localctx, 62, RULE_read_statement);
+	public final MainInstructionsContext mainInstructions() throws RecognitionException {
+		MainInstructionsContext _localctx = new MainInstructionsContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_mainInstructions);
+		int _la;
 		try {
-			_localctx = new ReadlnStatementContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(430);
+			setState(160);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8939649671798664952L) != 0)) {
+				{
+				{
+				setState(157);
+				instruction();
+				}
+				}
+				setState(162);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionContext extends ParserRuleContext {
+		public InstructionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_instruction; }
+	 
+		public InstructionContext() { }
+		public void copyFrom(InstructionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionAssignmentContext extends InstructionContext {
+		public AssignmentContext assignment() {
+			return getRuleContext(AssignmentContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
+		public InstructionAssignmentContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionAssignment(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionAssignment(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionSwitchContext extends InstructionContext {
+		public SwitchStatementContext switchStatement() {
+			return getRuleContext(SwitchStatementContext.class,0);
+		}
+		public InstructionSwitchContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionSwitch(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionSwitch(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionSwitch(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionForContext extends InstructionContext {
+		public ForStatementContext forStatement() {
+			return getRuleContext(ForStatementContext.class,0);
+		}
+		public InstructionForContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionFor(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionFor(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionFor(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionDeclarationContext extends InstructionContext {
+		public VariableDeclarationContext variableDeclaration() {
+			return getRuleContext(VariableDeclarationContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
+		public InstructionDeclarationContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionPrintContext extends InstructionContext {
+		public PrintStatementContext printStatement() {
+			return getRuleContext(PrintStatementContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
+		public InstructionPrintContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionPrint(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionPrint(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionPrint(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionIfContext extends InstructionContext {
+		public IfStatementContext ifStatement() {
+			return getRuleContext(IfStatementContext.class,0);
+		}
+		public InstructionIfContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionIf(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionIf(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionIf(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionDoWhileContext extends InstructionContext {
+		public DoWhileStatementContext doWhileStatement() {
+			return getRuleContext(DoWhileStatementContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
+		public InstructionDoWhileContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionDoWhile(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionDoWhile(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionDoWhile(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionJumpContext extends InstructionContext {
+		public JumpStatementContext jumpStatement() {
+			return getRuleContext(JumpStatementContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
+		public InstructionJumpContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionJump(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionJump(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionJump(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionArrayDeclarationContext extends InstructionContext {
+		public ArrayDeclarationContext arrayDeclaration() {
+			return getRuleContext(ArrayDeclarationContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
+		public InstructionArrayDeclarationContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionArrayDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionArrayDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionArrayDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionReadContext extends InstructionContext {
+		public ReadStatementContext readStatement() {
+			return getRuleContext(ReadStatementContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
+		public InstructionReadContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionRead(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionRead(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionRead(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionWhileContext extends InstructionContext {
+		public WhileStatementContext whileStatement() {
+			return getRuleContext(WhileStatementContext.class,0);
+		}
+		public InstructionWhileContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionWhile(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionWhile(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionWhile(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class InstructionExpressionContext extends InstructionContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(ZetarianoParser.SEMICOLON, 0); }
+		public InstructionExpressionContext(InstructionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterInstructionExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitInstructionExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitInstructionExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final InstructionContext instruction() throws RecognitionException {
+		InstructionContext _localctx = new InstructionContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_instruction);
+		try {
+			setState(191);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
+			case 1:
+				_localctx = new InstructionAssignmentContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(163);
+				assignment();
+				setState(164);
+				match(SEMICOLON);
+				}
+				break;
+			case 2:
+				_localctx = new InstructionReadContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(166);
+				readStatement();
+				setState(167);
+				match(SEMICOLON);
+				}
+				break;
+			case 3:
+				_localctx = new InstructionPrintContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(169);
+				printStatement();
+				setState(170);
+				match(SEMICOLON);
+				}
+				break;
+			case 4:
+				_localctx = new InstructionIfContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(172);
+				ifStatement();
+				}
+				break;
+			case 5:
+				_localctx = new InstructionSwitchContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(173);
+				switchStatement();
+				}
+				break;
+			case 6:
+				_localctx = new InstructionWhileContext(_localctx);
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(174);
+				whileStatement();
+				}
+				break;
+			case 7:
+				_localctx = new InstructionDoWhileContext(_localctx);
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(175);
+				doWhileStatement();
+				setState(176);
+				match(SEMICOLON);
+				}
+				break;
+			case 8:
+				_localctx = new InstructionForContext(_localctx);
+				enterOuterAlt(_localctx, 8);
+				{
+				setState(178);
+				forStatement();
+				}
+				break;
+			case 9:
+				_localctx = new InstructionJumpContext(_localctx);
+				enterOuterAlt(_localctx, 9);
+				{
+				setState(179);
+				jumpStatement();
+				setState(180);
+				match(SEMICOLON);
+				}
+				break;
+			case 10:
+				_localctx = new InstructionDeclarationContext(_localctx);
+				enterOuterAlt(_localctx, 10);
+				{
+				setState(182);
+				variableDeclaration();
+				setState(183);
+				match(SEMICOLON);
+				}
+				break;
+			case 11:
+				_localctx = new InstructionArrayDeclarationContext(_localctx);
+				enterOuterAlt(_localctx, 11);
+				{
+				setState(185);
+				arrayDeclaration();
+				setState(186);
+				match(SEMICOLON);
+				}
+				break;
+			case 12:
+				_localctx = new InstructionExpressionContext(_localctx);
+				enterOuterAlt(_localctx, 12);
+				{
+				setState(188);
+				expression(0);
+				setState(189);
+				match(SEMICOLON);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class VariableDeclarationContext extends ParserRuleContext {
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
+		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public VariableDeclarationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_variableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitVariableDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitVariableDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final VariableDeclarationContext variableDeclaration() throws RecognitionException {
+		VariableDeclarationContext _localctx = new VariableDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_variableDeclaration);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(193);
+			type();
+			setState(194);
+			match(ID);
+			setState(197);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==ASSIGN) {
+				{
+				setState(195);
+				match(ASSIGN);
+				setState(196);
+				expression(0);
+				}
+			}
+
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class ArrayDeclarationContext extends ParserRuleContext {
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
+		public List<TerminalNode> LEFT_BRACKET() { return getTokens(ZetarianoParser.LEFT_BRACKET); }
+		public TerminalNode LEFT_BRACKET(int i) {
+			return getToken(ZetarianoParser.LEFT_BRACKET, i);
+		}
+		public List<TerminalNode> RIGHT_BRACKET() { return getTokens(ZetarianoParser.RIGHT_BRACKET); }
+		public TerminalNode RIGHT_BRACKET(int i) {
+			return getToken(ZetarianoParser.RIGHT_BRACKET, i);
+		}
+		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public ArrayInitializerContext arrayInitializer() {
+			return getRuleContext(ArrayInitializerContext.class,0);
+		}
+		public ArrayDeclarationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_arrayDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterArrayDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitArrayDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitArrayDeclaration(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ArrayDeclarationContext arrayDeclaration() throws RecognitionException {
+		ArrayDeclarationContext _localctx = new ArrayDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_arrayDeclaration);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(199);
+			type();
+			setState(202); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(200);
+				match(LEFT_BRACKET);
+				setState(201);
+				match(RIGHT_BRACKET);
+				}
+				}
+				setState(204); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==LEFT_BRACKET );
+			setState(206);
+			match(ID);
+			setState(212);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==ASSIGN) {
+				{
+				setState(207);
+				match(ASSIGN);
+				setState(210);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case NEW:
+				case NULL:
+				case TRUE:
+				case FALSE:
+				case PLUS:
+				case MINUS:
+				case INC:
+				case DEC:
+				case NOT:
+				case LEFT_PAREN:
+				case INTEGER:
+				case DECIMAL:
+				case CHAR:
+				case STRING:
+				case ID:
+					{
+					setState(208);
+					expression(0);
+					}
+					break;
+				case LEFT_BRACE:
+					{
+					setState(209);
+					arrayInitializer();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+			}
+
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class ArrayInitializerContext extends ParserRuleContext {
+		public TerminalNode LEFT_BRACE() { return getToken(ZetarianoParser.LEFT_BRACE, 0); }
+		public TerminalNode RIGHT_BRACE() { return getToken(ZetarianoParser.RIGHT_BRACE, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public List<ArrayInitializerContext> arrayInitializer() {
+			return getRuleContexts(ArrayInitializerContext.class);
+		}
+		public ArrayInitializerContext arrayInitializer(int i) {
+			return getRuleContext(ArrayInitializerContext.class,i);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(ZetarianoParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(ZetarianoParser.COMMA, i);
+		}
+		public ArrayInitializerContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_arrayInitializer; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterArrayInitializer(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitArrayInitializer(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitArrayInitializer(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ArrayInitializerContext arrayInitializer() throws RecognitionException {
+		ArrayInitializerContext _localctx = new ArrayInitializerContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_arrayInitializer);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(214);
+			match(LEFT_BRACE);
+			setState(217);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case NEW:
+			case NULL:
+			case TRUE:
+			case FALSE:
+			case PLUS:
+			case MINUS:
+			case INC:
+			case DEC:
+			case NOT:
+			case LEFT_PAREN:
+			case INTEGER:
+			case DECIMAL:
+			case CHAR:
+			case STRING:
+			case ID:
+				{
+				setState(215);
+				expression(0);
+				}
+				break;
+			case LEFT_BRACE:
+				{
+				setState(216);
+				arrayInitializer();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			setState(226);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==COMMA) {
+				{
+				{
+				setState(219);
+				match(COMMA);
+				setState(222);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case NEW:
+				case NULL:
+				case TRUE:
+				case FALSE:
+				case PLUS:
+				case MINUS:
+				case INC:
+				case DEC:
+				case NOT:
+				case LEFT_PAREN:
+				case INTEGER:
+				case DECIMAL:
+				case CHAR:
+				case STRING:
+				case ID:
+					{
+					setState(220);
+					expression(0);
+					}
+					break;
+				case LEFT_BRACE:
+					{
+					setState(221);
+					arrayInitializer();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+				}
+				setState(228);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(229);
+			match(RIGHT_BRACE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class AssignmentContext extends ParserRuleContext {
+		public LvalueContext lvalue() {
+			return getRuleContext(LvalueContext.class,0);
+		}
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode ASSIGN() { return getToken(ZetarianoParser.ASSIGN, 0); }
+		public TerminalNode ADD_ASSIGN() { return getToken(ZetarianoParser.ADD_ASSIGN, 0); }
+		public TerminalNode SUB_ASSIGN() { return getToken(ZetarianoParser.SUB_ASSIGN, 0); }
+		public TerminalNode MULT_ASSIGN() { return getToken(ZetarianoParser.MULT_ASSIGN, 0); }
+		public TerminalNode INC() { return getToken(ZetarianoParser.INC, 0); }
+		public TerminalNode DEC() { return getToken(ZetarianoParser.DEC, 0); }
+		public AssignmentContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_assignment; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAssignment(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAssignment(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AssignmentContext assignment() throws RecognitionException {
+		AssignmentContext _localctx = new AssignmentContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_assignment);
+		int _la;
+		try {
+			setState(238);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(231);
+				lvalue(0);
+				setState(232);
+				_la = _input.LA(1);
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 131941395333120L) != 0)) ) {
+				_errHandler.recoverInline(this);
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
+				}
+				setState(233);
+				expression(0);
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(235);
+				lvalue(0);
+				setState(236);
+				_la = _input.LA(1);
+				if ( !(_la==INC || _la==DEC) ) {
+				_errHandler.recoverInline(this);
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
+				}
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class ReadStatementContext extends ParserRuleContext {
+		public TerminalNode READLN() { return getToken(ZetarianoParser.READLN, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public ReadStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_readStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterReadStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitReadStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitReadStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ReadStatementContext readStatement() throws RecognitionException {
+		ReadStatementContext _localctx = new ReadStatementContext(_ctx, getState());
+		enterRule(_localctx, 32, RULE_readStatement);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(240);
 			match(READLN);
-			setState(431);
+			setState(241);
 			match(LEFT_PAREN);
-			setState(432);
+			setState(242);
 			match(RIGHT_PAREN);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class PrintStatementContext extends ParserRuleContext {
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public TerminalNode PRINT() { return getToken(ZetarianoParser.PRINT, 0); }
+		public TerminalNode PRINTLN() { return getToken(ZetarianoParser.PRINTLN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public PrintStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_printStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrintStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrintStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrintStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PrintStatementContext printStatement() throws RecognitionException {
+		PrintStatementContext _localctx = new PrintStatementContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_printStatement);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(244);
+			_la = _input.LA(1);
+			if ( !(_la==PRINTLN || _la==PRINT) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(245);
+			match(LEFT_PAREN);
+			setState(247);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8939649671765165568L) != 0)) {
+				{
+				setState(246);
+				expression(0);
+				}
+			}
+
+			setState(249);
+			match(RIGHT_PAREN);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class IfStatementContext extends ParserRuleContext {
+		public TerminalNode IF() { return getToken(ZetarianoParser.IF, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public List<BlockContext> block() {
+			return getRuleContexts(BlockContext.class);
+		}
+		public BlockContext block(int i) {
+			return getRuleContext(BlockContext.class,i);
+		}
+		public TerminalNode ELSE() { return getToken(ZetarianoParser.ELSE, 0); }
+		public IfStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_ifStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterIfStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitIfStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitIfStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final IfStatementContext ifStatement() throws RecognitionException {
+		IfStatementContext _localctx = new IfStatementContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_ifStatement);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(251);
+			match(IF);
+			setState(252);
+			match(LEFT_PAREN);
+			setState(253);
+			expression(0);
+			setState(254);
+			match(RIGHT_PAREN);
+			setState(255);
+			block();
+			setState(258);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
+			case 1:
+				{
+				setState(256);
+				match(ELSE);
+				setState(257);
+				block();
+				}
+				break;
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class SwitchStatementContext extends ParserRuleContext {
+		public TerminalNode SWITCH() { return getToken(ZetarianoParser.SWITCH, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public TerminalNode LEFT_BRACE() { return getToken(ZetarianoParser.LEFT_BRACE, 0); }
+		public TerminalNode RIGHT_BRACE() { return getToken(ZetarianoParser.RIGHT_BRACE, 0); }
+		public List<TerminalNode> CASE() { return getTokens(ZetarianoParser.CASE); }
+		public TerminalNode CASE(int i) {
+			return getToken(ZetarianoParser.CASE, i);
+		}
+		public List<TerminalNode> COLON() { return getTokens(ZetarianoParser.COLON); }
+		public TerminalNode COLON(int i) {
+			return getToken(ZetarianoParser.COLON, i);
+		}
+		public List<MainInstructionsContext> mainInstructions() {
+			return getRuleContexts(MainInstructionsContext.class);
+		}
+		public MainInstructionsContext mainInstructions(int i) {
+			return getRuleContext(MainInstructionsContext.class,i);
+		}
+		public TerminalNode DEFAULT() { return getToken(ZetarianoParser.DEFAULT, 0); }
+		public SwitchStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_switchStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterSwitchStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitSwitchStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitSwitchStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final SwitchStatementContext switchStatement() throws RecognitionException {
+		SwitchStatementContext _localctx = new SwitchStatementContext(_ctx, getState());
+		enterRule(_localctx, 38, RULE_switchStatement);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(260);
+			match(SWITCH);
+			setState(261);
+			match(LEFT_PAREN);
+			setState(262);
+			expression(0);
+			setState(263);
+			match(RIGHT_PAREN);
+			setState(264);
+			match(LEFT_BRACE);
+			setState(272);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==CASE) {
+				{
+				{
+				setState(265);
+				match(CASE);
+				setState(266);
+				expression(0);
+				setState(267);
+				match(COLON);
+				setState(268);
+				mainInstructions();
+				}
+				}
+				setState(274);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(278);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==DEFAULT) {
+				{
+				setState(275);
+				match(DEFAULT);
+				setState(276);
+				match(COLON);
+				setState(277);
+				mainInstructions();
+				}
+			}
+
+			setState(280);
+			match(RIGHT_BRACE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class WhileStatementContext extends ParserRuleContext {
+		public TerminalNode WHILE() { return getToken(ZetarianoParser.WHILE, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public BlockContext block() {
+			return getRuleContext(BlockContext.class,0);
+		}
+		public WhileStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_whileStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterWhileStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitWhileStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitWhileStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final WhileStatementContext whileStatement() throws RecognitionException {
+		WhileStatementContext _localctx = new WhileStatementContext(_ctx, getState());
+		enterRule(_localctx, 40, RULE_whileStatement);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(282);
+			match(WHILE);
+			setState(283);
+			match(LEFT_PAREN);
+			setState(284);
+			expression(0);
+			setState(285);
+			match(RIGHT_PAREN);
+			setState(286);
+			block();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class DoWhileStatementContext extends ParserRuleContext {
+		public TerminalNode DO() { return getToken(ZetarianoParser.DO, 0); }
+		public BlockContext block() {
+			return getRuleContext(BlockContext.class,0);
+		}
+		public TerminalNode WHILE() { return getToken(ZetarianoParser.WHILE, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public DoWhileStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_doWhileStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterDoWhileStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitDoWhileStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitDoWhileStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DoWhileStatementContext doWhileStatement() throws RecognitionException {
+		DoWhileStatementContext _localctx = new DoWhileStatementContext(_ctx, getState());
+		enterRule(_localctx, 42, RULE_doWhileStatement);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(288);
+			match(DO);
+			setState(289);
+			block();
+			setState(290);
+			match(WHILE);
+			setState(291);
+			match(LEFT_PAREN);
+			setState(292);
+			expression(0);
+			setState(293);
+			match(RIGHT_PAREN);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class ForStatementContext extends ParserRuleContext {
+		public TerminalNode FOR() { return getToken(ZetarianoParser.FOR, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public List<TerminalNode> SEMICOLON() { return getTokens(ZetarianoParser.SEMICOLON); }
+		public TerminalNode SEMICOLON(int i) {
+			return getToken(ZetarianoParser.SEMICOLON, i);
+		}
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public BlockContext block() {
+			return getRuleContext(BlockContext.class,0);
+		}
+		public VariableDeclarationContext variableDeclaration() {
+			return getRuleContext(VariableDeclarationContext.class,0);
+		}
+		public List<AssignmentContext> assignment() {
+			return getRuleContexts(AssignmentContext.class);
+		}
+		public AssignmentContext assignment(int i) {
+			return getRuleContext(AssignmentContext.class,i);
+		}
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public ForStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_forStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterForStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitForStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitForStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ForStatementContext forStatement() throws RecognitionException {
+		ForStatementContext _localctx = new ForStatementContext(_ctx, getState());
+		enterRule(_localctx, 44, RULE_forStatement);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(295);
+			match(FOR);
+			setState(296);
+			match(LEFT_PAREN);
+			setState(299);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
+			case 1:
+				{
+				setState(297);
+				variableDeclaration();
+				}
+				break;
+			case 2:
+				{
+				setState(298);
+				assignment();
+				}
+				break;
+			}
+			setState(301);
+			match(SEMICOLON);
+			setState(303);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8939649671765165568L) != 0)) {
+				{
+				setState(302);
+				expression(0);
+				}
+			}
+
+			setState(305);
+			match(SEMICOLON);
+			setState(308);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
+			case 1:
+				{
+				setState(306);
+				assignment();
+				}
+				break;
+			case 2:
+				{
+				setState(307);
+				expression(0);
+				}
+				break;
+			}
+			setState(310);
+			match(RIGHT_PAREN);
+			setState(311);
+			block();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class JumpStatementContext extends ParserRuleContext {
+		public JumpStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_jumpStatement; }
+	 
+		public JumpStatementContext() { }
+		public void copyFrom(JumpStatementContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class JumpReturnContext extends JumpStatementContext {
+		public TerminalNode RETURN() { return getToken(ZetarianoParser.RETURN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public JumpReturnContext(JumpStatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterJumpReturn(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitJumpReturn(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitJumpReturn(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class JumpContinueContext extends JumpStatementContext {
+		public TerminalNode CONTINUE() { return getToken(ZetarianoParser.CONTINUE, 0); }
+		public JumpContinueContext(JumpStatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterJumpContinue(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitJumpContinue(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitJumpContinue(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class JumpBreakContext extends JumpStatementContext {
+		public TerminalNode BREAK() { return getToken(ZetarianoParser.BREAK, 0); }
+		public JumpBreakContext(JumpStatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterJumpBreak(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitJumpBreak(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitJumpBreak(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final JumpStatementContext jumpStatement() throws RecognitionException {
+		JumpStatementContext _localctx = new JumpStatementContext(_ctx, getState());
+		enterRule(_localctx, 46, RULE_jumpStatement);
+		int _la;
+		try {
+			setState(319);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case BREAK:
+				_localctx = new JumpBreakContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(313);
+				match(BREAK);
+				}
+				break;
+			case CONTINUE:
+				_localctx = new JumpContinueContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(314);
+				match(CONTINUE);
+				}
+				break;
+			case RETURN:
+				_localctx = new JumpReturnContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(315);
+				match(RETURN);
+				setState(317);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8939649671765165568L) != 0)) {
+					{
+					setState(316);
+					expression(0);
+					}
+				}
+
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class LvalueContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
+		public LvalueContext lvalue() {
+			return getRuleContext(LvalueContext.class,0);
+		}
+		public TerminalNode DOT() { return getToken(ZetarianoParser.DOT, 0); }
+		public TerminalNode LEFT_BRACKET() { return getToken(ZetarianoParser.LEFT_BRACKET, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode RIGHT_BRACKET() { return getToken(ZetarianoParser.RIGHT_BRACKET, 0); }
+		public LvalueContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_lvalue; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterLvalue(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitLvalue(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitLvalue(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final LvalueContext lvalue() throws RecognitionException {
+		return lvalue(0);
+	}
+
+	private LvalueContext lvalue(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		LvalueContext _localctx = new LvalueContext(_ctx, _parentState);
+		LvalueContext _prevctx = _localctx;
+		int _startState = 48;
+		enterRecursionRule(_localctx, 48, RULE_lvalue, _p);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			{
+			setState(322);
+			match(ID);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(334);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,35,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					setState(332);
+					_errHandler.sync(this);
+					switch ( getInterpreter().adaptivePredict(_input,34,_ctx) ) {
+					case 1:
+						{
+						_localctx = new LvalueContext(_parentctx, _parentState);
+						pushNewRecursionContext(_localctx, _startState, RULE_lvalue);
+						setState(324);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(325);
+						match(DOT);
+						setState(326);
+						match(ID);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new LvalueContext(_parentctx, _parentState);
+						pushNewRecursionContext(_localctx, _startState, RULE_lvalue);
+						setState(327);
+						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+						setState(328);
+						match(LEFT_BRACKET);
+						setState(329);
+						expression(0);
+						setState(330);
+						match(RIGHT_BRACKET);
+						}
+						break;
+					}
+					} 
+				}
+				setState(336);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,35,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			unrollRecursionContexts(_parentctx);
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class TypeContext extends ParserRuleContext {
+		public TerminalNode INT() { return getToken(ZetarianoParser.INT, 0); }
+		public TerminalNode DOUBLE() { return getToken(ZetarianoParser.DOUBLE, 0); }
+		public TerminalNode CHAR_TYPE() { return getToken(ZetarianoParser.CHAR_TYPE, 0); }
+		public TerminalNode BOOLEAN() { return getToken(ZetarianoParser.BOOLEAN, 0); }
+		public TerminalNode STRING_TYPE() { return getToken(ZetarianoParser.STRING_TYPE, 0); }
+		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
+		public TypeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_type; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final TypeContext type() throws RecognitionException {
+		TypeContext _localctx = new TypeContext(_ctx, getState());
+		enterRule(_localctx, 50, RULE_type);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(337);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 4611686018427388152L) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -3810,6 +2731,30 @@ public class ZetarianoParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitExprPrimary(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class ExprAndContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode AND() { return getToken(ZetarianoParser.AND, 0); }
+		public ExprAndContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterExprAnd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitExprAnd(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitExprAnd(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3861,6 +2806,30 @@ public class ZetarianoParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
+	public static class ExprOrContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode OR() { return getToken(ZetarianoParser.OR, 0); }
+		public ExprOrContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterExprOr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitExprOr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitExprOr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class ExprMultiplicativeContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -3869,8 +2838,8 @@ public class ZetarianoParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode MULT() { return getToken(ZetarianoParser.MULT, 0); }
-		public TerminalNode SPLIT() { return getToken(ZetarianoParser.SPLIT, 0); }
-		public TerminalNode MODULO() { return getToken(ZetarianoParser.MODULO, 0); }
+		public TerminalNode DIV() { return getToken(ZetarianoParser.DIV, 0); }
+		public TerminalNode MOD() { return getToken(ZetarianoParser.MOD, 0); }
 		public ExprMultiplicativeContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -3891,11 +2860,11 @@ public class ZetarianoParser extends Parser {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode NOT() { return getToken(ZetarianoParser.NOT, 0); }
 		public TerminalNode PLUS() { return getToken(ZetarianoParser.PLUS, 0); }
 		public TerminalNode MINUS() { return getToken(ZetarianoParser.MINUS, 0); }
-		public TerminalNode INCREMENT() { return getToken(ZetarianoParser.INCREMENT, 0); }
-		public TerminalNode DECREMENT() { return getToken(ZetarianoParser.DECREMENT, 0); }
+		public TerminalNode NOT() { return getToken(ZetarianoParser.NOT, 0); }
+		public TerminalNode INC() { return getToken(ZetarianoParser.INC, 0); }
+		public TerminalNode DEC() { return getToken(ZetarianoParser.DEC, 0); }
 		public ExprUnaryContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -3912,30 +2881,6 @@ public class ZetarianoParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class ExprLogicalOrContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode OR() { return getToken(ZetarianoParser.OR, 0); }
-		public ExprLogicalOrContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterExprLogicalOr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitExprLogicalOr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitExprLogicalOr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class ExprRelationalContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -3943,10 +2888,10 @@ public class ZetarianoParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode MAJOR() { return getToken(ZetarianoParser.MAJOR, 0); }
-		public TerminalNode MINOR() { return getToken(ZetarianoParser.MINOR, 0); }
-		public TerminalNode MAJORTO() { return getToken(ZetarianoParser.MAJORTO, 0); }
-		public TerminalNode MINORTO() { return getToken(ZetarianoParser.MINORTO, 0); }
+		public TerminalNode LESS() { return getToken(ZetarianoParser.LESS, 0); }
+		public TerminalNode GREATER() { return getToken(ZetarianoParser.GREATER, 0); }
+		public TerminalNode LESSEQUAL() { return getToken(ZetarianoParser.LESSEQUAL, 0); }
+		public TerminalNode GREATEREQUAL() { return getToken(ZetarianoParser.GREATEREQUAL, 0); }
 		public ExprRelationalContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -3970,8 +2915,8 @@ public class ZetarianoParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode IDENTIC() { return getToken(ZetarianoParser.IDENTIC, 0); }
-		public TerminalNode DIFF() { return getToken(ZetarianoParser.DIFF, 0); }
+		public TerminalNode EQUAL() { return getToken(ZetarianoParser.EQUAL, 0); }
+		public TerminalNode NOTEQUAL() { return getToken(ZetarianoParser.NOTEQUAL, 0); }
 		public ExprEqualityContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -4012,52 +2957,6 @@ public class ZetarianoParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ExprLogicalAndContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode AND() { return getToken(ZetarianoParser.AND, 0); }
-		public ExprLogicalAndContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterExprLogicalAnd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitExprLogicalAnd(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitExprLogicalAnd(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ExprPostfixContext extends ExpressionContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode INCREMENT() { return getToken(ZetarianoParser.INCREMENT, 0); }
-		public TerminalNode DECREMENT() { return getToken(ZetarianoParser.DECREMENT, 0); }
-		public ExprPostfixContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterExprPostfix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitExprPostfix(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitExprPostfix(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 
 	public final ExpressionContext expression() throws RecognitionException {
 		return expression(0);
@@ -4068,14 +2967,14 @@ public class ZetarianoParser extends Parser {
 		int _parentState = getState();
 		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
 		ExpressionContext _prevctx = _localctx;
-		int _startState = 64;
-		enterRecursionRule(_localctx, 64, RULE_expression, _p);
+		int _startState = 52;
+		enterRecursionRule(_localctx, 52, RULE_expression, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(442);
+			setState(347);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LEFT_PAREN:
@@ -4084,43 +2983,26 @@ public class ZetarianoParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(435);
+				setState(340);
 				match(LEFT_PAREN);
-				setState(436);
+				setState(341);
 				expression(0);
-				setState(437);
+				setState(342);
 				match(RIGHT_PAREN);
-				}
-				break;
-			case NEW:
-			case TRUE:
-			case FALSE:
-			case NULL:
-			case ID:
-			case INTEGER:
-			case DECIMAL:
-			case STRING_LITERAL:
-			case CHAR_LITERAL:
-				{
-				_localctx = new ExprPrimaryContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(439);
-				primary();
 				}
 				break;
 			case PLUS:
 			case MINUS:
+			case INC:
+			case DEC:
 			case NOT:
-			case INCREMENT:
-			case DECREMENT:
 				{
 				_localctx = new ExprUnaryContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(440);
+				setState(344);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 14680088L) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 4411334066176L) != 0)) ) {
 				_errHandler.recoverInline(this);
 				}
 				else {
@@ -4128,34 +3010,51 @@ public class ZetarianoParser extends Parser {
 					_errHandler.reportMatch(this);
 					consume();
 				}
-				setState(441);
-				expression(8);
+				setState(345);
+				expression(9);
+				}
+				break;
+			case NEW:
+			case NULL:
+			case TRUE:
+			case FALSE:
+			case INTEGER:
+			case DECIMAL:
+			case CHAR:
+			case STRING:
+			case ID:
+				{
+				_localctx = new ExprPrimaryContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(346);
+				primary();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(472);
+			setState(375);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,42,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,38,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(470);
+					setState(373);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,41,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,37,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ExprMultiplicativeContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(444);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(445);
+						setState(349);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						setState(350);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 224L) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 3758096384L) != 0)) ) {
 						_errHandler.recoverInline(this);
 						}
 						else {
@@ -4163,17 +3062,17 @@ public class ZetarianoParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(446);
-						expression(8);
+						setState(351);
+						expression(9);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new ExprAdditiveContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(447);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(448);
+						setState(352);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(353);
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
 						_errHandler.recoverInline(this);
@@ -4183,19 +3082,19 @@ public class ZetarianoParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(449);
-						expression(7);
+						setState(354);
+						expression(8);
 						}
 						break;
 					case 3:
 						{
 						_localctx = new ExprRelationalContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(450);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(451);
+						setState(355);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(356);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 491520L) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 1030792151040L) != 0)) ) {
 						_errHandler.recoverInline(this);
 						}
 						else {
@@ -4203,19 +3102,19 @@ public class ZetarianoParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(452);
-						expression(6);
+						setState(357);
+						expression(7);
 						}
 						break;
 					case 4:
 						{
 						_localctx = new ExprEqualityContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(453);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(454);
+						setState(358);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(359);
 						_la = _input.LA(1);
-						if ( !(_la==IDENTIC || _la==DIFF) ) {
+						if ( !(_la==EQUAL || _la==NOTEQUAL) ) {
 						_errHandler.recoverInline(this);
 						}
 						else {
@@ -4223,74 +3122,56 @@ public class ZetarianoParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(455);
-						expression(5);
+						setState(360);
+						expression(6);
 						}
 						break;
 					case 5:
 						{
-						_localctx = new ExprLogicalAndContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ExprAndContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(456);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(457);
+						setState(361);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(362);
 						match(AND);
-						setState(458);
-						expression(4);
+						setState(363);
+						expression(5);
 						}
 						break;
 					case 6:
 						{
-						_localctx = new ExprLogicalOrContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ExprOrContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(459);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(460);
+						setState(364);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(365);
 						match(OR);
-						setState(461);
-						expression(3);
+						setState(366);
+						expression(4);
 						}
 						break;
 					case 7:
 						{
 						_localctx = new ExprTernaryContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(462);
-						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-						setState(463);
+						setState(367);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(368);
 						match(QUESTION);
-						setState(464);
+						setState(369);
 						expression(0);
-						setState(465);
+						setState(370);
 						match(COLON);
-						setState(466);
-						expression(2);
-						}
-						break;
-					case 8:
-						{
-						_localctx = new ExprPostfixContext(new ExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(468);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(469);
-						_la = _input.LA(1);
-						if ( !(_la==INCREMENT || _la==DECREMENT) ) {
-						_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
+						setState(371);
+						expression(3);
 						}
 						break;
 					}
 					} 
 				}
-				setState(474);
+				setState(377);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,42,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,38,_ctx);
 			}
 			}
 		}
@@ -4318,1018 +3199,215 @@ public class ZetarianoParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryStructAccessContext extends PrimaryContext {
-		public Struct_accessContext struct_access() {
-			return getRuleContext(Struct_accessContext.class,0);
+	public static class PrimaryLiteralContext extends PrimaryContext {
+		public LiteralContext literal() {
+			return getRuleContext(LiteralContext.class,0);
 		}
-		public PrimaryStructAccessContext(PrimaryContext ctx) { copyFrom(ctx); }
+		public PrimaryLiteralContext(PrimaryContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryStructAccess(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryLiteral(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryStructAccess(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryLiteral(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryStructAccess(this);
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryIntegerContext extends PrimaryContext {
-		public TerminalNode INTEGER() { return getToken(ZetarianoParser.INTEGER, 0); }
-		public PrimaryIntegerContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryInteger(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryInteger(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryInteger(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryMethodCallContext extends PrimaryContext {
-		public Method_callContext method_call() {
-			return getRuleContext(Method_callContext.class,0);
-		}
-		public PrimaryMethodCallContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryMethodCall(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryMethodCall(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryMethodCall(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryStringContext extends PrimaryContext {
-		public TerminalNode STRING_LITERAL() { return getToken(ZetarianoParser.STRING_LITERAL, 0); }
-		public PrimaryStringContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryString(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryString(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryString(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryCharContext extends PrimaryContext {
-		public TerminalNode CHAR_LITERAL() { return getToken(ZetarianoParser.CHAR_LITERAL, 0); }
-		public PrimaryCharContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryChar(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryChar(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryChar(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryTrueContext extends PrimaryContext {
-		public TerminalNode TRUE() { return getToken(ZetarianoParser.TRUE, 0); }
-		public PrimaryTrueContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryTrue(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryTrue(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryTrue(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryNullContext extends PrimaryContext {
-		public TerminalNode NULL() { return getToken(ZetarianoParser.NULL, 0); }
-		public PrimaryNullContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryNull(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryNull(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryNull(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryDecimalContext extends PrimaryContext {
-		public TerminalNode DECIMAL() { return getToken(ZetarianoParser.DECIMAL, 0); }
-		public PrimaryDecimalContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryDecimal(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryDecimal(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryDecimal(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryFalseContext extends PrimaryContext {
-		public TerminalNode FALSE() { return getToken(ZetarianoParser.FALSE, 0); }
-		public PrimaryFalseContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryFalse(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryFalse(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryFalse(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryObjectCreationContext extends PrimaryContext {
-		public Object_creationContext object_creation() {
-			return getRuleContext(Object_creationContext.class,0);
-		}
-		public PrimaryObjectCreationContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryObjectCreation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryObjectCreation(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryObjectCreation(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryArrayAccessContext extends PrimaryContext {
-		public Array_accessContext array_access() {
-			return getRuleContext(Array_accessContext.class,0);
-		}
-		public PrimaryArrayAccessContext(PrimaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryArrayAccess(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryArrayAccess(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryArrayAccess(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PrimaryIdContext extends PrimaryContext {
+	public static class PrimaryNewObjectContext extends PrimaryContext {
+		public TerminalNode NEW() { return getToken(ZetarianoParser.NEW, 0); }
 		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public PrimaryIdContext(PrimaryContext ctx) { copyFrom(ctx); }
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public ArgumentListContext argumentList() {
+			return getRuleContext(ArgumentListContext.class,0);
+		}
+		public PrimaryNewObjectContext(PrimaryContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryId(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryNewObject(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryId(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryNewObject(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryId(this);
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryNewObject(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class PrimaryLvalueOrCallContext extends PrimaryContext {
+		public LvalueContext lvalue() {
+			return getRuleContext(LvalueContext.class,0);
+		}
+		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
+		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
+		public ArgumentListContext argumentList() {
+			return getRuleContext(ArgumentListContext.class,0);
+		}
+		public PrimaryLvalueOrCallContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryLvalueOrCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryLvalueOrCall(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryLvalueOrCall(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class PrimaryNewArrayContext extends PrimaryContext {
+		public TerminalNode NEW() { return getToken(ZetarianoParser.NEW, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public List<TerminalNode> LEFT_BRACKET() { return getTokens(ZetarianoParser.LEFT_BRACKET); }
+		public TerminalNode LEFT_BRACKET(int i) {
+			return getToken(ZetarianoParser.LEFT_BRACKET, i);
+		}
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public List<TerminalNode> RIGHT_BRACKET() { return getTokens(ZetarianoParser.RIGHT_BRACKET); }
+		public TerminalNode RIGHT_BRACKET(int i) {
+			return getToken(ZetarianoParser.RIGHT_BRACKET, i);
+		}
+		public PrimaryNewArrayContext(PrimaryContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPrimaryNewArray(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPrimaryNewArray(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPrimaryNewArray(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
 	public final PrimaryContext primary() throws RecognitionException {
 		PrimaryContext _localctx = new PrimaryContext(_ctx, getState());
-		enterRule(_localctx, 66, RULE_primary);
+		enterRule(_localctx, 54, RULE_primary);
+		int _la;
 		try {
-			setState(487);
+			int _alt;
+			setState(404);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,43,_ctx) ) {
 			case 1:
-				_localctx = new PrimaryIntegerContext(_localctx);
+				_localctx = new PrimaryLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(475);
-				match(INTEGER);
+				setState(378);
+				literal();
 				}
 				break;
 			case 2:
-				_localctx = new PrimaryDecimalContext(_localctx);
+				_localctx = new PrimaryNewObjectContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(476);
-				match(DECIMAL);
+				setState(379);
+				match(NEW);
+				setState(380);
+				match(ID);
+				setState(381);
+				match(LEFT_PAREN);
+				setState(383);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8939649671765165568L) != 0)) {
+					{
+					setState(382);
+					argumentList();
+					}
+				}
+
+				setState(385);
+				match(RIGHT_PAREN);
 				}
 				break;
 			case 3:
-				_localctx = new PrimaryStringContext(_localctx);
+				_localctx = new PrimaryNewArrayContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(477);
-				match(STRING_LITERAL);
+				setState(386);
+				match(NEW);
+				setState(387);
+				type();
+				setState(392); 
+				_errHandler.sync(this);
+				_alt = 1;
+				do {
+					switch (_alt) {
+					case 1:
+						{
+						{
+						setState(388);
+						match(LEFT_BRACKET);
+						setState(389);
+						expression(0);
+						setState(390);
+						match(RIGHT_BRACKET);
+						}
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					setState(394); 
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,40,_ctx);
+				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			case 4:
-				_localctx = new PrimaryCharContext(_localctx);
+				_localctx = new PrimaryLvalueOrCallContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(478);
-				match(CHAR_LITERAL);
-				}
-				break;
-			case 5:
-				_localctx = new PrimaryTrueContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(479);
-				match(TRUE);
-				}
-				break;
-			case 6:
-				_localctx = new PrimaryFalseContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(480);
-				match(FALSE);
-				}
-				break;
-			case 7:
-				_localctx = new PrimaryNullContext(_localctx);
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(481);
-				match(NULL);
-				}
-				break;
-			case 8:
-				_localctx = new PrimaryArrayAccessContext(_localctx);
-				enterOuterAlt(_localctx, 8);
-				{
-				setState(482);
-				array_access();
-				}
-				break;
-			case 9:
-				_localctx = new PrimaryStructAccessContext(_localctx);
-				enterOuterAlt(_localctx, 9);
-				{
-				setState(483);
-				struct_access();
-				}
-				break;
-			case 10:
-				_localctx = new PrimaryMethodCallContext(_localctx);
-				enterOuterAlt(_localctx, 10);
-				{
-				setState(484);
-				method_call();
-				}
-				break;
-			case 11:
-				_localctx = new PrimaryIdContext(_localctx);
-				enterOuterAlt(_localctx, 11);
-				{
-				setState(485);
-				match(ID);
-				}
-				break;
-			case 12:
-				_localctx = new PrimaryObjectCreationContext(_localctx);
-				enterOuterAlt(_localctx, 12);
-				{
-				setState(486);
-				object_creation();
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Logical_orContext extends ParserRuleContext {
-		public Logical_orContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_logical_or; }
-	 
-		public Logical_orContext() { }
-		public void copyFrom(Logical_orContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class LogicalOrContext extends Logical_orContext {
-		public List<Logical_andContext> logical_and() {
-			return getRuleContexts(Logical_andContext.class);
-		}
-		public Logical_andContext logical_and(int i) {
-			return getRuleContext(Logical_andContext.class,i);
-		}
-		public List<TerminalNode> OR() { return getTokens(ZetarianoParser.OR); }
-		public TerminalNode OR(int i) {
-			return getToken(ZetarianoParser.OR, i);
-		}
-		public LogicalOrContext(Logical_orContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterLogicalOr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitLogicalOr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitLogicalOr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Logical_orContext logical_or() throws RecognitionException {
-		Logical_orContext _localctx = new Logical_orContext(_ctx, getState());
-		enterRule(_localctx, 68, RULE_logical_or);
-		int _la;
-		try {
-			_localctx = new LogicalOrContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(489);
-			logical_and();
-			setState(494);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==OR) {
-				{
-				{
-				setState(490);
-				match(OR);
-				setState(491);
-				logical_and();
-				}
-				}
-				setState(496);
+				setState(396);
+				lvalue(0);
+				setState(402);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Logical_andContext extends ParserRuleContext {
-		public Logical_andContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_logical_and; }
-	 
-		public Logical_andContext() { }
-		public void copyFrom(Logical_andContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class LogicalAndContext extends Logical_andContext {
-		public List<EqualityContext> equality() {
-			return getRuleContexts(EqualityContext.class);
-		}
-		public EqualityContext equality(int i) {
-			return getRuleContext(EqualityContext.class,i);
-		}
-		public List<TerminalNode> AND() { return getTokens(ZetarianoParser.AND); }
-		public TerminalNode AND(int i) {
-			return getToken(ZetarianoParser.AND, i);
-		}
-		public LogicalAndContext(Logical_andContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterLogicalAnd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitLogicalAnd(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitLogicalAnd(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Logical_andContext logical_and() throws RecognitionException {
-		Logical_andContext _localctx = new Logical_andContext(_ctx, getState());
-		enterRule(_localctx, 70, RULE_logical_and);
-		int _la;
-		try {
-			_localctx = new LogicalAndContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(497);
-			equality();
-			setState(502);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==AND) {
-				{
-				{
-				setState(498);
-				match(AND);
-				setState(499);
-				equality();
-				}
-				}
-				setState(504);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class EqualityContext extends ParserRuleContext {
-		public EqualityContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_equality; }
-	 
-		public EqualityContext() { }
-		public void copyFrom(EqualityContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class EqualityRelationalContext extends EqualityContext {
-		public List<RelationalContext> relational() {
-			return getRuleContexts(RelationalContext.class);
-		}
-		public RelationalContext relational(int i) {
-			return getRuleContext(RelationalContext.class,i);
-		}
-		public List<TerminalNode> IDENTIC() { return getTokens(ZetarianoParser.IDENTIC); }
-		public TerminalNode IDENTIC(int i) {
-			return getToken(ZetarianoParser.IDENTIC, i);
-		}
-		public List<TerminalNode> DIFF() { return getTokens(ZetarianoParser.DIFF); }
-		public TerminalNode DIFF(int i) {
-			return getToken(ZetarianoParser.DIFF, i);
-		}
-		public EqualityRelationalContext(EqualityContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterEqualityRelational(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitEqualityRelational(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitEqualityRelational(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final EqualityContext equality() throws RecognitionException {
-		EqualityContext _localctx = new EqualityContext(_ctx, getState());
-		enterRule(_localctx, 72, RULE_equality);
-		int _la;
-		try {
-			_localctx = new EqualityRelationalContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(505);
-			relational();
-			setState(512);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==IDENTIC || _la==DIFF) {
-				{
-				setState(510);
-				_errHandler.sync(this);
-				switch (_input.LA(1)) {
-				case IDENTIC:
+				switch ( getInterpreter().adaptivePredict(_input,42,_ctx) ) {
+				case 1:
 					{
-					setState(506);
-					match(IDENTIC);
-					setState(507);
-					relational();
+					setState(397);
+					match(LEFT_PAREN);
+					setState(399);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+					if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8939649671765165568L) != 0)) {
+						{
+						setState(398);
+						argumentList();
+						}
+					}
+
+					setState(401);
+					match(RIGHT_PAREN);
 					}
 					break;
-				case DIFF:
-					{
-					setState(508);
-					match(DIFF);
-					setState(509);
-					relational();
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
 				}
-				}
-				setState(514);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class RelationalContext extends ParserRuleContext {
-		public RelationalContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_relational; }
-	 
-		public RelationalContext() { }
-		public void copyFrom(RelationalContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class RelationalAdditiveContext extends RelationalContext {
-		public List<AdditiveContext> additive() {
-			return getRuleContexts(AdditiveContext.class);
-		}
-		public AdditiveContext additive(int i) {
-			return getRuleContext(AdditiveContext.class,i);
-		}
-		public List<TerminalNode> MAJOR() { return getTokens(ZetarianoParser.MAJOR); }
-		public TerminalNode MAJOR(int i) {
-			return getToken(ZetarianoParser.MAJOR, i);
-		}
-		public List<TerminalNode> MINOR() { return getTokens(ZetarianoParser.MINOR); }
-		public TerminalNode MINOR(int i) {
-			return getToken(ZetarianoParser.MINOR, i);
-		}
-		public List<TerminalNode> MAJORTO() { return getTokens(ZetarianoParser.MAJORTO); }
-		public TerminalNode MAJORTO(int i) {
-			return getToken(ZetarianoParser.MAJORTO, i);
-		}
-		public List<TerminalNode> MINORTO() { return getTokens(ZetarianoParser.MINORTO); }
-		public TerminalNode MINORTO(int i) {
-			return getToken(ZetarianoParser.MINORTO, i);
-		}
-		public RelationalAdditiveContext(RelationalContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterRelationalAdditive(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitRelationalAdditive(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitRelationalAdditive(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final RelationalContext relational() throws RecognitionException {
-		RelationalContext _localctx = new RelationalContext(_ctx, getState());
-		enterRule(_localctx, 74, RULE_relational);
-		int _la;
-		try {
-			_localctx = new RelationalAdditiveContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(515);
-			additive();
-			setState(526);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 491520L) != 0)) {
-				{
-				setState(524);
-				_errHandler.sync(this);
-				switch (_input.LA(1)) {
-				case MAJOR:
-					{
-					setState(516);
-					match(MAJOR);
-					setState(517);
-					additive();
-					}
-					break;
-				case MINOR:
-					{
-					setState(518);
-					match(MINOR);
-					setState(519);
-					additive();
-					}
-					break;
-				case MAJORTO:
-					{
-					setState(520);
-					match(MAJORTO);
-					setState(521);
-					additive();
-					}
-					break;
-				case MINORTO:
-					{
-					setState(522);
-					match(MINORTO);
-					setState(523);
-					additive();
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				}
-				setState(528);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class AdditiveContext extends ParserRuleContext {
-		public AdditiveContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_additive; }
-	 
-		public AdditiveContext() { }
-		public void copyFrom(AdditiveContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AdditiveMultiplicativeContext extends AdditiveContext {
-		public List<MultiplicativeContext> multiplicative() {
-			return getRuleContexts(MultiplicativeContext.class);
-		}
-		public MultiplicativeContext multiplicative(int i) {
-			return getRuleContext(MultiplicativeContext.class,i);
-		}
-		public List<TerminalNode> PLUS() { return getTokens(ZetarianoParser.PLUS); }
-		public TerminalNode PLUS(int i) {
-			return getToken(ZetarianoParser.PLUS, i);
-		}
-		public List<TerminalNode> MINUS() { return getTokens(ZetarianoParser.MINUS); }
-		public TerminalNode MINUS(int i) {
-			return getToken(ZetarianoParser.MINUS, i);
-		}
-		public AdditiveMultiplicativeContext(AdditiveContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterAdditiveMultiplicative(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitAdditiveMultiplicative(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitAdditiveMultiplicative(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final AdditiveContext additive() throws RecognitionException {
-		AdditiveContext _localctx = new AdditiveContext(_ctx, getState());
-		enterRule(_localctx, 76, RULE_additive);
-		int _la;
-		try {
-			_localctx = new AdditiveMultiplicativeContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(529);
-			multiplicative();
-			setState(534);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==PLUS || _la==MINUS) {
-				{
-				{
-				setState(530);
-				_la = _input.LA(1);
-				if ( !(_la==PLUS || _la==MINUS) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				setState(531);
-				multiplicative();
-				}
-				}
-				setState(536);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class MultiplicativeContext extends ParserRuleContext {
-		public MultiplicativeContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_multiplicative; }
-	 
-		public MultiplicativeContext() { }
-		public void copyFrom(MultiplicativeContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class MultiplicativeUnaryContext extends MultiplicativeContext {
-		public List<UnaryContext> unary() {
-			return getRuleContexts(UnaryContext.class);
-		}
-		public UnaryContext unary(int i) {
-			return getRuleContext(UnaryContext.class,i);
-		}
-		public List<TerminalNode> MULT() { return getTokens(ZetarianoParser.MULT); }
-		public TerminalNode MULT(int i) {
-			return getToken(ZetarianoParser.MULT, i);
-		}
-		public List<TerminalNode> SPLIT() { return getTokens(ZetarianoParser.SPLIT); }
-		public TerminalNode SPLIT(int i) {
-			return getToken(ZetarianoParser.SPLIT, i);
-		}
-		public List<TerminalNode> MODULO() { return getTokens(ZetarianoParser.MODULO); }
-		public TerminalNode MODULO(int i) {
-			return getToken(ZetarianoParser.MODULO, i);
-		}
-		public MultiplicativeUnaryContext(MultiplicativeContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterMultiplicativeUnary(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitMultiplicativeUnary(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitMultiplicativeUnary(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final MultiplicativeContext multiplicative() throws RecognitionException {
-		MultiplicativeContext _localctx = new MultiplicativeContext(_ctx, getState());
-		enterRule(_localctx, 78, RULE_multiplicative);
-		int _la;
-		try {
-			_localctx = new MultiplicativeUnaryContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(537);
-			unary();
-			setState(542);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 224L) != 0)) {
-				{
-				{
-				setState(538);
-				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 224L) != 0)) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				setState(539);
-				unary();
-				}
-				}
-				setState(544);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class UnaryContext extends ParserRuleContext {
-		public UnaryContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_unary; }
-	 
-		public UnaryContext() { }
-		public void copyFrom(UnaryContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class UnaryPostfixContext extends UnaryContext {
-		public PostfixContext postfix() {
-			return getRuleContext(PostfixContext.class,0);
-		}
-		public UnaryPostfixContext(UnaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterUnaryPostfix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitUnaryPostfix(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitUnaryPostfix(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class UnaryPrefixContext extends UnaryContext {
-		public UnaryContext unary() {
-			return getRuleContext(UnaryContext.class,0);
-		}
-		public TerminalNode NOT() { return getToken(ZetarianoParser.NOT, 0); }
-		public TerminalNode PLUS() { return getToken(ZetarianoParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(ZetarianoParser.MINUS, 0); }
-		public TerminalNode INCREMENT() { return getToken(ZetarianoParser.INCREMENT, 0); }
-		public TerminalNode DECREMENT() { return getToken(ZetarianoParser.DECREMENT, 0); }
-		public UnaryPrefixContext(UnaryContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterUnaryPrefix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitUnaryPrefix(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitUnaryPrefix(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final UnaryContext unary() throws RecognitionException {
-		UnaryContext _localctx = new UnaryContext(_ctx, getState());
-		enterRule(_localctx, 80, RULE_unary);
-		int _la;
-		try {
-			setState(548);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case PLUS:
-			case MINUS:
-			case NOT:
-			case INCREMENT:
-			case DECREMENT:
-				_localctx = new UnaryPrefixContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(545);
-				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 14680088L) != 0)) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				setState(546);
-				unary();
 				}
 				break;
-			case NEW:
-			case TRUE:
-			case FALSE:
-			case NULL:
-			case ID:
-			case INTEGER:
-			case DECIMAL:
-			case STRING_LITERAL:
-			case CHAR_LITERAL:
-				_localctx = new UnaryPostfixContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(547);
-				postfix();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -5344,68 +3422,50 @@ public class ZetarianoParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class PostfixContext extends ParserRuleContext {
-		public PostfixContext(ParserRuleContext parent, int invokingState) {
+	public static class LiteralContext extends ParserRuleContext {
+		public TerminalNode INTEGER() { return getToken(ZetarianoParser.INTEGER, 0); }
+		public TerminalNode DECIMAL() { return getToken(ZetarianoParser.DECIMAL, 0); }
+		public TerminalNode CHAR() { return getToken(ZetarianoParser.CHAR, 0); }
+		public TerminalNode STRING() { return getToken(ZetarianoParser.STRING, 0); }
+		public TerminalNode TRUE() { return getToken(ZetarianoParser.TRUE, 0); }
+		public TerminalNode FALSE() { return getToken(ZetarianoParser.FALSE, 0); }
+		public TerminalNode NULL() { return getToken(ZetarianoParser.NULL, 0); }
+		public LiteralContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_postfix; }
-	 
-		public PostfixContext() { }
-		public void copyFrom(PostfixContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class PostfixPrimaryContext extends PostfixContext {
-		public PrimaryContext primary() {
-			return getRuleContext(PrimaryContext.class,0);
-		}
-		public TerminalNode INCREMENT() { return getToken(ZetarianoParser.INCREMENT, 0); }
-		public TerminalNode DECREMENT() { return getToken(ZetarianoParser.DECREMENT, 0); }
-		public PostfixPrimaryContext(PostfixContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_literal; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterPostfixPrimary(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterLiteral(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitPostfixPrimary(this);
+			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitLiteral(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitPostfixPrimary(this);
+			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final PostfixContext postfix() throws RecognitionException {
-		PostfixContext _localctx = new PostfixContext(_ctx, getState());
-		enterRule(_localctx, 82, RULE_postfix);
+	public final LiteralContext literal() throws RecognitionException {
+		LiteralContext _localctx = new LiteralContext(_ctx, getState());
+		enterRule(_localctx, 56, RULE_literal);
 		int _la;
 		try {
-			_localctx = new PostfixPrimaryContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(550);
-			primary();
-			setState(552);
-			_errHandler.sync(this);
+			setState(406);
 			_la = _input.LA(1);
-			if (_la==INCREMENT || _la==DECREMENT) {
-				{
-				setState(551);
-				_la = _input.LA(1);
-				if ( !(_la==INCREMENT || _la==DECREMENT) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				}
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 4323455642376340480L) != 0)) ) {
+			_errHandler.recoverInline(this);
 			}
-
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -5420,92 +3480,7 @@ public class ZetarianoParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Method_callContext extends ParserRuleContext {
-		public Method_callContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_method_call; }
-	 
-		public Method_callContext() { }
-		public void copyFrom(Method_callContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class MethodCallContext extends Method_callContext {
-		public TerminalNode ID() { return getToken(ZetarianoParser.ID, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(ZetarianoParser.LEFT_PAREN, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(ZetarianoParser.RIGHT_PAREN, 0); }
-		public Argument_listContext argument_list() {
-			return getRuleContext(Argument_listContext.class,0);
-		}
-		public MethodCallContext(Method_callContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterMethodCall(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).exitMethodCall(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZetarianoParserVisitor ) return ((ZetarianoParserVisitor<? extends T>)visitor).visitMethodCall(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final Method_callContext method_call() throws RecognitionException {
-		Method_callContext _localctx = new Method_callContext(_ctx, getState());
-		enterRule(_localctx, 84, RULE_method_call);
-		int _la;
-		try {
-			_localctx = new MethodCallContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(554);
-			match(ID);
-			setState(555);
-			match(LEFT_PAREN);
-			setState(557);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (((((_la - 3)) & ~0x3f) == 0 && ((1L << (_la - 3)) & 8943022978306408451L) != 0)) {
-				{
-				setState(556);
-				argument_list();
-				}
-			}
-
-			setState(559);
-			match(RIGHT_PAREN);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Argument_listContext extends ParserRuleContext {
-		public Argument_listContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_argument_list; }
-	 
-		public Argument_listContext() { }
-		public void copyFrom(Argument_listContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ArgumentListContext extends Argument_listContext {
+	public static class ArgumentListContext extends ParserRuleContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -5516,7 +3491,10 @@ public class ZetarianoParser extends Parser {
 		public TerminalNode COMMA(int i) {
 			return getToken(ZetarianoParser.COMMA, i);
 		}
-		public ArgumentListContext(Argument_listContext ctx) { copyFrom(ctx); }
+		public ArgumentListContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_argumentList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof ZetarianoParserListener ) ((ZetarianoParserListener)listener).enterArgumentList(this);
@@ -5532,29 +3510,28 @@ public class ZetarianoParser extends Parser {
 		}
 	}
 
-	public final Argument_listContext argument_list() throws RecognitionException {
-		Argument_listContext _localctx = new Argument_listContext(_ctx, getState());
-		enterRule(_localctx, 86, RULE_argument_list);
+	public final ArgumentListContext argumentList() throws RecognitionException {
+		ArgumentListContext _localctx = new ArgumentListContext(_ctx, getState());
+		enterRule(_localctx, 58, RULE_argumentList);
 		int _la;
 		try {
-			_localctx = new ArgumentListContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(561);
+			setState(408);
 			expression(0);
-			setState(566);
+			setState(413);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(562);
+				setState(409);
 				match(COMMA);
-				setState(563);
+				setState(410);
 				expression(0);
 				}
 				}
-				setState(568);
+				setState(415);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -5573,35 +3550,44 @@ public class ZetarianoParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 32:
+		case 24:
+			return lvalue_sempred((LvalueContext)_localctx, predIndex);
+		case 26:
 			return expression_sempred((ExpressionContext)_localctx, predIndex);
+		}
+		return true;
+	}
+	private boolean lvalue_sempred(LvalueContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 0:
+			return precpred(_ctx, 2);
+		case 1:
+			return precpred(_ctx, 1);
 		}
 		return true;
 	}
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0:
-			return precpred(_ctx, 7);
-		case 1:
-			return precpred(_ctx, 6);
 		case 2:
-			return precpred(_ctx, 5);
+			return precpred(_ctx, 8);
 		case 3:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 7);
 		case 4:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 6);
 		case 5:
-			return precpred(_ctx, 2);
+			return precpred(_ctx, 5);
 		case 6:
-			return precpred(_ctx, 1);
+			return precpred(_ctx, 4);
 		case 7:
-			return precpred(_ctx, 9);
+			return precpred(_ctx, 3);
+		case 8:
+			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001B\u023a\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001A\u01a1\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -5610,373 +3596,274 @@ public class ZetarianoParser extends Parser {
 		"\u0002\u0013\u0007\u0013\u0002\u0014\u0007\u0014\u0002\u0015\u0007\u0015"+
 		"\u0002\u0016\u0007\u0016\u0002\u0017\u0007\u0017\u0002\u0018\u0007\u0018"+
 		"\u0002\u0019\u0007\u0019\u0002\u001a\u0007\u001a\u0002\u001b\u0007\u001b"+
-		"\u0002\u001c\u0007\u001c\u0002\u001d\u0007\u001d\u0002\u001e\u0007\u001e"+
-		"\u0002\u001f\u0007\u001f\u0002 \u0007 \u0002!\u0007!\u0002\"\u0007\"\u0002"+
-		"#\u0007#\u0002$\u0007$\u0002%\u0007%\u0002&\u0007&\u0002\'\u0007\'\u0002"+
-		"(\u0007(\u0002)\u0007)\u0002*\u0007*\u0002+\u0007+\u0001\u0000\u0001\u0000"+
-		"\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
-		"\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0005\u0002"+
-		"f\b\u0002\n\u0002\f\u0002i\t\u0002\u0001\u0003\u0001\u0003\u0001\u0003"+
-		"\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004"+
-		"s\b\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
-		"\u0001\u0005\u0001\u0005\u0001\u0005\u0003\u0005}\b\u0005\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0003\u0005\u0082\b\u0005\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001\u0006"+
-		"\u0005\u0006\u008c\b\u0006\n\u0006\f\u0006\u008f\t\u0006\u0001\u0007\u0001"+
-		"\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0001\b\u0003"+
-		"\b\u009a\b\b\u0001\t\u0005\t\u009d\b\t\n\t\f\t\u00a0\t\t\u0001\n\u0001"+
-		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001"+
-		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001"+
-		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001\n\u0001"+
-		"\n\u0001\n\u0001\n\u0001\n\u0001\n\u0003\n\u00c3\b\n\u0001\u000b\u0001"+
-		"\u000b\u0001\u000b\u0001\u000b\u0003\u000b\u00c9\b\u000b\u0001\u000b\u0001"+
-		"\u000b\u0001\u000b\u0001\u000b\u0003\u000b\u00cf\b\u000b\u0001\u000b\u0001"+
-		"\u000b\u0001\u000b\u0003\u000b\u00d4\b\u000b\u0001\u000b\u0001\u000b\u0001"+
-		"\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0003"+
-		"\u000b\u00de\b\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001"+
-		"\u000b\u0003\u000b\u00e5\b\u000b\u0001\f\u0001\f\u0001\f\u0001\f\u0005"+
-		"\f\u00eb\b\f\n\f\f\f\u00ee\t\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f"+
-		"\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001"+
-		"\f\u0001\f\u0003\f\u00ff\b\f\u0001\r\u0001\r\u0001\r\u0001\r\u0003\r\u0105"+
-		"\b\r\u0001\r\u0001\r\u0001\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u010c"+
-		"\b\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0003"+
-		"\u000e\u0113\b\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001"+
-		"\u000e\u0003\u000e\u011a\b\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001"+
-		"\u000e\u0001\u000e\u0003\u000e\u0121\b\u000e\u0001\u000e\u0001\u000e\u0001"+
-		"\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u0128\b\u000e\u0001\u000e\u0001"+
-		"\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u012f\b\u000e\u0001"+
-		"\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u0135\b\u000e\u0001"+
-		"\u000e\u0003\u000e\u0138\b\u000e\u0001\u000f\u0001\u000f\u0001\u000f\u0001"+
-		"\u000f\u0001\u000f\u0004\u000f\u013f\b\u000f\u000b\u000f\f\u000f\u0140"+
-		"\u0001\u0010\u0001\u0010\u0001\u0010\u0004\u0010\u0146\b\u0010\u000b\u0010"+
-		"\f\u0010\u0147\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011"+
-		"\u0001\u0011\u0001\u0011\u0003\u0011\u0151\b\u0011\u0001\u0012\u0001\u0012"+
-		"\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0005\u0012\u0159\b\u0012"+
-		"\n\u0012\f\u0012\u015c\t\u0012\u0001\u0012\u0003\u0012\u015f\b\u0012\u0001"+
-		"\u0012\u0001\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001"+
-		"\u0013\u0001\u0013\u0003\u0013\u0169\b\u0013\u0001\u0014\u0001\u0014\u0001"+
-		"\u0014\u0001\u0014\u0001\u0014\u0003\u0014\u0170\b\u0014\u0001\u0015\u0001"+
-		"\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0003\u0015\u0177\b\u0015\u0001"+
-		"\u0015\u0001\u0015\u0003\u0015\u017b\b\u0015\u0001\u0015\u0001\u0015\u0001"+
-		"\u0015\u0001\u0016\u0001\u0016\u0001\u0016\u0003\u0016\u0183\b\u0016\u0001"+
-		"\u0017\u0001\u0017\u0001\u0018\u0001\u0018\u0003\u0018\u0189\b\u0018\u0001"+
-		"\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0001"+
+		"\u0002\u001c\u0007\u001c\u0002\u001d\u0007\u001d\u0001\u0000\u0001\u0000"+
+		"\u0001\u0000\u0001\u0001\u0003\u0001A\b\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0002\u0005\u0002"+
+		"J\b\u0002\n\u0002\f\u0002M\t\u0002\u0001\u0003\u0001\u0003\u0001\u0003"+
+		"\u0003\u0003R\b\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0005\u0004"+
+		"W\b\u0004\n\u0004\f\u0004Z\t\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0003\u0004`\b\u0004\u0003\u0004b\b\u0004\u0001\u0004\u0001"+
+		"\u0004\u0001\u0005\u0003\u0005g\b\u0005\u0001\u0005\u0001\u0005\u0003"+
+		"\u0005k\b\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0003\u0005p\b\u0005"+
+		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0006\u0003\u0006v\b\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0003\u0006{\b\u0006\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0005\u0007"+
+		"\u0083\b\u0007\n\u0007\f\u0007\u0086\t\u0007\u0001\b\u0001\b\u0001\b\u0001"+
+		"\b\u0001\b\u0001\b\u0005\b\u008e\b\b\n\b\f\b\u0091\t\b\u0001\b\u0001\b"+
+		"\u0003\b\u0095\b\b\u0001\t\u0001\t\u0001\t\u0001\t\u0001\t\u0003\t\u009c"+
+		"\b\t\u0001\n\u0005\n\u009f\b\n\n\n\f\n\u00a2\t\n\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b"+
+		"\u0001\u000b\u0001\u000b\u0003\u000b\u00c0\b\u000b\u0001\f\u0001\f\u0001"+
+		"\f\u0001\f\u0003\f\u00c6\b\f\u0001\r\u0001\r\u0001\r\u0004\r\u00cb\b\r"+
+		"\u000b\r\f\r\u00cc\u0001\r\u0001\r\u0001\r\u0001\r\u0003\r\u00d3\b\r\u0003"+
+		"\r\u00d5\b\r\u0001\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u00da\b\u000e"+
+		"\u0001\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u00df\b\u000e\u0005\u000e"+
+		"\u00e1\b\u000e\n\u000e\f\u000e\u00e4\t\u000e\u0001\u000e\u0001\u000e\u0001"+
+		"\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001"+
+		"\u000f\u0003\u000f\u00ef\b\u000f\u0001\u0010\u0001\u0010\u0001\u0010\u0001"+
+		"\u0010\u0001\u0011\u0001\u0011\u0001\u0011\u0003\u0011\u00f8\b\u0011\u0001"+
+		"\u0011\u0001\u0011\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001"+
+		"\u0012\u0001\u0012\u0001\u0012\u0003\u0012\u0103\b\u0012\u0001\u0013\u0001"+
+		"\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001"+
+		"\u0013\u0001\u0013\u0001\u0013\u0005\u0013\u010f\b\u0013\n\u0013\f\u0013"+
+		"\u0112\t\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0003\u0013\u0117\b"+
+		"\u0013\u0001\u0013\u0001\u0013\u0001\u0014\u0001\u0014\u0001\u0014\u0001"+
+		"\u0014\u0001\u0014\u0001\u0014\u0001\u0015\u0001\u0015\u0001\u0015\u0001"+
+		"\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0016\u0001\u0016\u0001"+
+		"\u0016\u0001\u0016\u0003\u0016\u012c\b\u0016\u0001\u0016\u0001\u0016\u0003"+
+		"\u0016\u0130\b\u0016\u0001\u0016\u0001\u0016\u0001\u0016\u0003\u0016\u0135"+
+		"\b\u0016\u0001\u0016\u0001\u0016\u0001\u0016\u0001\u0017\u0001\u0017\u0001"+
+		"\u0017\u0001\u0017\u0003\u0017\u013e\b\u0017\u0003\u0017\u0140\b\u0017"+
+		"\u0001\u0018\u0001\u0018\u0001\u0018\u0001\u0018\u0001\u0018\u0001\u0018"+
+		"\u0001\u0018\u0001\u0018\u0001\u0018\u0001\u0018\u0001\u0018\u0005\u0018"+
+		"\u014d\b\u0018\n\u0018\f\u0018\u0150\t\u0018\u0001\u0019\u0001\u0019\u0001"+
 		"\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001"+
-		"\u001a\u0001\u001a\u0001\u001b\u0001\u001b\u0003\u001b\u019b\b\u001b\u0001"+
-		"\u001c\u0001\u001c\u0001\u001d\u0001\u001d\u0001\u001e\u0001\u001e\u0001"+
-		"\u001e\u0003\u001e\u01a4\b\u001e\u0001\u001e\u0001\u001e\u0001\u001e\u0001"+
-		"\u001e\u0003\u001e\u01aa\b\u001e\u0001\u001e\u0003\u001e\u01ad\b\u001e"+
-		"\u0001\u001f\u0001\u001f\u0001\u001f\u0001\u001f\u0001 \u0001 \u0001 "+
-		"\u0001 \u0001 \u0001 \u0001 \u0001 \u0003 \u01bb\b \u0001 \u0001 \u0001"+
-		" \u0001 \u0001 \u0001 \u0001 \u0001 \u0001 \u0001 \u0001 \u0001 \u0001"+
-		" \u0001 \u0001 \u0001 \u0001 \u0001 \u0001 \u0001 \u0001 \u0001 \u0001"+
-		" \u0001 \u0001 \u0001 \u0005 \u01d7\b \n \f \u01da\t \u0001!\u0001!\u0001"+
-		"!\u0001!\u0001!\u0001!\u0001!\u0001!\u0001!\u0001!\u0001!\u0001!\u0003"+
-		"!\u01e8\b!\u0001\"\u0001\"\u0001\"\u0005\"\u01ed\b\"\n\"\f\"\u01f0\t\""+
-		"\u0001#\u0001#\u0001#\u0005#\u01f5\b#\n#\f#\u01f8\t#\u0001$\u0001$\u0001"+
-		"$\u0001$\u0001$\u0005$\u01ff\b$\n$\f$\u0202\t$\u0001%\u0001%\u0001%\u0001"+
-		"%\u0001%\u0001%\u0001%\u0001%\u0001%\u0005%\u020d\b%\n%\f%\u0210\t%\u0001"+
-		"&\u0001&\u0001&\u0005&\u0215\b&\n&\f&\u0218\t&\u0001\'\u0001\'\u0001\'"+
-		"\u0005\'\u021d\b\'\n\'\f\'\u0220\t\'\u0001(\u0001(\u0001(\u0003(\u0225"+
-		"\b(\u0001)\u0001)\u0003)\u0229\b)\u0001*\u0001*\u0001*\u0003*\u022e\b"+
-		"*\u0001*\u0001*\u0001+\u0001+\u0001+\u0005+\u0235\b+\n+\f+\u0238\t+\u0001"+
-		"+\u0000\u0001@,\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014"+
-		"\u0016\u0018\u001a\u001c\u001e \"$&(*,.02468:<>@BDFHJLNPRTV\u0000\u0007"+
-		"\u0002\u0000=>@A\u0002\u0000\u0003\u0004\u0015\u0017\u0001\u0000\u0005"+
-		"\u0007\u0001\u0000\u0003\u0004\u0001\u0000\u000f\u0012\u0001\u0000\r\u000e"+
-		"\u0001\u0000\u0016\u0017\u027a\u0000X\u0001\u0000\u0000\u0000\u0002[\u0001"+
-		"\u0000\u0000\u0000\u0004g\u0001\u0000\u0000\u0000\u0006j\u0001\u0000\u0000"+
-		"\u0000\bn\u0001\u0000\u0000\u0000\ny\u0001\u0000\u0000\u0000\f\u0088\u0001"+
-		"\u0000\u0000\u0000\u000e\u0090\u0001\u0000\u0000\u0000\u0010\u0099\u0001"+
-		"\u0000\u0000\u0000\u0012\u009e\u0001\u0000\u0000\u0000\u0014\u00c2\u0001"+
-		"\u0000\u0000\u0000\u0016\u00e4\u0001\u0000\u0000\u0000\u0018\u00fe\u0001"+
-		"\u0000\u0000\u0000\u001a\u0100\u0001\u0000\u0000\u0000\u001c\u0137\u0001"+
-		"\u0000\u0000\u0000\u001e\u0139\u0001\u0000\u0000\u0000 \u0142\u0001\u0000"+
-		"\u0000\u0000\"\u0149\u0001\u0000\u0000\u0000$\u0152\u0001\u0000\u0000"+
-		"\u0000&\u0162\u0001\u0000\u0000\u0000(\u016a\u0001\u0000\u0000\u0000*"+
-		"\u0171\u0001\u0000\u0000\u0000,\u0182\u0001\u0000\u0000\u0000.\u0184\u0001"+
-		"\u0000\u0000\u00000\u0188\u0001\u0000\u0000\u00002\u018a\u0001\u0000\u0000"+
-		"\u00004\u0190\u0001\u0000\u0000\u00006\u0198\u0001\u0000\u0000\u00008"+
-		"\u019c\u0001\u0000\u0000\u0000:\u019e\u0001\u0000\u0000\u0000<\u01ac\u0001"+
-		"\u0000\u0000\u0000>\u01ae\u0001\u0000\u0000\u0000@\u01ba\u0001\u0000\u0000"+
-		"\u0000B\u01e7\u0001\u0000\u0000\u0000D\u01e9\u0001\u0000\u0000\u0000F"+
-		"\u01f1\u0001\u0000\u0000\u0000H\u01f9\u0001\u0000\u0000\u0000J\u0203\u0001"+
-		"\u0000\u0000\u0000L\u0211\u0001\u0000\u0000\u0000N\u0219\u0001\u0000\u0000"+
-		"\u0000P\u0224\u0001\u0000\u0000\u0000R\u0226\u0001\u0000\u0000\u0000T"+
-		"\u022a\u0001\u0000\u0000\u0000V\u0231\u0001\u0000\u0000\u0000XY\u0003"+
-		"\u0002\u0001\u0000YZ\u0005\u0000\u0000\u0001Z\u0001\u0001\u0000\u0000"+
-		"\u0000[\\\u0005#\u0000\u0000\\]\u0005$\u0000\u0000]^\u0005=\u0000\u0000"+
-		"^_\u0005\u001f\u0000\u0000_`\u0003\u0004\u0002\u0000`a\u0005 \u0000\u0000"+
-		"a\u0003\u0001\u0000\u0000\u0000bf\u0003\u0006\u0003\u0000cf\u0003\b\u0004"+
-		"\u0000df\u0003\n\u0005\u0000eb\u0001\u0000\u0000\u0000ec\u0001\u0000\u0000"+
-		"\u0000ed\u0001\u0000\u0000\u0000fi\u0001\u0000\u0000\u0000ge\u0001\u0000"+
-		"\u0000\u0000gh\u0001\u0000\u0000\u0000h\u0005\u0001\u0000\u0000\u0000"+
-		"ig\u0001\u0000\u0000\u0000jk\u0003\u0010\b\u0000kl\u0005=\u0000\u0000"+
-		"lm\u0005\u001b\u0000\u0000m\u0007\u0001\u0000\u0000\u0000no\u0005#\u0000"+
-		"\u0000op\u0005=\u0000\u0000pr\u0005!\u0000\u0000qs\u0003\f\u0006\u0000"+
-		"rq\u0001\u0000\u0000\u0000rs\u0001\u0000\u0000\u0000st\u0001\u0000\u0000"+
-		"\u0000tu\u0005\"\u0000\u0000uv\u0005\u001f\u0000\u0000vw\u0003\u0012\t"+
-		"\u0000wx\u0005 \u0000\u0000x\t\u0001\u0000\u0000\u0000y|\u0005#\u0000"+
-		"\u0000z}\u0005&\u0000\u0000{}\u0003\u0010\b\u0000|z\u0001\u0000\u0000"+
-		"\u0000|{\u0001\u0000\u0000\u0000}~\u0001\u0000\u0000\u0000~\u007f\u0005"+
-		"=\u0000\u0000\u007f\u0081\u0005!\u0000\u0000\u0080\u0082\u0003\f\u0006"+
-		"\u0000\u0081\u0080\u0001\u0000\u0000\u0000\u0081\u0082\u0001\u0000\u0000"+
-		"\u0000\u0082\u0083\u0001\u0000\u0000\u0000\u0083\u0084\u0005\"\u0000\u0000"+
-		"\u0084\u0085\u0005\u001f\u0000\u0000\u0085\u0086\u0003\u0012\t\u0000\u0086"+
-		"\u0087\u0005 \u0000\u0000\u0087\u000b\u0001\u0000\u0000\u0000\u0088\u008d"+
-		"\u0003\u000e\u0007\u0000\u0089\u008a\u0005\u0019\u0000\u0000\u008a\u008c"+
-		"\u0003\u000e\u0007\u0000\u008b\u0089\u0001\u0000\u0000\u0000\u008c\u008f"+
-		"\u0001\u0000\u0000\u0000\u008d\u008b\u0001\u0000\u0000\u0000\u008d\u008e"+
-		"\u0001\u0000\u0000\u0000\u008e\r\u0001\u0000\u0000\u0000\u008f\u008d\u0001"+
-		"\u0000\u0000\u0000\u0090\u0091\u0003\u0010\b\u0000\u0091\u0092\u0005="+
-		"\u0000\u0000\u0092\u000f\u0001\u0000\u0000\u0000\u0093\u009a\u00058\u0000"+
-		"\u0000\u0094\u009a\u00059\u0000\u0000\u0095\u009a\u0005:\u0000\u0000\u0096"+
-		"\u009a\u0005;\u0000\u0000\u0097\u009a\u0005<\u0000\u0000\u0098\u009a\u0005"+
-		"=\u0000\u0000\u0099\u0093\u0001\u0000\u0000\u0000\u0099\u0094\u0001\u0000"+
-		"\u0000\u0000\u0099\u0095\u0001\u0000\u0000\u0000\u0099\u0096\u0001\u0000"+
-		"\u0000\u0000\u0099\u0097\u0001\u0000\u0000\u0000\u0099\u0098\u0001\u0000"+
-		"\u0000\u0000\u009a\u0011\u0001\u0000\u0000\u0000\u009b\u009d\u0003\u0014"+
-		"\n\u0000\u009c\u009b\u0001\u0000\u0000\u0000\u009d\u00a0\u0001\u0000\u0000"+
-		"\u0000\u009e\u009c\u0001\u0000\u0000\u0000\u009e\u009f\u0001\u0000\u0000"+
-		"\u0000\u009f\u0013\u0001\u0000\u0000\u0000\u00a0\u009e\u0001\u0000\u0000"+
-		"\u0000\u00a1\u00a2\u0003\u0016\u000b\u0000\u00a2\u00a3\u0005\u001b\u0000"+
-		"\u0000\u00a3\u00c3\u0001\u0000\u0000\u0000\u00a4\u00a5\u0003\u001c\u000e"+
-		"\u0000\u00a5\u00a6\u0005\u001b\u0000\u0000\u00a6\u00c3\u0001\u0000\u0000"+
-		"\u0000\u00a7\u00c3\u0003\"\u0011\u0000\u00a8\u00c3\u0003$\u0012\u0000"+
-		"\u00a9\u00c3\u0003*\u0015\u0000\u00aa\u00c3\u00032\u0019\u0000\u00ab\u00c3"+
-		"\u00034\u001a\u0000\u00ac\u00ad\u00036\u001b\u0000\u00ad\u00ae\u0005\u001b"+
-		"\u0000\u0000\u00ae\u00c3\u0001\u0000\u0000\u0000\u00af\u00b0\u00038\u001c"+
-		"\u0000\u00b0\u00b1\u0005\u001b\u0000\u0000\u00b1\u00c3\u0001\u0000\u0000"+
-		"\u0000\u00b2\u00b3\u0003:\u001d\u0000\u00b3\u00b4\u0005\u001b\u0000\u0000"+
-		"\u00b4\u00c3\u0001\u0000\u0000\u0000\u00b5\u00b6\u0003<\u001e\u0000\u00b6"+
-		"\u00b7\u0005\u001b\u0000\u0000\u00b7\u00c3\u0001\u0000\u0000\u0000\u00b8"+
-		"\u00b9\u0003>\u001f\u0000\u00b9\u00ba\u0005\u001b\u0000\u0000\u00ba\u00c3"+
-		"\u0001\u0000\u0000\u0000\u00bb\u00bc\u0003\u001a\r\u0000\u00bc\u00bd\u0005"+
-		"\u001b\u0000\u0000\u00bd\u00c3\u0001\u0000\u0000\u0000\u00be\u00bf\u0003"+
-		"@ \u0000\u00bf\u00c0\u0005\u001b\u0000\u0000\u00c0\u00c3\u0001\u0000\u0000"+
-		"\u0000\u00c1\u00c3\u0005\u001b\u0000\u0000\u00c2\u00a1\u0001\u0000\u0000"+
-		"\u0000\u00c2\u00a4\u0001\u0000\u0000\u0000\u00c2\u00a7\u0001\u0000\u0000"+
-		"\u0000\u00c2\u00a8\u0001\u0000\u0000\u0000\u00c2\u00a9\u0001\u0000\u0000"+
-		"\u0000\u00c2\u00aa\u0001\u0000\u0000\u0000\u00c2\u00ab\u0001\u0000\u0000"+
-		"\u0000\u00c2\u00ac\u0001\u0000\u0000\u0000\u00c2\u00af\u0001\u0000\u0000"+
-		"\u0000\u00c2\u00b2\u0001\u0000\u0000\u0000\u00c2\u00b5\u0001\u0000\u0000"+
-		"\u0000\u00c2\u00b8\u0001\u0000\u0000\u0000\u00c2\u00bb\u0001\u0000\u0000"+
-		"\u0000\u00c2\u00be\u0001\u0000\u0000\u0000\u00c2\u00c1\u0001\u0000\u0000"+
-		"\u0000\u00c3\u0015\u0001\u0000\u0000\u0000\u00c4\u00c5\u0003\u0010\b\u0000"+
-		"\u00c5\u00c8\u0005=\u0000\u0000\u00c6\u00c7\u0005\b\u0000\u0000\u00c7"+
-		"\u00c9\u0003@ \u0000\u00c8\u00c6\u0001\u0000\u0000\u0000\u00c8\u00c9\u0001"+
-		"\u0000\u0000\u0000\u00c9\u00e5\u0001\u0000\u0000\u0000\u00ca\u00cb\u0003"+
-		"\u0010\b\u0000\u00cb\u00cc\u0005=\u0000\u0000\u00cc\u00ce\u0005\u001d"+
-		"\u0000\u0000\u00cd\u00cf\u0005>\u0000\u0000\u00ce\u00cd\u0001\u0000\u0000"+
-		"\u0000\u00ce\u00cf\u0001\u0000\u0000\u0000\u00cf\u00d0\u0001\u0000\u0000"+
-		"\u0000\u00d0\u00d3\u0005\u001e\u0000\u0000\u00d1\u00d2\u0005\b\u0000\u0000"+
-		"\u00d2\u00d4\u0003\u0018\f\u0000\u00d3\u00d1\u0001\u0000\u0000\u0000\u00d3"+
-		"\u00d4\u0001\u0000\u0000\u0000\u00d4\u00e5\u0001\u0000\u0000\u0000\u00d5"+
-		"\u00d6\u0003\u0010\b\u0000\u00d6\u00d7\u0005=\u0000\u0000\u00d7\u00d8"+
-		"\u0005\u001d\u0000\u0000\u00d8\u00d9\u0005\u001d\u0000\u0000\u00d9\u00da"+
-		"\u0005\u001e\u0000\u0000\u00da\u00dd\u0005\u001e\u0000\u0000\u00db\u00dc"+
-		"\u0005\b\u0000\u0000\u00dc\u00de\u0003\u0018\f\u0000\u00dd\u00db\u0001"+
-		"\u0000\u0000\u0000\u00dd\u00de\u0001\u0000\u0000\u0000\u00de\u00e5\u0001"+
-		"\u0000\u0000\u0000\u00df\u00e0\u0003\u0010\b\u0000\u00e0\u00e1\u0005="+
-		"\u0000\u0000\u00e1\u00e2\u0005\b\u0000\u0000\u00e2\u00e3\u0003\u001a\r"+
-		"\u0000\u00e3\u00e5\u0001\u0000\u0000\u0000\u00e4\u00c4\u0001\u0000\u0000"+
-		"\u0000\u00e4\u00ca\u0001\u0000\u0000\u0000\u00e4\u00d5\u0001\u0000\u0000"+
-		"\u0000\u00e4\u00df\u0001\u0000\u0000\u0000\u00e5\u0017\u0001\u0000\u0000"+
-		"\u0000\u00e6\u00e7\u0005\u001f\u0000\u0000\u00e7\u00ec\u0003@ \u0000\u00e8"+
-		"\u00e9\u0005\u0019\u0000\u0000\u00e9\u00eb\u0003@ \u0000\u00ea\u00e8\u0001"+
-		"\u0000\u0000\u0000\u00eb\u00ee\u0001\u0000\u0000\u0000\u00ec\u00ea\u0001"+
-		"\u0000\u0000\u0000\u00ec\u00ed\u0001\u0000\u0000\u0000\u00ed\u00ef\u0001"+
-		"\u0000\u0000\u0000\u00ee\u00ec\u0001\u0000\u0000\u0000\u00ef\u00f0\u0005"+
-		" \u0000\u0000\u00f0\u00ff\u0001\u0000\u0000\u0000\u00f1\u00f2\u0005%\u0000"+
-		"\u0000\u00f2\u00f3\u0003\u0010\b\u0000\u00f3\u00f4\u0005\u001d\u0000\u0000"+
-		"\u00f4\u00f5\u0005>\u0000\u0000\u00f5\u00f6\u0005\u001e\u0000\u0000\u00f6"+
-		"\u00ff\u0001\u0000\u0000\u0000\u00f7\u00f8\u0005%\u0000\u0000\u00f8\u00f9"+
-		"\u0003\u0010\b\u0000\u00f9\u00fa\u0005\u001d\u0000\u0000\u00fa\u00fb\u0005"+
-		"\u001d\u0000\u0000\u00fb\u00fc\u0005\u001e\u0000\u0000\u00fc\u00fd\u0005"+
-		"\u001e\u0000\u0000\u00fd\u00ff\u0001\u0000\u0000\u0000\u00fe\u00e6\u0001"+
-		"\u0000\u0000\u0000\u00fe\u00f1\u0001\u0000\u0000\u0000\u00fe\u00f7\u0001"+
-		"\u0000\u0000\u0000\u00ff\u0019\u0001\u0000\u0000\u0000\u0100\u0101\u0005"+
-		"%\u0000\u0000\u0101\u0102\u0005=\u0000\u0000\u0102\u0104\u0005!\u0000"+
-		"\u0000\u0103\u0105\u0003V+\u0000\u0104\u0103\u0001\u0000\u0000\u0000\u0104"+
-		"\u0105\u0001\u0000\u0000\u0000\u0105\u0106\u0001\u0000\u0000\u0000\u0106"+
-		"\u0107\u0005\"\u0000\u0000\u0107\u001b\u0001\u0000\u0000\u0000\u0108\u010c"+
-		"\u0005=\u0000\u0000\u0109\u010c\u0003\u001e\u000f\u0000\u010a\u010c\u0003"+
-		" \u0010\u0000\u010b\u0108\u0001\u0000\u0000\u0000\u010b\u0109\u0001\u0000"+
-		"\u0000\u0000\u010b\u010a\u0001\u0000\u0000\u0000\u010c\u010d\u0001\u0000"+
-		"\u0000\u0000\u010d\u010e\u0005\b\u0000\u0000\u010e\u0138\u0003@ \u0000"+
-		"\u010f\u0113\u0005=\u0000\u0000\u0110\u0113\u0003\u001e\u000f\u0000\u0111"+
-		"\u0113\u0003 \u0010\u0000\u0112\u010f\u0001\u0000\u0000\u0000\u0112\u0110"+
-		"\u0001\u0000\u0000\u0000\u0112\u0111\u0001\u0000\u0000\u0000\u0113\u0114"+
-		"\u0001\u0000\u0000\u0000\u0114\u0115\u0005\t\u0000\u0000\u0115\u0138\u0003"+
-		"@ \u0000\u0116\u011a\u0005=\u0000\u0000\u0117\u011a\u0003\u001e\u000f"+
-		"\u0000\u0118\u011a\u0003 \u0010\u0000\u0119\u0116\u0001\u0000\u0000\u0000"+
-		"\u0119\u0117\u0001\u0000\u0000\u0000\u0119\u0118\u0001\u0000\u0000\u0000"+
-		"\u011a\u011b\u0001\u0000\u0000\u0000\u011b\u011c\u0005\n\u0000\u0000\u011c"+
-		"\u0138\u0003@ \u0000\u011d\u0121\u0005=\u0000\u0000\u011e\u0121\u0003"+
-		"\u001e\u000f\u0000\u011f\u0121\u0003 \u0010\u0000\u0120\u011d\u0001\u0000"+
-		"\u0000\u0000\u0120\u011e\u0001\u0000\u0000\u0000\u0120\u011f\u0001\u0000"+
-		"\u0000\u0000\u0121\u0122\u0001\u0000\u0000\u0000\u0122\u0123\u0005\u000b"+
-		"\u0000\u0000\u0123\u0138\u0003@ \u0000\u0124\u0128\u0005=\u0000\u0000"+
-		"\u0125\u0128\u0003\u001e\u000f\u0000\u0126\u0128\u0003 \u0010\u0000\u0127"+
-		"\u0124\u0001\u0000\u0000\u0000\u0127\u0125\u0001\u0000\u0000\u0000\u0127"+
-		"\u0126\u0001\u0000\u0000\u0000\u0128\u0129\u0001\u0000\u0000\u0000\u0129"+
-		"\u012a\u0005\f\u0000\u0000\u012a\u0138\u0003@ \u0000\u012b\u012f\u0005"+
-		"=\u0000\u0000\u012c\u012f\u0003\u001e\u000f\u0000\u012d\u012f\u0003 \u0010"+
-		"\u0000\u012e\u012b\u0001\u0000\u0000\u0000\u012e\u012c\u0001\u0000\u0000"+
-		"\u0000\u012e\u012d\u0001\u0000\u0000\u0000\u012f\u0130\u0001\u0000\u0000"+
-		"\u0000\u0130\u0138\u0005\u0016\u0000\u0000\u0131\u0135\u0005=\u0000\u0000"+
-		"\u0132\u0135\u0003\u001e\u000f\u0000\u0133\u0135\u0003 \u0010\u0000\u0134"+
-		"\u0131\u0001\u0000\u0000\u0000\u0134\u0132\u0001\u0000\u0000\u0000\u0134"+
-		"\u0133\u0001\u0000\u0000\u0000\u0135\u0136\u0001\u0000\u0000\u0000\u0136"+
-		"\u0138\u0005\u0017\u0000\u0000\u0137\u010b\u0001\u0000\u0000\u0000\u0137"+
-		"\u0112\u0001\u0000\u0000\u0000\u0137\u0119\u0001\u0000\u0000\u0000\u0137"+
-		"\u0120\u0001\u0000\u0000\u0000\u0137\u0127\u0001\u0000\u0000\u0000\u0137"+
-		"\u012e\u0001\u0000\u0000\u0000\u0137\u0134\u0001\u0000\u0000\u0000\u0138"+
-		"\u001d\u0001\u0000\u0000\u0000\u0139\u013e\u0005=\u0000\u0000\u013a\u013b"+
-		"\u0005\u001d\u0000\u0000\u013b\u013c\u0003@ \u0000\u013c\u013d\u0005\u001e"+
-		"\u0000\u0000\u013d\u013f\u0001\u0000\u0000\u0000\u013e\u013a\u0001\u0000"+
-		"\u0000\u0000\u013f\u0140\u0001\u0000\u0000\u0000\u0140\u013e\u0001\u0000"+
-		"\u0000\u0000\u0140\u0141\u0001\u0000\u0000\u0000\u0141\u001f\u0001\u0000"+
-		"\u0000\u0000\u0142\u0145\u0005=\u0000\u0000\u0143\u0144\u0005\u001a\u0000"+
-		"\u0000\u0144\u0146\u0005=\u0000\u0000\u0145\u0143\u0001\u0000\u0000\u0000"+
-		"\u0146\u0147\u0001\u0000\u0000\u0000\u0147\u0145\u0001\u0000\u0000\u0000"+
-		"\u0147\u0148\u0001\u0000\u0000\u0000\u0148!\u0001\u0000\u0000\u0000\u0149"+
-		"\u014a\u0005(\u0000\u0000\u014a\u014b\u0005!\u0000\u0000\u014b\u014c\u0003"+
-		"@ \u0000\u014c\u014d\u0005\"\u0000\u0000\u014d\u0150\u0003\u0014\n\u0000"+
-		"\u014e\u014f\u0005)\u0000\u0000\u014f\u0151\u0003\u0014\n\u0000\u0150"+
-		"\u014e\u0001\u0000\u0000\u0000\u0150\u0151\u0001\u0000\u0000\u0000\u0151"+
-		"#\u0001\u0000\u0000\u0000\u0152\u0153\u0005*\u0000\u0000\u0153\u0154\u0005"+
-		"!\u0000\u0000\u0154\u0155\u0003@ \u0000\u0155\u0156\u0005\"\u0000\u0000"+
-		"\u0156\u015a\u0005\u001f\u0000\u0000\u0157\u0159\u0003&\u0013\u0000\u0158"+
-		"\u0157\u0001\u0000\u0000\u0000\u0159\u015c\u0001\u0000\u0000\u0000\u015a"+
-		"\u0158\u0001\u0000\u0000\u0000\u015a\u015b\u0001\u0000\u0000\u0000\u015b"+
-		"\u015e\u0001\u0000\u0000\u0000\u015c\u015a\u0001\u0000\u0000\u0000\u015d"+
-		"\u015f\u0003(\u0014\u0000\u015e\u015d\u0001\u0000\u0000\u0000\u015e\u015f"+
-		"\u0001\u0000\u0000\u0000\u015f\u0160\u0001\u0000\u0000\u0000\u0160\u0161"+
-		"\u0005 \u0000\u0000\u0161%\u0001\u0000\u0000\u0000\u0162\u0163\u0005+"+
-		"\u0000\u0000\u0163\u0164\u0007\u0000\u0000\u0000\u0164\u0165\u0005\u0018"+
-		"\u0000\u0000\u0165\u0168\u0003\u0012\t\u0000\u0166\u0167\u0005-\u0000"+
-		"\u0000\u0167\u0169\u0005\u001b\u0000\u0000\u0168\u0166\u0001\u0000\u0000"+
-		"\u0000\u0168\u0169\u0001\u0000\u0000\u0000\u0169\'\u0001\u0000\u0000\u0000"+
-		"\u016a\u016b\u0005,\u0000\u0000\u016b\u016c\u0005\u0018\u0000\u0000\u016c"+
-		"\u016f\u0003\u0012\t\u0000\u016d\u016e\u0005-\u0000\u0000\u016e\u0170"+
-		"\u0005\u001b\u0000\u0000\u016f\u016d\u0001\u0000\u0000\u0000\u016f\u0170"+
-		"\u0001\u0000\u0000\u0000\u0170)\u0001\u0000\u0000\u0000\u0171\u0172\u0005"+
-		"/\u0000\u0000\u0172\u0173\u0005!\u0000\u0000\u0173\u0174\u0003,\u0016"+
-		"\u0000\u0174\u0176\u0005\u001b\u0000\u0000\u0175\u0177\u0003.\u0017\u0000"+
-		"\u0176\u0175\u0001\u0000\u0000\u0000\u0176\u0177\u0001\u0000\u0000\u0000"+
-		"\u0177\u0178\u0001\u0000\u0000\u0000\u0178\u017a\u0005\u001b\u0000\u0000"+
-		"\u0179\u017b\u00030\u0018\u0000\u017a\u0179\u0001\u0000\u0000\u0000\u017a"+
-		"\u017b\u0001\u0000\u0000\u0000\u017b\u017c\u0001\u0000\u0000\u0000\u017c"+
-		"\u017d\u0005\"\u0000\u0000\u017d\u017e\u0003\u0014\n\u0000\u017e+\u0001"+
-		"\u0000\u0000\u0000\u017f\u0183\u0003\u0016\u000b\u0000\u0180\u0183\u0003"+
-		"\u001c\u000e\u0000\u0181\u0183\u0001\u0000\u0000\u0000\u0182\u017f\u0001"+
-		"\u0000\u0000\u0000\u0182\u0180\u0001\u0000\u0000\u0000\u0182\u0181\u0001"+
-		"\u0000\u0000\u0000\u0183-\u0001\u0000\u0000\u0000\u0184\u0185\u0003@ "+
-		"\u0000\u0185/\u0001\u0000\u0000\u0000\u0186\u0189\u0003\u001c\u000e\u0000"+
-		"\u0187\u0189\u0003@ \u0000\u0188\u0186\u0001\u0000\u0000\u0000\u0188\u0187"+
-		"\u0001\u0000\u0000\u0000\u01891\u0001\u0000\u0000\u0000\u018a\u018b\u0005"+
-		"0\u0000\u0000\u018b\u018c\u0005!\u0000\u0000\u018c\u018d\u0003@ \u0000"+
-		"\u018d\u018e\u0005\"\u0000\u0000\u018e\u018f\u0003\u0014\n\u0000\u018f"+
-		"3\u0001\u0000\u0000\u0000\u0190\u0191\u00051\u0000\u0000\u0191\u0192\u0003"+
-		"\u0014\n\u0000\u0192\u0193\u00050\u0000\u0000\u0193\u0194\u0005!\u0000"+
-		"\u0000\u0194\u0195\u0003@ \u0000\u0195\u0196\u0005\"\u0000\u0000\u0196"+
-		"\u0197\u0005\u001b\u0000\u0000\u01975\u0001\u0000\u0000\u0000\u0198\u019a"+
-		"\u0005\'\u0000\u0000\u0199\u019b\u0003@ \u0000\u019a\u0199\u0001\u0000"+
-		"\u0000\u0000\u019a\u019b\u0001\u0000\u0000\u0000\u019b7\u0001\u0000\u0000"+
-		"\u0000\u019c\u019d\u0005-\u0000\u0000\u019d9\u0001\u0000\u0000\u0000\u019e"+
-		"\u019f\u0005.\u0000\u0000\u019f;\u0001\u0000\u0000\u0000\u01a0\u01a1\u0005"+
-		"2\u0000\u0000\u01a1\u01a3\u0005!\u0000\u0000\u01a2\u01a4\u0003@ \u0000"+
-		"\u01a3\u01a2\u0001\u0000\u0000\u0000\u01a3\u01a4\u0001\u0000\u0000\u0000"+
-		"\u01a4\u01a5\u0001\u0000\u0000\u0000\u01a5\u01ad\u0005\"\u0000\u0000\u01a6"+
-		"\u01a7\u00053\u0000\u0000\u01a7\u01a9\u0005!\u0000\u0000\u01a8\u01aa\u0003"+
-		"@ \u0000\u01a9\u01a8\u0001\u0000\u0000\u0000\u01a9\u01aa\u0001\u0000\u0000"+
-		"\u0000\u01aa\u01ab\u0001\u0000\u0000\u0000\u01ab\u01ad\u0005\"\u0000\u0000"+
-		"\u01ac\u01a0\u0001\u0000\u0000\u0000\u01ac\u01a6\u0001\u0000\u0000\u0000"+
-		"\u01ad=\u0001\u0000\u0000\u0000\u01ae\u01af\u00054\u0000\u0000\u01af\u01b0"+
-		"\u0005!\u0000\u0000\u01b0\u01b1\u0005\"\u0000\u0000\u01b1?\u0001\u0000"+
-		"\u0000\u0000\u01b2\u01b3\u0006 \uffff\uffff\u0000\u01b3\u01b4\u0005!\u0000"+
-		"\u0000\u01b4\u01b5\u0003@ \u0000\u01b5\u01b6\u0005\"\u0000\u0000\u01b6"+
-		"\u01bb\u0001\u0000\u0000\u0000\u01b7\u01bb\u0003B!\u0000\u01b8\u01b9\u0007"+
-		"\u0001\u0000\u0000\u01b9\u01bb\u0003@ \b\u01ba\u01b2\u0001\u0000\u0000"+
-		"\u0000\u01ba\u01b7\u0001\u0000\u0000\u0000\u01ba\u01b8\u0001\u0000\u0000"+
-		"\u0000\u01bb\u01d8\u0001\u0000\u0000\u0000\u01bc\u01bd\n\u0007\u0000\u0000"+
-		"\u01bd\u01be\u0007\u0002\u0000\u0000\u01be\u01d7\u0003@ \b\u01bf\u01c0"+
-		"\n\u0006\u0000\u0000\u01c0\u01c1\u0007\u0003\u0000\u0000\u01c1\u01d7\u0003"+
-		"@ \u0007\u01c2\u01c3\n\u0005\u0000\u0000\u01c3\u01c4\u0007\u0004\u0000"+
-		"\u0000\u01c4\u01d7\u0003@ \u0006\u01c5\u01c6\n\u0004\u0000\u0000\u01c6"+
-		"\u01c7\u0007\u0005\u0000\u0000\u01c7\u01d7\u0003@ \u0005\u01c8\u01c9\n"+
-		"\u0003\u0000\u0000\u01c9\u01ca\u0005\u0013\u0000\u0000\u01ca\u01d7\u0003"+
-		"@ \u0004\u01cb\u01cc\n\u0002\u0000\u0000\u01cc\u01cd\u0005\u0014\u0000"+
-		"\u0000\u01cd\u01d7\u0003@ \u0003\u01ce\u01cf\n\u0001\u0000\u0000\u01cf"+
-		"\u01d0\u0005\u001c\u0000\u0000\u01d0\u01d1\u0003@ \u0000\u01d1\u01d2\u0005"+
-		"\u0018\u0000\u0000\u01d2\u01d3\u0003@ \u0002\u01d3\u01d7\u0001\u0000\u0000"+
-		"\u0000\u01d4\u01d5\n\t\u0000\u0000\u01d5\u01d7\u0007\u0006\u0000\u0000"+
-		"\u01d6\u01bc\u0001\u0000\u0000\u0000\u01d6\u01bf\u0001\u0000\u0000\u0000"+
-		"\u01d6\u01c2\u0001\u0000\u0000\u0000\u01d6\u01c5\u0001\u0000\u0000\u0000"+
-		"\u01d6\u01c8\u0001\u0000\u0000\u0000\u01d6\u01cb\u0001\u0000\u0000\u0000"+
-		"\u01d6\u01ce\u0001\u0000\u0000\u0000\u01d6\u01d4\u0001\u0000\u0000\u0000"+
-		"\u01d7\u01da\u0001\u0000\u0000\u0000\u01d8\u01d6\u0001\u0000\u0000\u0000"+
-		"\u01d8\u01d9\u0001\u0000\u0000\u0000\u01d9A\u0001\u0000\u0000\u0000\u01da"+
-		"\u01d8\u0001\u0000\u0000\u0000\u01db\u01e8\u0005>\u0000\u0000\u01dc\u01e8"+
-		"\u0005?\u0000\u0000\u01dd\u01e8\u0005@\u0000\u0000\u01de\u01e8\u0005A"+
-		"\u0000\u0000\u01df\u01e8\u00055\u0000\u0000\u01e0\u01e8\u00056\u0000\u0000"+
-		"\u01e1\u01e8\u00057\u0000\u0000\u01e2\u01e8\u0003\u001e\u000f\u0000\u01e3"+
-		"\u01e8\u0003 \u0010\u0000\u01e4\u01e8\u0003T*\u0000\u01e5\u01e8\u0005"+
-		"=\u0000\u0000\u01e6\u01e8\u0003\u001a\r\u0000\u01e7\u01db\u0001\u0000"+
-		"\u0000\u0000\u01e7\u01dc\u0001\u0000\u0000\u0000\u01e7\u01dd\u0001\u0000"+
-		"\u0000\u0000\u01e7\u01de\u0001\u0000\u0000\u0000\u01e7\u01df\u0001\u0000"+
-		"\u0000\u0000\u01e7\u01e0\u0001\u0000\u0000\u0000\u01e7\u01e1\u0001\u0000"+
-		"\u0000\u0000\u01e7\u01e2\u0001\u0000\u0000\u0000\u01e7\u01e3\u0001\u0000"+
-		"\u0000\u0000\u01e7\u01e4\u0001\u0000\u0000\u0000\u01e7\u01e5\u0001\u0000"+
-		"\u0000\u0000\u01e7\u01e6\u0001\u0000\u0000\u0000\u01e8C\u0001\u0000\u0000"+
-		"\u0000\u01e9\u01ee\u0003F#\u0000\u01ea\u01eb\u0005\u0014\u0000\u0000\u01eb"+
-		"\u01ed\u0003F#\u0000\u01ec\u01ea\u0001\u0000\u0000\u0000\u01ed\u01f0\u0001"+
-		"\u0000\u0000\u0000\u01ee\u01ec\u0001\u0000\u0000\u0000\u01ee\u01ef\u0001"+
-		"\u0000\u0000\u0000\u01efE\u0001\u0000\u0000\u0000\u01f0\u01ee\u0001\u0000"+
-		"\u0000\u0000\u01f1\u01f6\u0003H$\u0000\u01f2\u01f3\u0005\u0013\u0000\u0000"+
-		"\u01f3\u01f5\u0003H$\u0000\u01f4\u01f2\u0001\u0000\u0000\u0000\u01f5\u01f8"+
-		"\u0001\u0000\u0000\u0000\u01f6\u01f4\u0001\u0000\u0000\u0000\u01f6\u01f7"+
-		"\u0001\u0000\u0000\u0000\u01f7G\u0001\u0000\u0000\u0000\u01f8\u01f6\u0001"+
-		"\u0000\u0000\u0000\u01f9\u0200\u0003J%\u0000\u01fa\u01fb\u0005\r\u0000"+
-		"\u0000\u01fb\u01ff\u0003J%\u0000\u01fc\u01fd\u0005\u000e\u0000\u0000\u01fd"+
-		"\u01ff\u0003J%\u0000\u01fe\u01fa\u0001\u0000\u0000\u0000\u01fe\u01fc\u0001"+
-		"\u0000\u0000\u0000\u01ff\u0202\u0001\u0000\u0000\u0000\u0200\u01fe\u0001"+
-		"\u0000\u0000\u0000\u0200\u0201\u0001\u0000\u0000\u0000\u0201I\u0001\u0000"+
-		"\u0000\u0000\u0202\u0200\u0001\u0000\u0000\u0000\u0203\u020e\u0003L&\u0000"+
-		"\u0204\u0205\u0005\u0012\u0000\u0000\u0205\u020d\u0003L&\u0000\u0206\u0207"+
-		"\u0005\u0011\u0000\u0000\u0207\u020d\u0003L&\u0000\u0208\u0209\u0005\u000f"+
-		"\u0000\u0000\u0209\u020d\u0003L&\u0000\u020a\u020b\u0005\u0010\u0000\u0000"+
-		"\u020b\u020d\u0003L&\u0000\u020c\u0204\u0001\u0000\u0000\u0000\u020c\u0206"+
-		"\u0001\u0000\u0000\u0000\u020c\u0208\u0001\u0000\u0000\u0000\u020c\u020a"+
-		"\u0001\u0000\u0000\u0000\u020d\u0210\u0001\u0000\u0000\u0000\u020e\u020c"+
-		"\u0001\u0000\u0000\u0000\u020e\u020f\u0001\u0000\u0000\u0000\u020fK\u0001"+
-		"\u0000\u0000\u0000\u0210\u020e\u0001\u0000\u0000\u0000\u0211\u0216\u0003"+
-		"N\'\u0000\u0212\u0213\u0007\u0003\u0000\u0000\u0213\u0215\u0003N\'\u0000"+
-		"\u0214\u0212\u0001\u0000\u0000\u0000\u0215\u0218\u0001\u0000\u0000\u0000"+
-		"\u0216\u0214\u0001\u0000\u0000\u0000\u0216\u0217\u0001\u0000\u0000\u0000"+
-		"\u0217M\u0001\u0000\u0000\u0000\u0218\u0216\u0001\u0000\u0000\u0000\u0219"+
-		"\u021e\u0003P(\u0000\u021a\u021b\u0007\u0002\u0000\u0000\u021b\u021d\u0003"+
-		"P(\u0000\u021c\u021a\u0001\u0000\u0000\u0000\u021d\u0220\u0001\u0000\u0000"+
-		"\u0000\u021e\u021c\u0001\u0000\u0000\u0000\u021e\u021f\u0001\u0000\u0000"+
-		"\u0000\u021fO\u0001\u0000\u0000\u0000\u0220\u021e\u0001\u0000\u0000\u0000"+
-		"\u0221\u0222\u0007\u0001\u0000\u0000\u0222\u0225\u0003P(\u0000\u0223\u0225"+
-		"\u0003R)\u0000\u0224\u0221\u0001\u0000\u0000\u0000\u0224\u0223\u0001\u0000"+
-		"\u0000\u0000\u0225Q\u0001\u0000\u0000\u0000\u0226\u0228\u0003B!\u0000"+
-		"\u0227\u0229\u0007\u0006\u0000\u0000\u0228\u0227\u0001\u0000\u0000\u0000"+
-		"\u0228\u0229\u0001\u0000\u0000\u0000\u0229S\u0001\u0000\u0000\u0000\u022a"+
-		"\u022b\u0005=\u0000\u0000\u022b\u022d\u0005!\u0000\u0000\u022c\u022e\u0003"+
-		"V+\u0000\u022d\u022c\u0001\u0000\u0000\u0000\u022d\u022e\u0001\u0000\u0000"+
-		"\u0000\u022e\u022f\u0001\u0000\u0000\u0000\u022f\u0230\u0005\"\u0000\u0000"+
-		"\u0230U\u0001\u0000\u0000\u0000\u0231\u0236\u0003@ \u0000\u0232\u0233"+
-		"\u0005\u0019\u0000\u0000\u0233\u0235\u0003@ \u0000\u0234\u0232\u0001\u0000"+
-		"\u0000\u0000\u0235\u0238\u0001\u0000\u0000\u0000\u0236\u0234\u0001\u0000"+
-		"\u0000\u0000\u0236\u0237\u0001\u0000\u0000\u0000\u0237W\u0001\u0000\u0000"+
-		"\u0000\u0238\u0236\u0001\u0000\u0000\u00008egr|\u0081\u008d\u0099\u009e"+
-		"\u00c2\u00c8\u00ce\u00d3\u00dd\u00e4\u00ec\u00fe\u0104\u010b\u0112\u0119"+
-		"\u0120\u0127\u012e\u0134\u0137\u0140\u0147\u0150\u015a\u015e\u0168\u016f"+
-		"\u0176\u017a\u0182\u0188\u019a\u01a3\u01a9\u01ac\u01ba\u01d6\u01d8\u01e7"+
-		"\u01ee\u01f6\u01fe\u0200\u020c\u020e\u0216\u021e\u0224\u0228\u022d\u0236";
+		"\u001a\u0001\u001a\u0003\u001a\u015c\b\u001a\u0001\u001a\u0001\u001a\u0001"+
+		"\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001"+
+		"\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001"+
+		"\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0001"+
+		"\u001a\u0001\u001a\u0001\u001a\u0001\u001a\u0005\u001a\u0176\b\u001a\n"+
+		"\u001a\f\u001a\u0179\t\u001a\u0001\u001b\u0001\u001b\u0001\u001b\u0001"+
+		"\u001b\u0001\u001b\u0003\u001b\u0180\b\u001b\u0001\u001b\u0001\u001b\u0001"+
+		"\u001b\u0001\u001b\u0001\u001b\u0001\u001b\u0001\u001b\u0004\u001b\u0189"+
+		"\b\u001b\u000b\u001b\f\u001b\u018a\u0001\u001b\u0001\u001b\u0001\u001b"+
+		"\u0003\u001b\u0190\b\u001b\u0001\u001b\u0003\u001b\u0193\b\u001b\u0003"+
+		"\u001b\u0195\b\u001b\u0001\u001c\u0001\u001c\u0001\u001d\u0001\u001d\u0001"+
+		"\u001d\u0005\u001d\u019c\b\u001d\n\u001d\f\u001d\u019f\t\u001d\u0001\u001d"+
+		"\u0000\u000204\u001e\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014"+
+		"\u0016\u0018\u001a\u001c\u001e \"$&(*,.02468:\u0000\n\u0001\u0000+.\u0001"+
+		"\u0000 !\u0001\u0000\u0016\u0017\u0002\u0000\u0003\u0007>>\u0003\u0000"+
+		"\u001b\u001c !**\u0001\u0000\u001d\u001f\u0001\u0000\u001b\u001c\u0001"+
+		"\u0000$\'\u0001\u0000\"#\u0003\u0000\n\n\u0019\u001a:=\u01c5\u0000<\u0001"+
+		"\u0000\u0000\u0000\u0002@\u0001\u0000\u0000\u0000\u0004K\u0001\u0000\u0000"+
+		"\u0000\u0006Q\u0001\u0000\u0000\u0000\bS\u0001\u0000\u0000\u0000\nf\u0001"+
+		"\u0000\u0000\u0000\fu\u0001\u0000\u0000\u0000\u000e\u007f\u0001\u0000"+
+		"\u0000\u0000\u0010\u0094\u0001\u0000\u0000\u0000\u0012\u009b\u0001\u0000"+
+		"\u0000\u0000\u0014\u00a0\u0001\u0000\u0000\u0000\u0016\u00bf\u0001\u0000"+
+		"\u0000\u0000\u0018\u00c1\u0001\u0000\u0000\u0000\u001a\u00c7\u0001\u0000"+
+		"\u0000\u0000\u001c\u00d6\u0001\u0000\u0000\u0000\u001e\u00ee\u0001\u0000"+
+		"\u0000\u0000 \u00f0\u0001\u0000\u0000\u0000\"\u00f4\u0001\u0000\u0000"+
+		"\u0000$\u00fb\u0001\u0000\u0000\u0000&\u0104\u0001\u0000\u0000\u0000("+
+		"\u011a\u0001\u0000\u0000\u0000*\u0120\u0001\u0000\u0000\u0000,\u0127\u0001"+
+		"\u0000\u0000\u0000.\u013f\u0001\u0000\u0000\u00000\u0141\u0001\u0000\u0000"+
+		"\u00002\u0151\u0001\u0000\u0000\u00004\u015b\u0001\u0000\u0000\u00006"+
+		"\u0194\u0001\u0000\u0000\u00008\u0196\u0001\u0000\u0000\u0000:\u0198\u0001"+
+		"\u0000\u0000\u0000<=\u0003\u0002\u0001\u0000=>\u0005\u0000\u0000\u0001"+
+		">\u0001\u0001\u0000\u0000\u0000?A\u0005\u0001\u0000\u0000@?\u0001\u0000"+
+		"\u0000\u0000@A\u0001\u0000\u0000\u0000AB\u0001\u0000\u0000\u0000BC\u0005"+
+		"\u0002\u0000\u0000CD\u0005>\u0000\u0000DE\u00056\u0000\u0000EF\u0003\u0004"+
+		"\u0002\u0000FG\u00057\u0000\u0000G\u0003\u0001\u0000\u0000\u0000HJ\u0003"+
+		"\u0006\u0003\u0000IH\u0001\u0000\u0000\u0000JM\u0001\u0000\u0000\u0000"+
+		"KI\u0001\u0000\u0000\u0000KL\u0001\u0000\u0000\u0000L\u0005\u0001\u0000"+
+		"\u0000\u0000MK\u0001\u0000\u0000\u0000NR\u0003\b\u0004\u0000OR\u0003\n"+
+		"\u0005\u0000PR\u0003\f\u0006\u0000QN\u0001\u0000\u0000\u0000QO\u0001\u0000"+
+		"\u0000\u0000QP\u0001\u0000\u0000\u0000R\u0007\u0001\u0000\u0000\u0000"+
+		"SX\u00032\u0019\u0000TU\u00058\u0000\u0000UW\u00059\u0000\u0000VT\u0001"+
+		"\u0000\u0000\u0000WZ\u0001\u0000\u0000\u0000XV\u0001\u0000\u0000\u0000"+
+		"XY\u0001\u0000\u0000\u0000Y[\u0001\u0000\u0000\u0000ZX\u0001\u0000\u0000"+
+		"\u0000[a\u0005>\u0000\u0000\\_\u0005+\u0000\u0000]`\u00034\u001a\u0000"+
+		"^`\u0003\u001c\u000e\u0000_]\u0001\u0000\u0000\u0000_^\u0001\u0000\u0000"+
+		"\u0000`b\u0001\u0000\u0000\u0000a\\\u0001\u0000\u0000\u0000ab\u0001\u0000"+
+		"\u0000\u0000bc\u0001\u0000\u0000\u0000cd\u00051\u0000\u0000d\t\u0001\u0000"+
+		"\u0000\u0000eg\u0005\u0001\u0000\u0000fe\u0001\u0000\u0000\u0000fg\u0001"+
+		"\u0000\u0000\u0000gj\u0001\u0000\u0000\u0000hk\u00032\u0019\u0000ik\u0005"+
+		"\b\u0000\u0000jh\u0001\u0000\u0000\u0000ji\u0001\u0000\u0000\u0000kl\u0001"+
+		"\u0000\u0000\u0000lm\u0005>\u0000\u0000mo\u00054\u0000\u0000np\u0003\u000e"+
+		"\u0007\u0000on\u0001\u0000\u0000\u0000op\u0001\u0000\u0000\u0000pq\u0001"+
+		"\u0000\u0000\u0000qr\u00055\u0000\u0000rs\u0003\u0012\t\u0000s\u000b\u0001"+
+		"\u0000\u0000\u0000tv\u0005\u0001\u0000\u0000ut\u0001\u0000\u0000\u0000"+
+		"uv\u0001\u0000\u0000\u0000vw\u0001\u0000\u0000\u0000wx\u0005>\u0000\u0000"+
+		"xz\u00054\u0000\u0000y{\u0003\u000e\u0007\u0000zy\u0001\u0000\u0000\u0000"+
+		"z{\u0001\u0000\u0000\u0000{|\u0001\u0000\u0000\u0000|}\u00055\u0000\u0000"+
+		"}~\u0003\u0012\t\u0000~\r\u0001\u0000\u0000\u0000\u007f\u0084\u0003\u0010"+
+		"\b\u0000\u0080\u0081\u00052\u0000\u0000\u0081\u0083\u0003\u0010\b\u0000"+
+		"\u0082\u0080\u0001\u0000\u0000\u0000\u0083\u0086\u0001\u0000\u0000\u0000"+
+		"\u0084\u0082\u0001\u0000\u0000\u0000\u0084\u0085\u0001\u0000\u0000\u0000"+
+		"\u0085\u000f\u0001\u0000\u0000\u0000\u0086\u0084\u0001\u0000\u0000\u0000"+
+		"\u0087\u0088\u00032\u0019\u0000\u0088\u0089\u0005>\u0000\u0000\u0089\u0095"+
+		"\u0001\u0000\u0000\u0000\u008a\u008f\u00032\u0019\u0000\u008b\u008c\u0005"+
+		"8\u0000\u0000\u008c\u008e\u00059\u0000\u0000\u008d\u008b\u0001\u0000\u0000"+
+		"\u0000\u008e\u0091\u0001\u0000\u0000\u0000\u008f\u008d\u0001\u0000\u0000"+
+		"\u0000\u008f\u0090\u0001\u0000\u0000\u0000\u0090\u0092\u0001\u0000\u0000"+
+		"\u0000\u0091\u008f\u0001\u0000\u0000\u0000\u0092\u0093\u0005>\u0000\u0000"+
+		"\u0093\u0095\u0001\u0000\u0000\u0000\u0094\u0087\u0001\u0000\u0000\u0000"+
+		"\u0094\u008a\u0001\u0000\u0000\u0000\u0095\u0011\u0001\u0000\u0000\u0000"+
+		"\u0096\u0097\u00056\u0000\u0000\u0097\u0098\u0003\u0014\n\u0000\u0098"+
+		"\u0099\u00057\u0000\u0000\u0099\u009c\u0001\u0000\u0000\u0000\u009a\u009c"+
+		"\u0003\u0016\u000b\u0000\u009b\u0096\u0001\u0000\u0000\u0000\u009b\u009a"+
+		"\u0001\u0000\u0000\u0000\u009c\u0013\u0001\u0000\u0000\u0000\u009d\u009f"+
+		"\u0003\u0016\u000b\u0000\u009e\u009d\u0001\u0000\u0000\u0000\u009f\u00a2"+
+		"\u0001\u0000\u0000\u0000\u00a0\u009e\u0001\u0000\u0000\u0000\u00a0\u00a1"+
+		"\u0001\u0000\u0000\u0000\u00a1\u0015\u0001\u0000\u0000\u0000\u00a2\u00a0"+
+		"\u0001\u0000\u0000\u0000\u00a3\u00a4\u0003\u001e\u000f\u0000\u00a4\u00a5"+
+		"\u00051\u0000\u0000\u00a5\u00c0\u0001\u0000\u0000\u0000\u00a6\u00a7\u0003"+
+		" \u0010\u0000\u00a7\u00a8\u00051\u0000\u0000\u00a8\u00c0\u0001\u0000\u0000"+
+		"\u0000\u00a9\u00aa\u0003\"\u0011\u0000\u00aa\u00ab\u00051\u0000\u0000"+
+		"\u00ab\u00c0\u0001\u0000\u0000\u0000\u00ac\u00c0\u0003$\u0012\u0000\u00ad"+
+		"\u00c0\u0003&\u0013\u0000\u00ae\u00c0\u0003(\u0014\u0000\u00af\u00b0\u0003"+
+		"*\u0015\u0000\u00b0\u00b1\u00051\u0000\u0000\u00b1\u00c0\u0001\u0000\u0000"+
+		"\u0000\u00b2\u00c0\u0003,\u0016\u0000\u00b3\u00b4\u0003.\u0017\u0000\u00b4"+
+		"\u00b5\u00051\u0000\u0000\u00b5\u00c0\u0001\u0000\u0000\u0000\u00b6\u00b7"+
+		"\u0003\u0018\f\u0000\u00b7\u00b8\u00051\u0000\u0000\u00b8\u00c0\u0001"+
+		"\u0000\u0000\u0000\u00b9\u00ba\u0003\u001a\r\u0000\u00ba\u00bb\u00051"+
+		"\u0000\u0000\u00bb\u00c0\u0001\u0000\u0000\u0000\u00bc\u00bd\u00034\u001a"+
+		"\u0000\u00bd\u00be\u00051\u0000\u0000\u00be\u00c0\u0001\u0000\u0000\u0000"+
+		"\u00bf\u00a3\u0001\u0000\u0000\u0000\u00bf\u00a6\u0001\u0000\u0000\u0000"+
+		"\u00bf\u00a9\u0001\u0000\u0000\u0000\u00bf\u00ac\u0001\u0000\u0000\u0000"+
+		"\u00bf\u00ad\u0001\u0000\u0000\u0000\u00bf\u00ae\u0001\u0000\u0000\u0000"+
+		"\u00bf\u00af\u0001\u0000\u0000\u0000\u00bf\u00b2\u0001\u0000\u0000\u0000"+
+		"\u00bf\u00b3\u0001\u0000\u0000\u0000\u00bf\u00b6\u0001\u0000\u0000\u0000"+
+		"\u00bf\u00b9\u0001\u0000\u0000\u0000\u00bf\u00bc\u0001\u0000\u0000\u0000"+
+		"\u00c0\u0017\u0001\u0000\u0000\u0000\u00c1\u00c2\u00032\u0019\u0000\u00c2"+
+		"\u00c5\u0005>\u0000\u0000\u00c3\u00c4\u0005+\u0000\u0000\u00c4\u00c6\u0003"+
+		"4\u001a\u0000\u00c5\u00c3\u0001\u0000\u0000\u0000\u00c5\u00c6\u0001\u0000"+
+		"\u0000\u0000\u00c6\u0019\u0001\u0000\u0000\u0000\u00c7\u00ca\u00032\u0019"+
+		"\u0000\u00c8\u00c9\u00058\u0000\u0000\u00c9\u00cb\u00059\u0000\u0000\u00ca"+
+		"\u00c8\u0001\u0000\u0000\u0000\u00cb\u00cc\u0001\u0000\u0000\u0000\u00cc"+
+		"\u00ca\u0001\u0000\u0000\u0000\u00cc\u00cd\u0001\u0000\u0000\u0000\u00cd"+
+		"\u00ce\u0001\u0000\u0000\u0000\u00ce\u00d4\u0005>\u0000\u0000\u00cf\u00d2"+
+		"\u0005+\u0000\u0000\u00d0\u00d3\u00034\u001a\u0000\u00d1\u00d3\u0003\u001c"+
+		"\u000e\u0000\u00d2\u00d0\u0001\u0000\u0000\u0000\u00d2\u00d1\u0001\u0000"+
+		"\u0000\u0000\u00d3\u00d5\u0001\u0000\u0000\u0000\u00d4\u00cf\u0001\u0000"+
+		"\u0000\u0000\u00d4\u00d5\u0001\u0000\u0000\u0000\u00d5\u001b\u0001\u0000"+
+		"\u0000\u0000\u00d6\u00d9\u00056\u0000\u0000\u00d7\u00da\u00034\u001a\u0000"+
+		"\u00d8\u00da\u0003\u001c\u000e\u0000\u00d9\u00d7\u0001\u0000\u0000\u0000"+
+		"\u00d9\u00d8\u0001\u0000\u0000\u0000\u00da\u00e2\u0001\u0000\u0000\u0000"+
+		"\u00db\u00de\u00052\u0000\u0000\u00dc\u00df\u00034\u001a\u0000\u00dd\u00df"+
+		"\u0003\u001c\u000e\u0000\u00de\u00dc\u0001\u0000\u0000\u0000\u00de\u00dd"+
+		"\u0001\u0000\u0000\u0000\u00df\u00e1\u0001\u0000\u0000\u0000\u00e0\u00db"+
+		"\u0001\u0000\u0000\u0000\u00e1\u00e4\u0001\u0000\u0000\u0000\u00e2\u00e0"+
+		"\u0001\u0000\u0000\u0000\u00e2\u00e3\u0001\u0000\u0000\u0000\u00e3\u00e5"+
+		"\u0001\u0000\u0000\u0000\u00e4\u00e2\u0001\u0000\u0000\u0000\u00e5\u00e6"+
+		"\u00057\u0000\u0000\u00e6\u001d\u0001\u0000\u0000\u0000\u00e7\u00e8\u0003"+
+		"0\u0018\u0000\u00e8\u00e9\u0007\u0000\u0000\u0000\u00e9\u00ea\u00034\u001a"+
+		"\u0000\u00ea\u00ef\u0001\u0000\u0000\u0000\u00eb\u00ec\u00030\u0018\u0000"+
+		"\u00ec\u00ed\u0007\u0001\u0000\u0000\u00ed\u00ef\u0001\u0000\u0000\u0000"+
+		"\u00ee\u00e7\u0001\u0000\u0000\u0000\u00ee\u00eb\u0001\u0000\u0000\u0000"+
+		"\u00ef\u001f\u0001\u0000\u0000\u0000\u00f0\u00f1\u0005\u0018\u0000\u0000"+
+		"\u00f1\u00f2\u00054\u0000\u0000\u00f2\u00f3\u00055\u0000\u0000\u00f3!"+
+		"\u0001\u0000\u0000\u0000\u00f4\u00f5\u0007\u0002\u0000\u0000\u00f5\u00f7"+
+		"\u00054\u0000\u0000\u00f6\u00f8\u00034\u001a\u0000\u00f7\u00f6\u0001\u0000"+
+		"\u0000\u0000\u00f7\u00f8\u0001\u0000\u0000\u0000\u00f8\u00f9\u0001\u0000"+
+		"\u0000\u0000\u00f9\u00fa\u00055\u0000\u0000\u00fa#\u0001\u0000\u0000\u0000"+
+		"\u00fb\u00fc\u0005\u000b\u0000\u0000\u00fc\u00fd\u00054\u0000\u0000\u00fd"+
+		"\u00fe\u00034\u001a\u0000\u00fe\u00ff\u00055\u0000\u0000\u00ff\u0102\u0003"+
+		"\u0012\t\u0000\u0100\u0101\u0005\f\u0000\u0000\u0101\u0103\u0003\u0012"+
+		"\t\u0000\u0102\u0100\u0001\u0000\u0000\u0000\u0102\u0103\u0001\u0000\u0000"+
+		"\u0000\u0103%\u0001\u0000\u0000\u0000\u0104\u0105\u0005\r\u0000\u0000"+
+		"\u0105\u0106\u00054\u0000\u0000\u0106\u0107\u00034\u001a\u0000\u0107\u0108"+
+		"\u00055\u0000\u0000\u0108\u0110\u00056\u0000\u0000\u0109\u010a\u0005\u000e"+
+		"\u0000\u0000\u010a\u010b\u00034\u001a\u0000\u010b\u010c\u00050\u0000\u0000"+
+		"\u010c\u010d\u0003\u0014\n\u0000\u010d\u010f\u0001\u0000\u0000\u0000\u010e"+
+		"\u0109\u0001\u0000\u0000\u0000\u010f\u0112\u0001\u0000\u0000\u0000\u0110"+
+		"\u010e\u0001\u0000\u0000\u0000\u0110\u0111\u0001\u0000\u0000\u0000\u0111"+
+		"\u0116\u0001\u0000\u0000\u0000\u0112\u0110\u0001\u0000\u0000\u0000\u0113"+
+		"\u0114\u0005\u000f\u0000\u0000\u0114\u0115\u00050\u0000\u0000\u0115\u0117"+
+		"\u0003\u0014\n\u0000\u0116\u0113\u0001\u0000\u0000\u0000\u0116\u0117\u0001"+
+		"\u0000\u0000\u0000\u0117\u0118\u0001\u0000\u0000\u0000\u0118\u0119\u0005"+
+		"7\u0000\u0000\u0119\'\u0001\u0000\u0000\u0000\u011a\u011b\u0005\u0014"+
+		"\u0000\u0000\u011b\u011c\u00054\u0000\u0000\u011c\u011d\u00034\u001a\u0000"+
+		"\u011d\u011e\u00055\u0000\u0000\u011e\u011f\u0003\u0012\t\u0000\u011f"+
+		")\u0001\u0000\u0000\u0000\u0120\u0121\u0005\u0015\u0000\u0000\u0121\u0122"+
+		"\u0003\u0012\t\u0000\u0122\u0123\u0005\u0014\u0000\u0000\u0123\u0124\u0005"+
+		"4\u0000\u0000\u0124\u0125\u00034\u001a\u0000\u0125\u0126\u00055\u0000"+
+		"\u0000\u0126+\u0001\u0000\u0000\u0000\u0127\u0128\u0005\u0013\u0000\u0000"+
+		"\u0128\u012b\u00054\u0000\u0000\u0129\u012c\u0003\u0018\f\u0000\u012a"+
+		"\u012c\u0003\u001e\u000f\u0000\u012b\u0129\u0001\u0000\u0000\u0000\u012b"+
+		"\u012a\u0001\u0000\u0000\u0000\u012b\u012c\u0001\u0000\u0000\u0000\u012c"+
+		"\u012d\u0001\u0000\u0000\u0000\u012d\u012f\u00051\u0000\u0000\u012e\u0130"+
+		"\u00034\u001a\u0000\u012f\u012e\u0001\u0000\u0000\u0000\u012f\u0130\u0001"+
+		"\u0000\u0000\u0000\u0130\u0131\u0001\u0000\u0000\u0000\u0131\u0134\u0005"+
+		"1\u0000\u0000\u0132\u0135\u0003\u001e\u000f\u0000\u0133\u0135\u00034\u001a"+
+		"\u0000\u0134\u0132\u0001\u0000\u0000\u0000\u0134\u0133\u0001\u0000\u0000"+
+		"\u0000\u0134\u0135\u0001\u0000\u0000\u0000\u0135\u0136\u0001\u0000\u0000"+
+		"\u0000\u0136\u0137\u00055\u0000\u0000\u0137\u0138\u0003\u0012\t\u0000"+
+		"\u0138-\u0001\u0000\u0000\u0000\u0139\u0140\u0005\u0010\u0000\u0000\u013a"+
+		"\u0140\u0005\u0011\u0000\u0000\u013b\u013d\u0005\u0012\u0000\u0000\u013c"+
+		"\u013e\u00034\u001a\u0000\u013d\u013c\u0001\u0000\u0000\u0000\u013d\u013e"+
+		"\u0001\u0000\u0000\u0000\u013e\u0140\u0001\u0000\u0000\u0000\u013f\u0139"+
+		"\u0001\u0000\u0000\u0000\u013f\u013a\u0001\u0000\u0000\u0000\u013f\u013b"+
+		"\u0001\u0000\u0000\u0000\u0140/\u0001\u0000\u0000\u0000\u0141\u0142\u0006"+
+		"\u0018\uffff\uffff\u0000\u0142\u0143\u0005>\u0000\u0000\u0143\u014e\u0001"+
+		"\u0000\u0000\u0000\u0144\u0145\n\u0002\u0000\u0000\u0145\u0146\u00053"+
+		"\u0000\u0000\u0146\u014d\u0005>\u0000\u0000\u0147\u0148\n\u0001\u0000"+
+		"\u0000\u0148\u0149\u00058\u0000\u0000\u0149\u014a\u00034\u001a\u0000\u014a"+
+		"\u014b\u00059\u0000\u0000\u014b\u014d\u0001\u0000\u0000\u0000\u014c\u0144"+
+		"\u0001\u0000\u0000\u0000\u014c\u0147\u0001\u0000\u0000\u0000\u014d\u0150"+
+		"\u0001\u0000\u0000\u0000\u014e\u014c\u0001\u0000\u0000\u0000\u014e\u014f"+
+		"\u0001\u0000\u0000\u0000\u014f1\u0001\u0000\u0000\u0000\u0150\u014e\u0001"+
+		"\u0000\u0000\u0000\u0151\u0152\u0007\u0003\u0000\u0000\u01523\u0001\u0000"+
+		"\u0000\u0000\u0153\u0154\u0006\u001a\uffff\uffff\u0000\u0154\u0155\u0005"+
+		"4\u0000\u0000\u0155\u0156\u00034\u001a\u0000\u0156\u0157\u00055\u0000"+
+		"\u0000\u0157\u015c\u0001\u0000\u0000\u0000\u0158\u0159\u0007\u0004\u0000"+
+		"\u0000\u0159\u015c\u00034\u001a\t\u015a\u015c\u00036\u001b\u0000\u015b"+
+		"\u0153\u0001\u0000\u0000\u0000\u015b\u0158\u0001\u0000\u0000\u0000\u015b"+
+		"\u015a\u0001\u0000\u0000\u0000\u015c\u0177\u0001\u0000\u0000\u0000\u015d"+
+		"\u015e\n\b\u0000\u0000\u015e\u015f\u0007\u0005\u0000\u0000\u015f\u0176"+
+		"\u00034\u001a\t\u0160\u0161\n\u0007\u0000\u0000\u0161\u0162\u0007\u0006"+
+		"\u0000\u0000\u0162\u0176\u00034\u001a\b\u0163\u0164\n\u0006\u0000\u0000"+
+		"\u0164\u0165\u0007\u0007\u0000\u0000\u0165\u0176\u00034\u001a\u0007\u0166"+
+		"\u0167\n\u0005\u0000\u0000\u0167\u0168\u0007\b\u0000\u0000\u0168\u0176"+
+		"\u00034\u001a\u0006\u0169\u016a\n\u0004\u0000\u0000\u016a\u016b\u0005"+
+		"(\u0000\u0000\u016b\u0176\u00034\u001a\u0005\u016c\u016d\n\u0003\u0000"+
+		"\u0000\u016d\u016e\u0005)\u0000\u0000\u016e\u0176\u00034\u001a\u0004\u016f"+
+		"\u0170\n\u0002\u0000\u0000\u0170\u0171\u0005/\u0000\u0000\u0171\u0172"+
+		"\u00034\u001a\u0000\u0172\u0173\u00050\u0000\u0000\u0173\u0174\u00034"+
+		"\u001a\u0003\u0174\u0176\u0001\u0000\u0000\u0000\u0175\u015d\u0001\u0000"+
+		"\u0000\u0000\u0175\u0160\u0001\u0000\u0000\u0000\u0175\u0163\u0001\u0000"+
+		"\u0000\u0000\u0175\u0166\u0001\u0000\u0000\u0000\u0175\u0169\u0001\u0000"+
+		"\u0000\u0000\u0175\u016c\u0001\u0000\u0000\u0000\u0175\u016f\u0001\u0000"+
+		"\u0000\u0000\u0176\u0179\u0001\u0000\u0000\u0000\u0177\u0175\u0001\u0000"+
+		"\u0000\u0000\u0177\u0178\u0001\u0000\u0000\u0000\u01785\u0001\u0000\u0000"+
+		"\u0000\u0179\u0177\u0001\u0000\u0000\u0000\u017a\u0195\u00038\u001c\u0000"+
+		"\u017b\u017c\u0005\t\u0000\u0000\u017c\u017d\u0005>\u0000\u0000\u017d"+
+		"\u017f\u00054\u0000\u0000\u017e\u0180\u0003:\u001d\u0000\u017f\u017e\u0001"+
+		"\u0000\u0000\u0000\u017f\u0180\u0001\u0000\u0000\u0000\u0180\u0181\u0001"+
+		"\u0000\u0000\u0000\u0181\u0195\u00055\u0000\u0000\u0182\u0183\u0005\t"+
+		"\u0000\u0000\u0183\u0188\u00032\u0019\u0000\u0184\u0185\u00058\u0000\u0000"+
+		"\u0185\u0186\u00034\u001a\u0000\u0186\u0187\u00059\u0000\u0000\u0187\u0189"+
+		"\u0001\u0000\u0000\u0000\u0188\u0184\u0001\u0000\u0000\u0000\u0189\u018a"+
+		"\u0001\u0000\u0000\u0000\u018a\u0188\u0001\u0000\u0000\u0000\u018a\u018b"+
+		"\u0001\u0000\u0000\u0000\u018b\u0195\u0001\u0000\u0000\u0000\u018c\u0192"+
+		"\u00030\u0018\u0000\u018d\u018f\u00054\u0000\u0000\u018e\u0190\u0003:"+
+		"\u001d\u0000\u018f\u018e\u0001\u0000\u0000\u0000\u018f\u0190\u0001\u0000"+
+		"\u0000\u0000\u0190\u0191\u0001\u0000\u0000\u0000\u0191\u0193\u00055\u0000"+
+		"\u0000\u0192\u018d\u0001\u0000\u0000\u0000\u0192\u0193\u0001\u0000\u0000"+
+		"\u0000\u0193\u0195\u0001\u0000\u0000\u0000\u0194\u017a\u0001\u0000\u0000"+
+		"\u0000\u0194\u017b\u0001\u0000\u0000\u0000\u0194\u0182\u0001\u0000\u0000"+
+		"\u0000\u0194\u018c\u0001\u0000\u0000\u0000\u01957\u0001\u0000\u0000\u0000"+
+		"\u0196\u0197\u0007\t\u0000\u0000\u01979\u0001\u0000\u0000\u0000\u0198"+
+		"\u019d\u00034\u001a\u0000\u0199\u019a\u00052\u0000\u0000\u019a\u019c\u0003"+
+		"4\u001a\u0000\u019b\u0199\u0001\u0000\u0000\u0000\u019c\u019f\u0001\u0000"+
+		"\u0000\u0000\u019d\u019b\u0001\u0000\u0000\u0000\u019d\u019e\u0001\u0000"+
+		"\u0000\u0000\u019e;\u0001\u0000\u0000\u0000\u019f\u019d\u0001\u0000\u0000"+
+		"\u0000-@KQX_afjouz\u0084\u008f\u0094\u009b\u00a0\u00bf\u00c5\u00cc\u00d2"+
+		"\u00d4\u00d9\u00de\u00e2\u00ee\u00f7\u0102\u0110\u0116\u012b\u012f\u0134"+
+		"\u013d\u013f\u014c\u014e\u015b\u0175\u0177\u017f\u018a\u018f\u0192\u0194"+
+		"\u019d";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

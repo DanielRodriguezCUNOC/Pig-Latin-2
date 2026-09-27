@@ -1,7 +1,7 @@
 package com.piglatin.piglatin.application.dto;
 
 import com.piglatin.common.application.dto.CustomErrorDTO;
-import com.piglatin.piglatin.domain.cfg.ControlFlowGraph;
+import com.piglatin.common.domain.cfg.ControlFlowGraph;
 import com.piglatin.piglatin.domain.symboltable.SymbolTable;
 import com.piglatin.piglatin.domain.types.TypeTable;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.piglatin.piglatin.domain.cfg;
+package com.piglatin.common.domain.cfg;
 
 import com.piglatin.piglatin.domain.ast.principal.ASTNode;
 import lombok.Getter;
@@ -15,11 +15,11 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class BasicBlock {
+public class BasicBlock<T> {
     private final int id;
-    private final List<ASTNode> instructions;
-    private final List<BasicBlock> predecessors;
-    private final List<BasicBlock> successors;
+    private final List<T> instructions;
+    private final List<BasicBlock<T>> predecessors;
+    private final List<BasicBlock<T>> successors;
     private boolean isEntry;
     private boolean isExit;
 
@@ -32,11 +32,11 @@ public class BasicBlock {
         this.isExit = false;
     }
 
-    public void addInstruction(ASTNode instruction) {
+    public void addInstruction(T instruction) {
         this.instructions.add(instruction);
     }
 
-    public void addSuccessor(BasicBlock successor) {
+    public void addSuccessor(BasicBlock<T> successor) {
         if (!this.successors.contains(successor)) {
             this.successors.add(successor);
             successor.getPredecessors().add(this);

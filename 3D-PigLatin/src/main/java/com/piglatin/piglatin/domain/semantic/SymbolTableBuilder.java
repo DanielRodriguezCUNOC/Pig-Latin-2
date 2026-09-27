@@ -14,6 +14,7 @@ import com.piglatin.piglatin.domain.ast.principal.ASTNode;
 import com.piglatin.piglatin.domain.ast.principal.NodeProgram;
 import com.piglatin.piglatin.domain.ast.visitor.Visitor;
 import com.piglatin.piglatin.domain.symboltable.ArraySymbol;
+import com.piglatin.piglatin.domain.symboltable.FunctionSymbol;
 import com.piglatin.piglatin.domain.symboltable.SymbolTable;
 import com.piglatin.piglatin.domain.symboltable.VariableSymbol;
 import com.piglatin.piglatin.domain.types.TypeTable;
@@ -42,18 +43,22 @@ private final SymbolTable symbolTable;
 private final TypeTable typeTable;
 private final SemanticErrorReporter errorReporter;
 private int loopDepth = 0;
+private boolean hasImports = false;
+
     public SymbolTableBuilder(TypeTable typeTable, SemanticErrorReporter errorReporter) {
         this.symbolTable = new SymbolTable();
         this.typeTable = typeTable;
         this.errorReporter = errorReporter;
     }
 
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
-    }
-
     @Override
     public Void visitProgram(NodeProgram n) {
+
+        if (n.getImports() != null) {
+            for (NodeImport imp : n.getImports()) {
+                imp.accept(this);
+            }
+        }
 
         //* Visit Global Declarations
         for (NodeDeclaration decl : n.getGlobalDeclarations()){
@@ -70,13 +75,13 @@ private int loopDepth = 0;
 
     @Override
     public Void visitVariableDeclaration(NodeVariableDeclaration n) {
-
         if (n.getInitializer() != null) n.getInitializer().accept(this);
 
-        //* Validate if exist in the TypeTable
-        if (!typeTable.exists(n.getType())) errorReporter.reportError(
-                "Type" + n.getType() + " is not defined.", n.getLine(), n.getColumn()
-        );
+        if (n.getType() != null && !typeTable.exists(n.getType())) {
+            errorReporter.reportError(
+                    "Type " + n.getType() + " is not defined.", n.getLine(), n.getColumn()
+            );
+        }
 
         //* Declare in the current scope
         VariableSymbol variableSymbol = new VariableSymbol(n.getIdentifier(), n.getType(), n.getLine(), n.getColumn());
@@ -332,20 +337,42 @@ private int loopDepth = 0;
 
     @Override
     public Void visitImport(NodeImport n) {
+        this.hasImports = true;
+        if (n != null && n.getPath() != null && !n.getPath().isEmpty()) {
+            String lastSegment = n.getPath().get(n.getPath().size() - 1);
+            if (typeTable != null) {
+                typeTable.registerType(lastSegment);
+            }
+        }
         return null;
     }
 
     @Override
     public Void visitFunctionCall(NodeFunctionCall n) {
-        //* Validate if the function invoked its registered in the current scope
-        if (!symbolTable.exists(n.getFunctionName()))
-            errorReporter.reportError("Function '" + n.getFunctionName() +
-                    "' is not declared.", n.getLine(), n.getColumn());
+        if (n.getCurrentNode() != null) {
+            n.getCurrentNode().accept(this);
+            if (n.getArguments() != null) {
+                for (ASTNode argument : n.getArguments()) {
+                    argument.accept(this);
+                }
+            }
+        } else {
+            if (!symbolTable.exists(n.getFunctionName())) {
+                if (hasImports) {
+                    symbolTable.declare(
+                            n.getFunctionName(),
+                            new FunctionSymbol(n.getFunctionName(), "FUNCTION", n.getLine(), n.getColumn(), "VOID")
+                    );
+                } else {
+                    errorReporter.reportError("Function '" + n.getFunctionName() +
+                            "' is not declared.", n.getLine(), n.getColumn());
+                }
+            }
 
-        //* Validate the arguments
-        if (n.getArguments() != null) {
-            for (ASTNode argument : n.getArguments()) {
-                argument.accept(this);
+            if (n.getArguments() != null) {
+                for (ASTNode argument : n.getArguments()) {
+                    argument.accept(this);
+                }
             }
         }
 

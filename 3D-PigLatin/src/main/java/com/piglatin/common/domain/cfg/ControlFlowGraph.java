@@ -1,4 +1,4 @@
-package com.piglatin.piglatin.domain.cfg;
+package com.piglatin.common.domain.cfg;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,13 +11,13 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ControlFlowGraph {
+public class ControlFlowGraph<T> {
 
-    private final BasicBlock entryBlock;
-    private final BasicBlock exitBlock;
-    private final List<BasicBlock> blocks;
+    private final BasicBlock<T> entryBlock;
+    private final BasicBlock<T> exitBlock;
+    private final List<BasicBlock<T>> blocks;
 
-    public ControlFlowGraph(BasicBlock entryBlock, BasicBlock exitBlock) {
+    public ControlFlowGraph(BasicBlock<T> entryBlock, BasicBlock<T> exitBlock) {
         this.entryBlock = entryBlock;
         this.exitBlock = exitBlock;
         this.blocks = new ArrayList<>();
@@ -26,7 +26,7 @@ public class ControlFlowGraph {
         this.blocks.add(exitBlock);
     }
 
-    public void addBlock(BasicBlock block) {
+    public void addBlock(BasicBlock<T> block) {
         if (!blocks.contains(block)) {
             blocks.add(block);
         }

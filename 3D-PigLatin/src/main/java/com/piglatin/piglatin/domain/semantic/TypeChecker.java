@@ -40,6 +40,7 @@ public class TypeChecker implements Visitor<String> {
     private final List<String> functionReturnStack;
     private final ConstantFolder constantFolder;
     private int loopDepth = 0;
+    private boolean hasImports = false;
 
     public TypeChecker(TypeTable typeTable, SemanticErrorReporter errorReporter, SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
@@ -55,6 +56,12 @@ public class TypeChecker implements Visitor<String> {
 
     @Override
     public String visitProgram(NodeProgram n) {
+        this.hasImports = n.getImports() != null && !n.getImports().isEmpty();
+        if (n.getImports() != null) {
+            for (NodeImport imp : n.getImports()) {
+                imp.accept(this);
+            }
+        }
         for (NodeDeclaration decl : n.getGlobalDeclarations()) {
             decl.accept(this);
         }
@@ -71,7 +78,6 @@ public class TypeChecker implements Visitor<String> {
     @Override
     public String visitVariableDeclaration(NodeVariableDeclaration n) {
         String declaredType = normalizeType(n.getType());
-        n.setType(declaredType);
 
         String exprType = n.getInitializer() != null ? n.getInitializer().accept(this) : null;
         if (exprType != null) exprType = normalizeType(exprType);
@@ -79,7 +85,11 @@ public class TypeChecker implements Visitor<String> {
         if (declaredType == null && exprType != null) {
             n.setType(exprType);
             declaredType = exprType;
-        } else if (declaredType != null && exprType != null) {
+        } else {
+            n.setType(declaredType);
+        }
+
+        if (declaredType != null && exprType != null) {
             if (!areTypesCompatible(declaredType, exprType)) {
                 errorReporter.reportError("Incompatible type in declaration: expected '" +
                         declaredType + "' but found '" + exprType + "'", n.getLine(), n.getColumn());
@@ -262,7 +272,12 @@ public class TypeChecker implements Visitor<String> {
 
     @Override
     public String visitNewInstance(NodeNewInstance n) {
-        return null;
+        if (n.getArguments() != null) {
+            for (ASTNode arg : n.getArguments()) {
+                arg.accept(this);
+            }
+        }
+        return n.getClassName();
     }
 
     // ============================================================
@@ -276,6 +291,7 @@ public class TypeChecker implements Visitor<String> {
 
     @Override
     public String visitImport(NodeImport n) {
+        this.hasImports = true;
         return null;
     }
 
@@ -340,8 +356,38 @@ public class TypeChecker implements Visitor<String> {
 
     @Override
     public String visitFunctionCall(NodeFunctionCall n) {
+        if (n.getCurrentNode() != null) {
+            String targetType = n.getCurrentNode().accept(this);
+
+            if (n.getArguments() != null) {
+                for (ASTNode arg : n.getArguments()) {
+                    arg.accept(this);
+                }
+            }
+
+            if ("ERROR".equals(targetType)) {
+                return "ERROR";
+            }
+
+            if ("toString".equals(n.getFunctionName())) {
+                return "TEXTUM";
+            }
+
+            return "VOID";
+        }
+
         Symbol sym = symbolTable.lookup(n.getFunctionName());
         if (!(sym instanceof FunctionSymbol funcSym)) {
+
+            if (hasImports){
+                if (n.getArguments() != null) {
+                    for (ASTNode arg : n.getArguments()) {
+                        arg.accept(this);
+                    }
+                }
+                return "VOID";
+            }
+
             errorReporter.reportError("Function '" + n.getFunctionName() +
                     "' is not declared", n.getLine(), n.getColumn());
             return "ERROR";
@@ -350,25 +396,33 @@ public class TypeChecker implements Visitor<String> {
         List<ASTNode> args = n.getArguments();
         List<VariableSymbol> params = funcSym.getParameters();
 
-        if (args.size() != params.size()) {
-            errorReporter.reportError("Function '" + n.getFunctionName() +
-                    "' expects " + params.size() + " arguments, but got " +
-                    args.size(), n.getLine(), n.getColumn());
-            return funcSym.getReturnType();
-        }
+        if (params != null && !params.isEmpty()) {
+            if (args.size() != params.size()) {
+                errorReporter.reportError("Function '" + n.getFunctionName() +
+                        "' expects " + params.size() + " arguments, but got " +
+                        args.size(), n.getLine(), n.getColumn());
+                return funcSym.getReturnType();
+            }
 
-        for (int i = 0; i < args.size(); i++) {
-            String argType = args.get(i).accept(this);
-            String paramType = params.get(i).getType();
+            for (int i = 0; i < args.size(); i++) {
+                String argType = args.get(i).accept(this);
+                String paramType = params.get(i).getType();
 
-            if (argType != null && !areTypesCompatible(paramType, argType)) {
-                errorReporter.reportError("Argument " + (i + 1) +
-                        " in function call '" + n.getFunctionName() + "' expected '" + paramType +
-                        "' but found '" + argType + "'", n.getLine(), n.getColumn());
+                if (argType != null && paramType != null && !areTypesCompatible(paramType, argType)) {
+                    errorReporter.reportError("Argument " + (i + 1) +
+                            " in function call '" + n.getFunctionName() + "' expected '" + paramType +
+                            "' but found '" + argType + "'", n.getLine(), n.getColumn());
+                }
+            }
+        } else {
+            if (args != null) {
+                for (ASTNode arg : args) {
+                    arg.accept(this);
+                }
             }
         }
 
-        return funcSym.getReturnType();
+        return funcSym.getReturnType() != null ? funcSym.getReturnType() : "VOID";
     }
 
     @Override

@@ -14,6 +14,8 @@ public class VariableSymbol extends Symbol {
 
     //* Indicate if the variable was yet initialized
     private boolean initialized;
+    //* Posicion en el stack
+    private int offset;
 
     public VariableSymbol(String name, String type, int line, int column) {
         super(name, type, line, column);

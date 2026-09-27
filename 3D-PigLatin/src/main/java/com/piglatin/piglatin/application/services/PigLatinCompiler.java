@@ -36,71 +36,43 @@ public class PigLatinCompiler implements CompilerUseCase {
 
     @Override
     public CompileResponseDTO compile(CompileRequestDTO request) {
-
         long startTime = System.currentTimeMillis();
 
-         //* Lexical and syntactic analysis
-        ParserResultDTO parserResult =
-                parser.executeAnalysis(request.getSourceCode());
+        ParserResultDTO parserResult = parser.executeAnalysis(request.getSourceCode());
 
-         //* 2. Convert ANTLR ParseTree -> PigLatin AST
-        NodeProgram ast = treeMapper.buildAST(parserResult);
-
-         //*Convert parser errors to common compilation errors
-        List<CompilationErrorDTO> errors =
-                convertParserErrors(parserResult.getErrorsList(), request);
-
-        /*
-         * If lexical or syntactic errors exist,
-         * semantic analysis must not continue.
-         */
-        if (!errors.isEmpty()) {
-            return buildResponse(
-                    false,
-                    errors,
-                    startTime
-            );
-        }
-
-         //* Semantic analysis
-
-        List<CustomErrorDTO> semanticErrors =
-                semanticAnalyzer.analyze(ast);
-
-        errors.addAll(
-                convertSemanticErrors(semanticErrors, request)
+        List<CompilationErrorDTO> errors = new ArrayList<>(
+                convertParserErrors(parserResult.getErrorsList(), request)
         );
 
-         //* Semantic errors
-
-        if (!errors.isEmpty()) {
-            return buildResponse(
-                    false,
-                    errors,
-                    startTime
-            );
+        if (!errors.isEmpty() || parserResult.getParseTree() == null) {
+            if (parserResult.getParseTree() == null && errors.isEmpty()) {
+                errors.add(new CompilationErrorDTO(
+                        CompilationStage.SYNTACTIC_ANALYSIS, "Cannot generate syntax tree.", 1, 1, request.getFileName()));
+            }
+            errorReporter.reportAll(errors);
+            return buildResponse(false, errors, startTime);
         }
 
-        /*
-         * Code generation
-         * No implemented yet XD
-         */
-        GeneretedCodeDTO generatedCode =
-                new GeneretedCodeDTO(
-                        null,
-                        null,
-                        "main"
-                );
+        try {
+            NodeProgram ast = treeMapper.buildAST(parserResult);
 
+            List<CustomErrorDTO> semanticErrors = semanticAnalyzer.analyze(ast);
+            List<CompilationErrorDTO> semErrors = convertSemanticErrors(semanticErrors, request);
+            errors.addAll(semErrors);
 
-         //* Successful compilation
+            if (!errors.isEmpty()) {
+                errorReporter.reportAll(semErrors);
+                return buildResponse(false, errors, startTime);
+            }
 
-        return buildResponse(
-                true,
-                errors,
-                generatedCode,
-                startTime
-        );
+        } catch (Exception e) {
+            errors.add(new CompilationErrorDTO(CompilationStage.SEMANTIC_ANALYSIS, "Internal error during analysis: " + e.getMessage(), 1, 1,request.getFileName()));
+            errorReporter.reportAll(errors);
+            return buildResponse(false, errors, startTime);
+        }
+
+        GeneretedCodeDTO generatedCode = new GeneretedCodeDTO(null, null, "main");
+        return buildResponse(true, errors, generatedCode, startTime);
     }
 
     private List<CompilationErrorDTO> convertParserErrors(
