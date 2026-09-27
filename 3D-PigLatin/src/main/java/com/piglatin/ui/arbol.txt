@@ -1,0 +1,15 @@
+.
+application
+application/ports
+application/services
+arbol.txt
+domain
+infrastructure
+infrastructure/config
+infrastructure/config/ApplicationConfig.java
+infrastructure/controllers
+infrastructure/facade
+infrastructure/facade/dto
+infrastructure/syntax
+infrastructure/views
+tree-generator.sh
